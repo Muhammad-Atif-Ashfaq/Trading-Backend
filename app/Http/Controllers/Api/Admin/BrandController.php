@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Helpers\PaginationHelper;
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
+use App\Http\Requests\Api\Admin\Brands\Create as BrandCreate;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Str;
@@ -11,18 +13,23 @@ use Str;
 class BrandController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return ExceptionHandlerHelper::tryCatch(function () {
-            $brands = User::whereHas('roles', function ($query) {
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
+            $brands = User::whereHas('roles', function ($query)  {
                 $query->where('name', 'brand');
             })->get();
+            PaginationHelper::paginate(
+                $brands,
+                $request->input('per_page', 10),
+                $request->input('page', 1)
+            );
             return $this->sendResponse($brands, 'All Brands');
         });
     }
 
 
-    public function store(Request $request)
+    public function store(BrandCreate $request)
     {
 
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -30,7 +37,7 @@ class BrandController extends Controller
             $brands = User::create([
                 'name' => $request->name,
                 'email' => $request->name . '@gmail.com',
-                'password' => Str::random(6),
+                'password' => $password,
                 'original_password' => $password
             ]);
             if ($brands) {
@@ -43,7 +50,6 @@ class BrandController extends Controller
 
     public function show(string $id)
     {
-
 
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $brands = User::find($id);
