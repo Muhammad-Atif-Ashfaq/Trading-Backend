@@ -38,6 +38,7 @@ class UserSeeder extends Seeder
         $user1->name = 'Admin';
         $user1->email = 'admin@gmail.com';
         $user1->password = Hash::make('password');
+        $user1->original_password = 'password';
         $user1->email_verified_at = now();
         $user1->save();
         $user1->assignRole('admin');
@@ -46,6 +47,7 @@ class UserSeeder extends Seeder
         $user2->name = 'brand';
         $user2->email = 'brand@gmail.com';
         $user2->password = Hash::make('password');
+        $user2->original_password = 'password';
         $user2->email_verified_at = now();
         $user2->save();
         $user2->assignRole('brand');
