@@ -16,7 +16,7 @@ class BrandController extends Controller
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $brands = User::whereHas('roles', function ($query)  {
+            $brands = User::whereHas('roles', function ($query) {
                 $query->where('name', 'brand');
             })->get();
             PaginationHelper::paginate(
