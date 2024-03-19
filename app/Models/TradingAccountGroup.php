@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class TradingAccountGroup extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name'
+    ];
+
+    public function tradingAccounts()
+    {
+        return $this->hasMany(TradingAccount::class);
+    }
 }

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'original_password'
     ];
 
     /**
@@ -43,4 +44,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function tradingAccounts()
+    {
+        return $this->hasMany(TradingAccount::class);
+    }
 }

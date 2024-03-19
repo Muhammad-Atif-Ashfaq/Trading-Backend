@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('trading_account_groups', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }
