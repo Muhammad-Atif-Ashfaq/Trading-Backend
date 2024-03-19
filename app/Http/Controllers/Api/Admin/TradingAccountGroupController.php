@@ -3,63 +3,71 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\ExceptionHandlerHelper;
 use Illuminate\Http\Request;
+use App\Models\TradingAccountGroup;
 
 class TradingAccountGroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public $model;
+
+    public function __construct()
+    {
+        $this->model = new TradingAccountGroup();
+    }
+    
     public function index()
     {
-        //
+        return ExceptionHandlerHelper::tryCatch(function () {
+            $groups = $this->model::all();
+            return $this->sendResponse($groups, 'All Groups');
+        });
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        return ExceptionHandlerHelper::tryCatch(function () use($request) {
+            $groups = $this->model::create([
+                'name' => $request->name,
+            ]);
+            if($groups)
+            {
+                return $this->sendResponse($groups, 'Group Store Successfully');
+            }
+        });
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
     public function show(string $id)
     {
-        //
+        return ExceptionHandlerHelper::tryCatch(function () use($id) {
+            $groups = $this->model::find($id);
+            return $this->sendResponse($groups, 'Single Group');
+        });
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(Request $request, string $id)
     {
-        //
+        return ExceptionHandlerHelper::tryCatch(function () use($id, $request) {
+            $groups = $this->model::find($id);
+            $update = $groups->update([
+                'name' => $request->name,
+            ]);
+            if($update)
+            {
+                return $this->sendResponse($groups, 'groups Update Successfully');
+            }
+        });
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(string $id)
     {
-        //
+        return ExceptionHandlerHelper::tryCatch(function () use($id) {
+            $groups = $this->model::find($id)->delete();
+            return $this->sendResponse($groups, 'Group Deleted');
+        });
     }
 }

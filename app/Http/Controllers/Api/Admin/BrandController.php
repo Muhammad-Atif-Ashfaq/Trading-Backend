@@ -29,7 +29,7 @@ class BrandController extends Controller
             $brands = User::create([
                 'name' => $request->name,
                 'email'=> $request->name.'@gmail.com',
-                'password' => Str::random(6),
+                'password' => $password,
                 'original_password' => $password
             ]);
             if($brands)

@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('leverage')->nullable();
             $table->string('balance')->default('0');
-            $table->string('credit')->nullable();
+            $table->string('credit')->default('0');
             $table->string('equity')->nullable();
-            $table->string('margin_level_percentage')->nullable();
-            $table->string('profit')->nullable();
+            $table->string('margin_level_percentage')->default('0');
+            $table->string('profit')->default('0');
             $table->string('swap')->nullable();
             $table->string('currency')->nullable();
             $table->string('registration_time')->nullable();
