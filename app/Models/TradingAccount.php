@@ -17,8 +17,18 @@ class TradingAccount extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function tradingAccountGroup()
+    public function tradingGroups()
     {
-        return $this->belongsTo(TradingAccountGroup::class);
+        return $this->belongsToMany(TradingGroup::class, 'trading_account_groups');
+    }
+
+    public function tradingGroupSymbol()
+    {
+        return $this->hasMany(TradingGroupSymbol::class);
+    }
+
+    public function tradeOrders()
+    {
+        return $this->hasMany(TradeOrder::class);
     }
 }

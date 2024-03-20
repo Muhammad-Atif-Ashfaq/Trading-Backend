@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trading_account_groups', function (Blueprint $table) {
+        Schema::create('trading_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('mass_trading_orders')->default(0);

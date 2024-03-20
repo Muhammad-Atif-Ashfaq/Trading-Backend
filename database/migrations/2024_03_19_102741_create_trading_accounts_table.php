@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('trading_accounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->nullable();
-            $table->foreignId('trading_account_group_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('user_id')->constrained()->on('users')->onDelete('cascade')->nullable();
+            $table->foreignId('trading_group_id')->constrained()->onDelete('cascade')->nullable();
             $table->string('public_key')->nullable();
             $table->string('login_id')->nullable();
             $table->string('password')->nullable();
