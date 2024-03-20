@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Helpers\PaginationHelper;
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use Illuminate\Http\Request;
@@ -18,10 +19,15 @@ class TradingAccountGroupController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
-        return ExceptionHandlerHelper::tryCatch(function () {
-            $groups = $this->model::all();
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
+            $groups = $this->model::query();
+            $groups = PaginationHelper::paginate(
+                $groups,
+                $request->input('per_page', 10),
+                $request->input('page', 1)
+            );
             return $this->sendResponse($groups, 'All Groups');
         });
     }
@@ -33,6 +39,10 @@ class TradingAccountGroupController extends Controller
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $groups = $this->model::create([
                 'name' => $request->name,
+                'mass_trading_orders' => $request->mass_trading_orders,
+                'mass_transaction_orders' => $request->mass_transaction_orders,
+                'mass_leverage' => $request->mass_leverage,
+                'mass_swap' => $request->mass_swap,
             ]);
             if ($groups) {
                 return $this->sendResponse($groups, 'Group Store Successfully');
@@ -53,13 +63,18 @@ class TradingAccountGroupController extends Controller
 
     public function update(Request $request, string $id)
     {
+
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $groups = $this->model::find($id);
-            $update = $groups->update([
-                'name' => $request->name,
+            $group = $this->model::find($id);
+            $update = $group->update([
+                'name' => $request->name ?? $group->name,
+                'mass_trading_orders' => $request->mass_trading_orders ?? $group->mass_trading_orders,
+                'mass_transaction_orders' => $request->mass_transaction_orders ?? $group->mass_transaction_orders,
+                'mass_leverage' => $request->mass_leverage ?? $group->mass_leverage,
+                'mass_swap' => $request->mass_swap ?? $group->mass_swap,
             ]);
             if ($update) {
-                return $this->sendResponse($groups, 'groups Update Successfully');
+                return $this->sendResponse($group, 'groups Update Successfully');
             }
         });
     }

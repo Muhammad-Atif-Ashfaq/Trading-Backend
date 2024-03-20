@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Helpers\PaginationHelper;
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Services\GenerateRandomService;
@@ -18,10 +19,15 @@ class TradingAccountController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
-        return ExceptionHandlerHelper::tryCatch(function () {
-            $accounts = $this->model::all();
+        return ExceptionHandlerHelper::tryCatch(function () use ($request){
+            $accounts = $this->model::query();
+            $accounts = PaginationHelper::paginate(
+                $accounts,
+                $request->input('per_page', 10),
+                $request->input('page', 1)
+            );
             return $this->sendResponse($accounts, 'All Accounts');
         });
     }

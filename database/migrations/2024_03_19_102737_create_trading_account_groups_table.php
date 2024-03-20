@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('trading_account_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('mass_trading_orders')->default(0);
+            $table->string('mass_transaction_orders')->default(0);
+            $table->string('mass_leverage')->nullable();
+            $table->string('mass_swap')->nullable();
             $table->timestamps();
         });
     }

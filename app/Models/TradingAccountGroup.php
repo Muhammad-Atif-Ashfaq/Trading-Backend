@@ -10,7 +10,11 @@ class TradingAccountGroup extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'mass_trading_orders',
+        'mass_transaction_orders',
+        'mass_leverage',
+        'mass_swap',
     ];
 
     public function tradingAccounts()
