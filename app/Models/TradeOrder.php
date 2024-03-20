@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TradeOrder extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         'order_type',
         'symbol',

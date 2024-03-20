@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Helpers\PaginationHelper;
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
+use App\Services\GenerateRandomService;
 use App\Http\Requests\Api\Admin\Brands\Create as BrandCreate;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\{User, Brand};
 use Str;
 
 class BrandController extends Controller
@@ -29,20 +30,26 @@ class BrandController extends Controller
     }
 
 
-    public function store(BrandCreate $request)
+    public function store(Request $request)
     {
 
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $password = Str::random(6);
-            $brands = User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->name . '@gmail.com',
                 'password' => $password,
                 'original_password' => $password
             ]);
-            if ($brands) {
-                $brands->assignRole('brand');
-                return $this->sendResponse($brands, 'All Store Successfully');
+            if ($user) {
+                $brand = Brand::create([
+                    'user_id' => $user->id,
+                    'name'    => $request->name,
+                    'public_key'=> GenerateRandomService::getBrandPublicKey(),
+                    'login_id'=>GenerateRandomService::RandomBrand(),
+                ]);
+                $user->assignRole('brand');
+                return $this->sendResponse($user, 'All Store Successfully');
             }
         });
     }

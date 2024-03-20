@@ -8,6 +8,7 @@ use App\Helpers\ExceptionHandlerHelper;
 use App\Services\GenerateRandomService;
 use Illuminate\Http\Request;
 use App\Models\TradingAccount;
+use Carbon\Carbon;
 
 class TradingAccountController extends Controller
 {
@@ -36,7 +37,8 @@ class TradingAccountController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $account = $this->model::create([
-                'name'    => $request->input('name'),
+                'user_id'    => $request->user_id,
+                'trading_group_id' => $request->trading_group_id,
                 'public_key' => GenerateRandomService::getCustomerPublicKey($request->brand_id),
                 'login_id' => GenerateRandomService::RandomBrand(),
                 'password' => GenerateRandomService::RandomSixString(),
@@ -53,7 +55,8 @@ class TradingAccountController extends Controller
                 'margin_level_percentage' => $request->margin_level_percentage,
                 'registration_time' => Carbon::now(),
                 'trading_account_group_id' => $request->trading_account_group_id,
-                'brand_id' => $request->brand_id
+                'brand_id' => $request->brand_id,
+                'status'   => $request->status
             ]);
             if ($account) {
                 return $this->sendResponse($account, 'Account Store Successfully');
@@ -75,6 +78,8 @@ class TradingAccountController extends Controller
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
             $accounts = $this->model::find($id);
             $update = $accounts->update([
+                'user_id'    => $request->user_id ?? $accounts->user_id,
+                'trading_group_id' => $request->trading_group_id ?? $accounts->trading_group_id,
                 'name'    => $request->name ?? $accounts->name,
                 'country' => $request->country ??  $accounts->country,
                 'phone'   => $request->phone ??  $accounts->phone,
@@ -88,7 +93,8 @@ class TradingAccountController extends Controller
                 'currency' => $request->currency ??  $accounts->currency,
                 'margin_level_percentage' => $request->margin_level_percentage ??  $accounts->margin_level_percentage,
                 'trading_account_group_id' => $request->trading_account_group_id ??  $accounts->trading_account_group_id,
-                'brand_id' => $request->brand_id ??  $accounts->brand_id
+                'brand_id' => $request->brand_id ??  $accounts->brand_id,
+                'status'   => $request->status ?? $account->status
             ]);
             if ($update) {
                 return $this->sendResponse($accounts, 'Account Updated');

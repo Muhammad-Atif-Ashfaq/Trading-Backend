@@ -6,16 +6,16 @@ use App\Helpers\PaginationHelper;
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use Illuminate\Http\Request;
-use App\Models\TradingAccountGroup;
+use App\Models\TradingGroup;
 
-class TradingAccountGroupController extends Controller
+class TradingGroupController extends Controller
 {
 
     public $model;
 
     public function __construct()
     {
-        $this->model = new TradingAccountGroup();
+        $this->model = new TradingGroup();
     }
 
 
@@ -60,10 +60,8 @@ class TradingAccountGroupController extends Controller
     }
 
 
-
     public function update(Request $request, string $id)
     {
-
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
             $group = $this->model::find($id);
             $update = $group->update([

@@ -12,7 +12,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-
+    public static $PREFIX = '0xX'.'AR345WTSQ2567';
+    public static $BRAND = '0xX';
     /**
      * The attributes that are mass assignable.
      *
@@ -53,6 +54,11 @@ class User extends Authenticatable
     public function tradeOrders()
     {
         return $this->hasMany(TradeOrder::class);
+    }
+
+    public function brands()
+    {
+        return $this->hasMany(Brand::class);
     }
 
     public function transactionsOrders()

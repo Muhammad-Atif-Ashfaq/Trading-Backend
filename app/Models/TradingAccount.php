@@ -8,8 +8,29 @@ use Illuminate\Database\Eloquent\Model;
 class TradingAccount extends Model
 {
     use HasFactory;
+    public static $PREFIX = '0xXX'.'AR345WTSQ2567';
+    public static $CUSTOMER = '0xXX';
     protected $fillable = [
-        'name'
+        'user_id',
+        'trading_group_id',
+        'public_key',
+        'login_id',
+        'password',
+        'country',
+        'phone',
+        'email',
+        'leverage',
+        'balance',
+        'credit',
+        'equity',
+        'margin_level_percentage',
+        'profit',
+        'swap',
+        'currency',
+        'registration_time',
+        'last_access_time',
+        'last_access_address_IP',
+        'status',
     ];
 
     public function brand()

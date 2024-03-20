@@ -5,7 +5,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Str;
-use App\Models\Customer;
+use App\Models\TradingAccount;
 use App\Models\Brand;
 
 class GenerateRandomService extends Service
@@ -24,8 +24,8 @@ class GenerateRandomService extends Service
     public static function RandomCustomer()
     {
         do {
-            $key = Customer::$CUSTOMER.self::RandomSixString();
-        } while (Customer::where("login_id", "=", $key)->first());
+            $key = TradingAccount::$CUSTOMER.self::RandomSixString();
+        } while (TradingAccount::where("login_id", "=", $key)->first());
 
         return $key;
     }
@@ -42,7 +42,7 @@ class GenerateRandomService extends Service
     public static function getCustomerPublicKey($brand_id)
     {
 
-        $key = Customer::$PREFIX.self::RandomSixString().time().'AR345WTSQ2567'.self::RandomSixString().'AR345WTSQ2567'.$brand_id;
+        $key = TradingAccount::$PREFIX.self::RandomSixString().time().'AR345WTSQ2567'.self::RandomSixString().'AR345WTSQ2567'.$brand_id;
         return $key;
     }
 
