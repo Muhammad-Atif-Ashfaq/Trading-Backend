@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('trade_orders', function (Blueprint $table) {
             $table->id();
-            $table->enum('order_type', ['market or live', 'pending', 'close']);
+            $table->enum('order_type', \App\Enums\OrderTypeEnum::getOrderTypes());
             $table->string('symbol')->references('name')->on('symbol_settings')->onDelete('cascade');;
             $table->foreignId('trading_account_id')->constrained('trading_accounts')->onDelete('cascade');
             $table->enum('type', ['buy', 'sell']);

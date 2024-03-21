@@ -1,6 +1,7 @@
 <?php
 use  App\Http\Controllers\Api\Admin\{
         BrandController,
+        TransactionOrderController,
         SymbelGroupController,
         TradingGroupController,
         TradingAccountController,
@@ -14,6 +15,7 @@ use  App\Http\Controllers\Api\Admin\{
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::apiResource('/brands',                 BrandController::class);
+    Route::apiResource('/transaction_order',      TransactionOrderController::class);
     Route::apiResource('/trading_accounts',       TradingAccountController::class);
     Route::apiResource('/trading_account_groups', TradingGroupController::class);
     Route::apiResource('/symbel_group',           SymbelGroupController::class);

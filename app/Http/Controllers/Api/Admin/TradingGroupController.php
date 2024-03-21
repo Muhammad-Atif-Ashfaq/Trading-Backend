@@ -2,86 +2,61 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Helpers\PaginationHelper;
+
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
+use App\Repositories\TradingGroupRepository;
+use App\Http\Requests\Api\Admin\TradingGroups\Create as TradingGroupCreate;
 use Illuminate\Http\Request;
-use App\Models\TradingGroup;
+
 
 class TradingGroupController extends Controller
 {
+    protected $tradingGroupRepository;
 
-    public $model;
-
-    public function __construct()
+    public function __construct(TradingGroupRepository $tradingGroupRepository)
     {
-        $this->model = new TradingGroup();
+        $this->tradingGroupRepository = $tradingGroupRepository;
     }
-
 
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $groups = $this->model::query();
-            $groups = PaginationHelper::paginate(
-                $groups,
-                $request->input('per_page', 10),
-                $request->input('page', 1)
-            );
-            return $this->sendResponse($groups, 'All Groups');
+            $tradingGroups = $this->tradingGroupRepository->getAllTradingGroups($request);
+            return $this->sendResponse($tradingGroups, 'All TradingGroups');
         });
     }
 
-
-
-    public function store(Request $request)
+    public function store(TradingGroupCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $groups = $this->model::create([
-                'name' => $request->name,
-                'mass_trading_orders' => $request->mass_trading_orders,
-                'mass_transaction_orders' => $request->mass_transaction_orders,
-                'mass_leverage' => $request->mass_leverage,
-                'mass_swap' => $request->mass_swap,
-            ]);
-            if ($groups) {
-                return $this->sendResponse($groups, 'Group Store Successfully');
-            }
+            $user = $this->tradingGroupRepository->createTradingGroup($request->validated());
+            return $this->sendResponse($user, 'TradingGroup created successfully');
         });
     }
 
-
-    public function show(string $id)
+    public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $groups = $this->model::find($id);
-            return $this->sendResponse($groups, 'Single Group');
+            $tradingGroup = $this->tradingGroupRepository->findTradingGroupById($id);
+            return $this->sendResponse($tradingGroup, 'Single TradingGroup');
         });
     }
 
-
-    public function update(Request $request, string $id)
+    public function update(TradingGroupCreate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $group = $this->model::find($id);
-            $update = $group->update([
-                'name' => $request->name ?? $group->name,
-                'mass_trading_orders' => $request->mass_trading_orders ?? $group->mass_trading_orders,
-                'mass_transaction_orders' => $request->mass_transaction_orders ?? $group->mass_transaction_orders,
-                'mass_leverage' => $request->mass_leverage ?? $group->mass_leverage,
-                'mass_swap' => $request->mass_swap ?? $group->mass_swap,
-            ]);
-            if ($update) {
-                return $this->sendResponse($group, 'groups Update Successfully');
-            }
+            $tradingGroup = $this->tradingGroupRepository->updateTradingGroup($request->validated(), $id);
+            return $this->sendResponse($tradingGroup, 'TradingGroup updated successfully');
         });
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $groups = $this->model::find($id)->delete();
-            return $this->sendResponse($groups, 'Group Deleted');
+            $this->tradingGroupRepository->deleteTradingGroup($id);
+            return $this->sendResponse([], 'TradingGroup deleted successfully');
         });
     }
 }
+

@@ -21,4 +21,8 @@ class TradingGroup extends Model
     {
         return $this->belongsToMany(TradingAccount::class, 'trading_account_groups');
     }
+    public function symbelSettings()
+    {
+        return $this->belongsToMany(SymbelSetting::class, 'trading_group_symbols', 'trading_group_id', 'symbel_setting_id');
+    }
 }

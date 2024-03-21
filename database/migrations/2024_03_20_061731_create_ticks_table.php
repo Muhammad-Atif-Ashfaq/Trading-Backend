@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('ticks', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->references('name')->on('symbol_settings')->onDelete('cascade');
-            $table->string('open');
-            $table->string('high');
-            $table->string('low');
-            $table->string('close');
+            $table->string('bid');
+            $table->string('ask');
+            $table->string('last');
+            $table->string('volume');
             $table->timestamps();
         });
     }

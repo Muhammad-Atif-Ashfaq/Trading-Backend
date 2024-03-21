@@ -2,88 +2,61 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+
 use App\Http\Controllers\Controller;
+use App\Helpers\ExceptionHandlerHelper;
+use App\Repositories\SymbelGroupRepository;
+use App\Http\Requests\Api\Admin\SymbelGroups\Create as SymbelGroupCreate;
 use Illuminate\Http\Request;
-use App\Helpers\{ExceptionHandlerHelper, PaginationHelper};
-use App\Models\SymbelGroup;
+
 
 class SymbelGroupController extends Controller
 {
-    public $model;
+    protected $symbelGroupRepository;
 
-    public function __construct()
+    public function __construct(SymbelGroupRepository $symbelGroupRepository)
     {
-        $this->model = new SymbelGroup();
+        $this->symbelGroupRepository = $symbelGroupRepository;
     }
 
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $symbelGroup = $this->model::query();
-            $symbel = PaginationHelper::paginate(
-                $symbelGroup,
-                $request->input('per_page', 10),
-                $request->input('page', 1)
-            );
-            return $this->sendResponse($symbel, 'All SymbelGroup');
+            $symbelGroups = $this->symbelGroupRepository->getAllSymbelGroups($request);
+            return $this->sendResponse($symbelGroups, 'All SymbelGroups');
         });
     }
 
-    
-    public function store(Request $request)
+    public function store(SymbelGroupCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $symbel = $this->model::create([
-                'name'   =>   $request->name,
-                'Leverage' => $request->leverage,
-                'lot_size' => $request->lot_size,
-                'lot_step' => $request->lot_step,
-                'vol_min'  => $request->vol_min,
-                'vol_max'  => $request->vol_max,
-                'trading_interval' => $request->trading_interval
-            ]);
-            if($symbel)
-            {
-                return $this->sendResponse($symbel, 'SymbelGroup Store Successfully');
-            }
+            $user = $this->symbelGroupRepository->createSymbelGroup($request->validated());
+            return $this->sendResponse($user, 'SymbelGroup created successfully');
         });
     }
 
-    
-    public function show(string $id)
+    public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $symbel = $this->model::find($id);
-            return $this->sendResponse($symbel, 'Single SymbelGroup');
+            $symbelGroup = $this->symbelGroupRepository->findSymbelGroupById($id);
+            return $this->sendResponse($symbelGroup, 'Single SymbelGroup');
         });
     }
 
-    
-    public function update(Request $request, string $id)
+    public function update(SymbelGroupCreate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $symbel = $this->model::find($id);
-            $update = $symbel->update([
-                'name'   =>   $request->name ?? $symbel->name,
-                'Leverage' => $request->leverage ?? $symbel->leverage,
-                'lot_size' => $request->lot_size ?? $symbel->lot_size,
-                'lot_step' => $request->lot_step ?? $symbel->lot_step,
-                'vol_min'  => $request->vol_min ?? $symbel->vol_min,
-                'vol_max'  => $request->vol_max ?? $symbel->vol_max,
-                'trading_interval' => $request->trading_interval ?? $symbel->trading_interval
-            ]);
-            if ($update) {
-                return $this->sendResponse($symbel, 'SymbelGroup Update Successfully');
-            }
+            $symbelGroup = $this->symbelGroupRepository->updateSymbelGroup($request->validated(), $id);
+            return $this->sendResponse($symbelGroup, 'SymbelGroup updated successfully');
         });
     }
 
-    
-    public function destroy(string $id)
+    public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $symbel = $this->model::find($id)->delete();
-            return $this->sendResponse($symbel, 'SymbelGroup Deleted');
+            $this->symbelGroupRepository->deleteSymbelGroup($id);
+            return $this->sendResponse([], 'SymbelGroup deleted successfully');
         });
     }
 }
+

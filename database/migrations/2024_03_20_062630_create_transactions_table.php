@@ -18,12 +18,12 @@ return new class extends Migration
             $table->foreignId('trading_account_id')->constrained('trading_accounts')->onDelete('cascade');
             $table->string('name');
             $table->string('group');
-            $table->string('country');
-            $table->string('phone');
-            $table->string('email');
+            $table->string('country')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->enum('type', ['deposit', 'withdraw']);
-            $table->enum('method', ['payment method name']);
-            $table->enum('status', ['requested', 'pending', 'complete']);
+            $table->enum('method', \App\Enums\TransactionOrderMethodEnum::getMethods());
+            $table->enum('status', \App\Enums\TransactionOrderStatusEnum::getStatuses());
             $table->text('comment')->nullable();
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('transaction_orders');
     }
 };

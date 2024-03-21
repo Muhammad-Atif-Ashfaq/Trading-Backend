@@ -8,10 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tick extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'open', 'high', 'low', 'close', 'symbel_setting_id'];
+    protected $fillable = [ 'bid', 'ask', 'last', 'volume'];
 
-    public function symbolSetting()
-    {
-        return $this->belongsTo(SymbelSetting::class, 'symbel_setting_id');
-    }
+
 }

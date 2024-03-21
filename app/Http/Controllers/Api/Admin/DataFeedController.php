@@ -2,83 +2,61 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+
 use App\Http\Controllers\Controller;
-use App\Helpers\{ExceptionHandlerHelper, PaginationHelper};
+use App\Helpers\ExceptionHandlerHelper;
+use App\Repositories\DataFeedRepository;
+use App\Http\Requests\Api\Admin\DataFeeds\Create as DataFeedCreate;
 use Illuminate\Http\Request;
-use App\Models\DataFeed;
+
 
 class DataFeedController extends Controller
 {
-    public $model;
+    protected $dataFeedRepository;
 
-    public function __construct()
+    public function __construct(DataFeedRepository $dataFeedRepository)
     {
-        $this->model = new DataFeed();
+        $this->dataFeedRepository = $dataFeedRepository;
     }
-    
+
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $dataFeed = $this->model::query();
-            $groups = PaginationHelper::paginate(
-                $dataFeed,
-                $request->input('per_page', 10),
-                $request->input('page', 1)
-            );
-            return $this->sendResponse($groups, 'All Data Feed');
+            $DataFeeds = $this->dataFeedRepository->getAllDataFeeds($request);
+            return $this->sendResponse($DataFeeds, 'All DataFeeds');
         });
     }
 
-
-
-    public function store(Request $request)
+    public function store(DataFeedCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $dataFeed = $this->model::create([
-                'name' => $request->name,
-                'module' => $request->module,
-                'feed_server' => $request->feed_server,
-                'feed_login'  => $request->feed_login,
-                'feed_password' => $request->feed_password
-            ]);
-            if ($dataFeed) {
-                return $this->sendResponse($dataFeed, 'Data Feed Store Successfully');
-            }
+            $user = $this->dataFeedRepository->createDataFeed($request->validated());
+            return $this->sendResponse($user, 'DataFeed created successfully');
         });
     }
 
-
-    public function show(string $id)
+    public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $dataFeed = $this->model::find($id);
-            return $this->sendResponse($dataFeed, 'Single Data Feed');
+            $DataFeed = $this->dataFeedRepository->findDataFeedById($id);
+            return $this->sendResponse($DataFeed, 'Single DataFeed');
         });
     }
 
-
-    public function update(Request $request, string $id)
+    public function update(DataFeedCreate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $dataFeed = $this->model::find($id);
-            $update = $dataFeed->update([
-                'name' => $request->name ?? $dataFeed->name,
-                'module' => $request->module ?? $dataFeed->module,
-                'feed_server' => $request->feed_server ?? $dataFeed->feed_server,
-                'feed_login'  => $request->feed_login ?? $dataFeed->feed_login,
-                'feed_password' => $request->feed_password ?? $dataFeed->feed_password
-            ]);
-            if ($update) {
-                return $this->sendResponse($dataFeed, 'Data Feed Update Successfully');
-            }
+            $DataFeed = $this->dataFeedRepository->updateDataFeed($request->validated(), $id);
+            return $this->sendResponse($DataFeed, 'DataFeed updated successfully');
         });
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $dataFeed = $this->model::find($id)->delete();
-            return $this->sendResponse($dataFeed, 'Data Feed Deleted');
+            $this->dataFeedRepository->deleteDataFeed($id);
+            return $this->sendResponse([], 'DataFeed deleted successfully');
         });
     }
 }
+

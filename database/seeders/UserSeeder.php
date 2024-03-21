@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -26,11 +26,11 @@ class UserSeeder extends Seeder
         Permission::create(['name' => 'unpublish']);
 
         // create roles and assign created permissions
-        $role = Role::create(['name' => 'admin']);
+        $role = Role::create(['name' => Role::ADMIN]);
         $role->givePermissionTo([Permission::all()]);
 
 
-        $role = Role::create(['name' => 'brand']);
+        $role = Role::create(['name' => Role::BRAND]);
         $role->givePermissionTo(Permission::all());
 
 
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
         $user1->original_password = 'password';
         $user1->email_verified_at = now();
         $user1->save();
-        $user1->assignRole('admin');
+        $user1->assignRole(Role::ADMIN);
 
         $user2 = new User;
         $user2->name = 'brand';
@@ -50,8 +50,8 @@ class UserSeeder extends Seeder
         $user2->original_password = 'password';
         $user2->email_verified_at = now();
         $user2->save();
-        $user2->assignRole('brand');
+        $user2->assignRole(Role::BRAND);
 
-        
+
     }
 }

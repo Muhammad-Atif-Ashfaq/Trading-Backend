@@ -2,105 +2,61 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+
 use App\Http\Controllers\Controller;
+use App\Helpers\ExceptionHandlerHelper;
+use App\Repositories\TradeOrderRepository;
+use App\Http\Requests\Api\Admin\TradeOrders\Create as TradeOrderCreate;
 use Illuminate\Http\Request;
-use App\Helpers\{ExceptionHandlerHelper, PaginationHelper};
-use App\Models\TradeOrder;
+
 
 class TradeOrderController extends Controller
 {
-    public $model;
+    protected $tradeOrderRepository;
 
-    public function __construct()
+    public function __construct(TradeOrderRepository $tradeOrderRepository)
     {
-        $this->model = new TradeOrder();
+        $this->tradeOrderRepository = $tradeOrderRepository;
     }
-    
+
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $symbelSetting = $this->model::query();
-            $order = PaginationHelper::paginate(
-                $symbelSetting,
-                $request->input('per_page', 10),
-                $request->input('page', 1)
-            );
-            return $this->sendResponse($order, 'All Trade Orders');
+            $tradeOrders = $this->tradeOrderRepository->getAllTradeOrders($request);
+            return $this->sendResponse($tradeOrders, 'All TradeOrders');
         });
     }
 
-    public function store(Request $request)
+    public function store(TradeOrderCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $order = $this->model::create([
-                'order_type' => $request->order_type,
-                'symbol'     => $request->symbol,
-                'trading_account_id' => $request->trading_account_id,
-                'type'       => $request->type,
-                'volume'     => $request->volume,
-                'stopLoss'   => $request->stopLoss,
-                'takeProfit' => $request->takeProfit,
-                'price'      => $request->price,
-                'open_time'  => $request->open_time,
-                'open_price' => $request->open_price,
-                'close_time' => $request->close_time,
-                'close_price'=> $request->close_price,
-                'reason'     => $request->reason,
-                'swap'       => $request->swap,
-                'profit'     => $request->profit,
-                'comment'    => $request->comment
-            ]);
-            if($order)
-            {
-                return $this->sendResponse($order, 'Trade Orders Store Successfully');
-            }
+            $user = $this->tradeOrderRepository->createTradeOrder($request->validated());
+            return $this->sendResponse($user, 'TradeOrder created successfully');
         });
     }
 
-    
-    public function show(string $id)
+    public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $order = $this->model::find($id);
-            return $this->sendResponse($order, 'Single Trade Order');
+            $tradeOrder = $this->tradeOrderRepository->findTradeOrderById($id);
+            return $this->sendResponse($tradeOrder, 'Single TradeOrder');
         });
     }
 
-
-    public function update(Request $request, string $id)
+    public function update(TradeOrderCreate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $order = $this->model::find($id);
-            $update = $order->update([
-                'order_type' => $request->order_type ?? $order->order_type,
-                'symbol'     => $request->symbol ?? $order->order_type,
-                'trading_account_id' => $request->trading_account_id ?? $order->trading_account_id,
-                'type'       => $request->type ?? $order->type,
-                'volume'     => $request->volume ?? $order->volume,
-                'stopLoss'   => $request->stopLoss ?? $order->stopLoss,
-                'takeProfit' => $request->takeProfit ?? $order->takeProfit,
-                'price'      => $request->price ?? $order->open_time,
-                'open_time'  => $request->open_time ?? $order->price,
-                'open_price' => $request->open_price ?? $order->open_price,
-                'close_time' => $request->close_time ?? $order->close_time,
-                'close_price'=> $request->close_price ?? $order->close_price,
-                'reason'     => $request->reason ?? $order->reason,
-                'swap'       => $request->swap ?? $order->swap,
-                'profit'     => $request->profit ?? $order->profit,
-                'comment'    => $request->comment ?? $order->comment
-            ]);
-            if ($update) {
-                return $this->sendResponse($order, 'Trade Orders Update Successfully');
-            }
+            $tradeOrder = $this->tradeOrderRepository->updateTradeOrder($request->validated(), $id);
+            return $this->sendResponse($tradeOrder, 'TradeOrder updated successfully');
         });
     }
 
-    
-    public function destroy(string $id)
+    public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $tradeOrder = $this->model::find($id)->delete();
-            return $this->sendResponse($tradeOrder, 'Trade Order Deleted');
+            $this->tradeOrderRepository->deleteTradeOrder($id);
+            return $this->sendResponse([], 'TradeOrder deleted successfully');
         });
     }
 }
+
