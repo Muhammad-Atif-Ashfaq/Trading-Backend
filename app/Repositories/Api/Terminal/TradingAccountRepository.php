@@ -1,5 +1,5 @@
 <?php
-namespace App\Repositories\Terminal;
+namespace App\Repositories\Api\Terminal;
 
 use App\Helpers\PaginationHelper;
 use App\Models\TradingAccount;
