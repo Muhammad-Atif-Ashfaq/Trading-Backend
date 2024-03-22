@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\TransactionOrderRepository;
+use App\Repositories\Api\Admin\TransactionOrderRepository;
 use App\Http\Requests\Api\Admin\TransactionOrders\Create as TransactionOrderCreate;
 use Illuminate\Http\Request;
 

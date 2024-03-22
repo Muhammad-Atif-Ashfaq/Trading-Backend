@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\SymbelGroupRepository;
+use App\Repositories\Api\Admin\SymbelGroupRepository;
 use App\Http\Requests\Api\Admin\SymbelGroups\Create as SymbelGroupCreate;
 use Illuminate\Http\Request;
 

@@ -1,5 +1,5 @@
 <?php
-namespace App\Repositories;
+namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
 use App\Models\SymbelSetting;
