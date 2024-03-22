@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\DataFeedRepository;
+use App\Repositories\Api\Admin\DataFeedRepository;
 use App\Http\Requests\Api\Admin\DataFeeds\Create as DataFeedCreate;
 use Illuminate\Http\Request;
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\SymbelSettingRepository;
+use App\Repositories\Api\Admin\SymbelSettingRepository;
 use App\Http\Requests\Api\Admin\SymbelSettings\Create as SymbelSettingCreate;
 use Illuminate\Http\Request;
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\BrandRepository;
+use App\Repositories\Api\Admin\BrandRepository;
 use App\Http\Requests\Api\Admin\Brands\Create as BrandCreate;
 use Illuminate\Http\Request;
 

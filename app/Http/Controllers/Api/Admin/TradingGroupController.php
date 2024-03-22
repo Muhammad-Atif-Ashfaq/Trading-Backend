@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\TradingGroupRepository;
+use App\Repositories\Api\Admin\TradingGroupRepository;
 use App\Http\Requests\Api\Admin\TradingGroups\Create as TradingGroupCreate;
 use Illuminate\Http\Request;
 

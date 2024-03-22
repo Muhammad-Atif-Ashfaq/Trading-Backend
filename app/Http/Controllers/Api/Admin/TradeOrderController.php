@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\TradeOrderRepository;
+use App\Repositories\Api\Admin\TradeOrderRepository;
 use App\Http\Requests\Api\Admin\TradeOrders\Create as TradeOrderCreate;
 use Illuminate\Http\Request;
 
