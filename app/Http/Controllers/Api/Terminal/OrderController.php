@@ -28,6 +28,7 @@ class OrderController extends Controller
 
     public function store(OrderCreate $request)
     {
+        dd(auth()->user());
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $orders = $this->orderRepository->createOrder($request->validated());
             return $this->sendResponse($orders, 'TradeOrder created successfully');

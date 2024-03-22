@@ -7,9 +7,6 @@ use App\Http\Controllers\Api\Terminal\OrderController;
 
 Route::post('/login',           [LoginController::class,'login']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::controller(OrderController::class)->prefix('orders')->group(function () {
-        Route::post('/create',    'create');
-    });
-
+Route::middleware('auth:sanctum')->group( function () {
+    Route::apiResource('/orders',OrderController::class);
 });
