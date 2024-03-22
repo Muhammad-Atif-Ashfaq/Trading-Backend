@@ -43,10 +43,10 @@ class BrandController extends Controller
         });
     }
 
-    public function update(BrandCreate $request, $id)
+    public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $brand = $this->brandRepository->updateBrand($request->validated(), $id);
+            $brand = $this->brandRepository->updateBrand($request, $id);
             return $this->sendResponse($brand, 'Brand updated successfully');
         });
     }

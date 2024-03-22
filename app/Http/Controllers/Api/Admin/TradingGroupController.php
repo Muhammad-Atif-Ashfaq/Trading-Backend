@@ -43,10 +43,10 @@ class TradingGroupController extends Controller
         });
     }
 
-    public function update(TradingGroupCreate $request, $id)
+    public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $tradingGroup = $this->tradingGroupRepository->updateTradingGroup($request->validated(), $id);
+            $tradingGroup = $this->tradingGroupRepository->updateTradingGroup($request, $id);
             return $this->sendResponse($tradingGroup, 'TradingGroup updated successfully');
         });
     }

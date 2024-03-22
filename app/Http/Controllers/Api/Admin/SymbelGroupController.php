@@ -43,10 +43,10 @@ class SymbelGroupController extends Controller
         });
     }
 
-    public function update(SymbelGroupCreate $request, $id)
+    public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $symbelGroup = $this->symbelGroupRepository->updateSymbelGroup($request->validated(), $id);
+            $symbelGroup = $this->symbelGroupRepository->updateSymbelGroup($request, $id);
             return $this->sendResponse($symbelGroup, 'SymbelGroup updated successfully');
         });
     }
