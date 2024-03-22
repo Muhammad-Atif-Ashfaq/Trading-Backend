@@ -43,10 +43,10 @@ class SymbelSettingController extends Controller
         });
     }
 
-    public function update(SymbelSettingCreate $request, $id)
+    public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $symbelSetting = $this->symbelSettingRepository->updateSymbelSetting($request->validated(), $id);
+            $symbelSetting = $this->symbelSettingRepository->updateSymbelSetting($request, $id);
             return $this->sendResponse($symbelSetting, 'SymbelSetting updated successfully');
         });
     }

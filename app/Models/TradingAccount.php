@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class TradingAccount extends Model
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
     public static $PREFIX = '0xXX'.'AR345WTSQ2567';
     public static $CUSTOMER = '0xXX';
     protected $fillable = [

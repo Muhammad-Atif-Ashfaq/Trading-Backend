@@ -43,10 +43,10 @@ class TradingAccountController extends Controller
         });
     }
 
-    public function update(TradingAccountCreate $request, $id)
+    public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $tradingAccount = $this->tradingAccountRepository->updateTradingAccount($request->validated(), $id);
+            $tradingAccount = $this->tradingAccountRepository->updateTradingAccount($request, $id);
             return $this->sendResponse($tradingAccount, 'TradingAccount updated successfully');
         });
     }

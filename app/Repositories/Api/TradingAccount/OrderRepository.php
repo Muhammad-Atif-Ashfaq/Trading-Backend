@@ -1,21 +1,21 @@
 <?php
-namespace App\Repositories\Api\Admin;
+namespace App\Repositories\Api\Terminal;
 
 use App\Helpers\PaginationHelper;
 use App\Models\TradeOrder;
+use Illuminate\Database\Eloquent\Model;
 
 
-class TradeOrderRepository
+class OrderRepository
 {
     private $model;
 
     public function __construct()
     {
         $this->model = new TradeOrder();
-
     }
 
-    public function getAllTradeOrders($request)
+    public function getAllOrders($request)
     {
         $tradeOrders = $this->model->query();
         $tradeOrders = PaginationHelper::paginate(
@@ -26,22 +26,22 @@ class TradeOrderRepository
         return $tradeOrders;
     }
 
-    public function createTradeOrder(array $data)
+    public function createOrder(array $data)
     {
         return $this->model->createTradeOrder($data);
     }
 
-    public function findTradeOrderById($id)
+    public function findOrderById($id)
     {
         return $this->model->findOrFail($id);
     }
 
-    public function updateTradeOrder(array $data, $id)
+    public function updateOrder(array $data, $id)
     {
         return $this->model->updateTradeOrder($data, $id);
     }
 
-    public function deleteTradeOrder($id)
+    public function deleteOrder($id)
     {
         $this->model->findOrFail($id)->delete();
     }

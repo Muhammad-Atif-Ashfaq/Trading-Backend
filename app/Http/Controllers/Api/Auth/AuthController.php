@@ -11,16 +11,22 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use($request) {
-            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $user = Auth::user();
-                $success['token'] =  $user->createToken('MyApp')->plainTextToken;
-                $success['user'] =  $user;
+                $success['token'] = $user->createToken('MyApp')->plainTextToken;
+                $success['user'] = $user;
                 return $this->sendResponse($success, 'User login successfully.');
             }
-            else{
-                return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
-            }
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+
+        });
+    }
+
+    public function logout(Request $request) {
+        return ExceptionHandlerHelper::tryCatch(function () use($request) {
+            $request->user()->currentAccessToken()->delete();
+            return $this->sendResponse([], 'User logged out successfully.');
         });
     }
 }

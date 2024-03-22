@@ -43,10 +43,10 @@ class DataFeedController extends Controller
         });
     }
 
-    public function update(DataFeedCreate $request, $id)
+    public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $DataFeed = $this->dataFeedRepository->updateDataFeed($request->validated(), $id);
+            $DataFeed = $this->dataFeedRepository->updateDataFeed($request, $id);
             return $this->sendResponse($DataFeed, 'DataFeed updated successfully');
         });
     }

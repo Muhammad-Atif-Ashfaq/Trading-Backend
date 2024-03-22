@@ -43,10 +43,10 @@ class TransactionOrderController extends Controller
         });
     }
 
-    public function update(TransactionOrderCreate $request, $id)
+    public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $transactionOrder = $this->transactionOrderRepository->updateTransactionOrder($request->validated(), $id);
+            $transactionOrder = $this->transactionOrderRepository->updateTransactionOrder($request, $id);
             return $this->sendResponse($transactionOrder, 'TransactionOrder updated successfully');
         });
     }

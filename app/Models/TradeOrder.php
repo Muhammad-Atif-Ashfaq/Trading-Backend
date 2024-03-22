@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Models\HasTradeOrder;
 
 class TradeOrder extends Model
 {
-    use HasFactory;
-    
+    use HasFactory,HasTradeOrder;
+
     protected $fillable = [
         'order_type',
         'symbol',
