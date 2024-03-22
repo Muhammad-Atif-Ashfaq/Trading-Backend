@@ -11,7 +11,7 @@ class TradingAccount extends Model
     public static $PREFIX = '0xXX'.'AR345WTSQ2567';
     public static $CUSTOMER = '0xXX';
     protected $fillable = [
-        'user_id',
+        'brand_id',
         'trading_group_id',
         'public_key',
         'login_id',

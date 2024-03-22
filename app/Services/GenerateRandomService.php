@@ -19,7 +19,7 @@ class GenerateRandomService extends Service
 
    public static function RandomSixString()
    {
-    return Str::random(6);
+    return mt_rand(100000, 999999);
    }
     public static function RandomCustomer()
     {

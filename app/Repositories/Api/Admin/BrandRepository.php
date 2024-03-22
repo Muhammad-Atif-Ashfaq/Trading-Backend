@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Brand;
 use App\Services\GenerateRandomService;
 use Illuminate\Database\Eloquent\Model;
-use Psy\Util\Str;
+use Str;
 
 class BrandRepository
 {
