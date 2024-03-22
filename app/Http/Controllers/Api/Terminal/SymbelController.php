@@ -16,10 +16,10 @@ class SymbelController extends Controller
         $this->symbelRepository = $SymbelRepository;
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return ExceptionHandlerHelper::tryCatch(function () use($request){
-            $symbel = $this->symbelRepository->getAllSymbels($request);
+        return ExceptionHandlerHelper::tryCatch(function () {
+            $symbel = $this->symbelRepository->getAllSymbels();
             return $this->sendResponse($symbel, 'All Symbels');
         });
         

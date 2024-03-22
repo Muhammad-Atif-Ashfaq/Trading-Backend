@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('symbel_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('Leverage');
+            $table->string('leverage');
             $table->string('lot_size');
             $table->string('lot_step');
             $table->string('vol_min');

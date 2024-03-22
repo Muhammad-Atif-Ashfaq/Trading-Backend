@@ -15,7 +15,7 @@ class SymbelRepository
         $this->model = new SymbelGroup();
     }
 
-    public function getAllSymbels($request)
+    public function getAllSymbels()
     {
         $symbelGroup = $this->model::with('settings')->get();
         return $symbelGroup;
