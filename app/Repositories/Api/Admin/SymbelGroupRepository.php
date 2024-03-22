@@ -32,7 +32,7 @@ class SymbelGroupRepository
 
         $symbelGroup = $this->model->create([
             'name'   =>   $data['name'],
-            'Leverage' => $data['leverage'],
+            'leverage' => $data['leverage'],
             'lot_size' => $data['lot_size'],
             'lot_step' => $data['lot_step'],
             'vol_min'  => $data['vol_min'],

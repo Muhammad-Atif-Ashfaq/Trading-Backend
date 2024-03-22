@@ -13,7 +13,7 @@ class Index extends FormRequest
     public function rules(): array
     {
         return [
-            'order_type' => ['required', 'in:' . implode(',', OrderTypeEnum::getOrderTypes())],
+            'order_type' => ['nullable', 'in:' . implode(',', OrderTypeEnum::getOrderTypes())],
             'per_page' => 'nullable',
             'page' => 'nullable',
         ];

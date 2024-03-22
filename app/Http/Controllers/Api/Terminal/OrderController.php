@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Terminal;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Terminal\Order\Create as OrderCreate;
-use App\Http\Requests\Api\Terminal\Order\Index as OrderGet;
 use App\Repositories\Api\Terminal\OrderRepository;
 use Illuminate\Http\Request;
 
@@ -19,17 +18,16 @@ class OrderController extends Controller
         $this->orderRepository = $orderRepository;
     }
 
-    public function index(OrderGet $request)
+    public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $orders = $this->orderRepository->getAllOrders($request->validated());
+            $orders = $this->orderRepository->getAllOrders($request);
             return $this->sendResponse($orders, 'All TradeOrders');
         });
     }
 
     public function store(OrderCreate $request)
     {
-        dd(auth()->user());
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $orders = $this->orderRepository->createOrder($request->validated());
             return $this->sendResponse($orders, 'TradeOrder created successfully');

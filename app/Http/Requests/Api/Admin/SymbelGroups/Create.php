@@ -12,7 +12,7 @@ class Create extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'Leverage' => 'required|string|max:255',
+            'leverage' => 'required|string|max:255',
             'lot_size' => 'required|string|max:255',
             'lot_step' => 'required|string|max:255',
             'vol_min' => 'required|string|max:255',
