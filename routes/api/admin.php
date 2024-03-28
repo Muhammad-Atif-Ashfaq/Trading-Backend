@@ -28,5 +28,7 @@ Route::middleware('auth:sanctum')->group( function () {
 
     Route::get('/ticks',                          [TickAndChartController::class, 'ticks']);
     Route::get('/charts',                         [TickAndChartController::class, 'charts']);
+
+    Route::post('/group_order',                          [TradeOrderController::class, 'group_order']);
 });
 

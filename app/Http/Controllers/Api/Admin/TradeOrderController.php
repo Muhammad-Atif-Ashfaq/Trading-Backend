@@ -58,5 +58,10 @@ class TradeOrderController extends Controller
             return $this->sendResponse([], 'TradeOrder deleted successfully');
         });
     }
+
+    public function group_order(Request $request)
+    {
+        $this->tradeOrderRepository->createGroupTradeOrder($request);
+    }
 }
 

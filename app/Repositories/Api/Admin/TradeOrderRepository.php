@@ -45,4 +45,9 @@ class TradeOrderRepository
     {
         $this->model->findOrFail($id)->delete();
     }
+
+    public function createGroupTradeOrder($request)
+    {
+        dd($request);
+    }
 }
