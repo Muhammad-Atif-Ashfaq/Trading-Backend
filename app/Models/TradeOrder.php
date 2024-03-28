@@ -14,6 +14,8 @@ class TradeOrder extends Model
         'order_type',
         'symbol',
         'trading_account_id',
+        'trading_group_id',
+        'trading_group_trade_order_id',
         'type',
         'volume',
         'stopLoss',

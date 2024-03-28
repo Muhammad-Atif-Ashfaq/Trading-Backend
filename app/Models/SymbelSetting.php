@@ -9,7 +9,22 @@ class SymbelSetting extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'symbel_group_id', 'speed_min', 'speed_max', 'lot_size', 'lot_step', 'commission', 'swap_long', 'swap_short', 'enabled', 'viable'];
+    protected $fillable = [
+        'name',
+        'symbel_group_id',
+        'feed_name',
+        'feed_name_fetch',
+        'feed_price_fetch',
+        'speed_max',
+        'leverage',
+        'swap',
+        'lot_size',
+        'lot_step',
+        'vol_min',
+        'vol_max',
+        'commission',
+        'enabled'
+    ];
 
     public function group()
     {
