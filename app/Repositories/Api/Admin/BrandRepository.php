@@ -45,7 +45,8 @@ class BrandRepository
             'user_id' => $user->id,
             'name' => $data['name'],
             'public_key' => GenerateRandomService::getBrandPublicKey(),
-            'login_id' => GenerateRandomService::RandomBrand(),
+            'domain' => $data['domain'],
+            'margin_call' => $data['margin_call'],
         ]);
 
         $user->assignRole(Role::BRAND);
@@ -62,7 +63,9 @@ class BrandRepository
     {
         $brand = $this->model->findOrFail($id);
         $brand->update([
-            'name' => $data['name'],
+            'name' => $data['name'] ?? $brand->name,
+            'domain' => $data['domain'] ?? $brand->domain,
+            'margin_call' => $data['margin_call'] ?? $brand->margin_call
         ]);
         return $brand;
     }

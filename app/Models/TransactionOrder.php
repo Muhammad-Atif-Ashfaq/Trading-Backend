@@ -12,6 +12,8 @@ class TransactionOrder extends Model
         'amount',
         'currency',
         'trading_account_id',
+        'trading_group_id',
+        'trading_group_transaction_order_id',
         'name',
         'group',
         'country',

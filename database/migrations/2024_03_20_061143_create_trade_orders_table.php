@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->enum('order_type', \App\Enums\OrderTypeEnum::getOrderTypes());
             $table->string('symbol')->references('name')->on('symbol_settings')->onDelete('cascade');;
-            $table->foreignId('trading_account_id')->nullable()->constrained('trading_accounts')->onDelete('cascade');
+            $table->foreignId('trading_account_id')->constrained('trading_accounts')->onDelete('cascade');
+            $table->bigInteger('trading_group_id')->nullable();
+            $table->string('trading_group_trade_order_id')->nullable()->unique();
             $table->enum('type', ['buy', 'sell']);
             $table->string('volume');
             $table->string('stopLoss')->nullable();

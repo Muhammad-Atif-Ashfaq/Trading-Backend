@@ -33,6 +33,8 @@ class TransactionOrderRepository
             'amount' => $data['amount'],
             'currency' => $data['currency'],
             'trading_account_id' => $data['trading_account_id'],
+            'trading_group_id' => $data['trading_group_id'] ?? null,
+            'trading_group_transaction_order_id' => $data['trading_group_transaction_order_id'] ?? null,
             'name' => $data['name'],
             'group' => $data['group'],
             'country' => $data['country'] ?? null,
@@ -55,11 +57,14 @@ class TransactionOrderRepository
 
     public function updateTransactionOrder(array $data, $id)
     {
+
         $transactionOrder = $this->model->findOrFail($id);
         $transactionOrder->update([
             'amount' => $data['amount'] ?? $transactionOrder->amount,
             'currency' => $data['currency'] ?? $transactionOrder->currency,
             'trading_account_id' => $data['trading_account_id'] ?? $transactionOrder->trading_account_id,
+            'trading_group_id' => $data['trading_group_id'] ?? $transactionOrder->trading_group_id,
+            'trading_group_transaction_order_id' => $data['trading_group_transaction_order_id'] ?? $transactionOrder->trading_group_transaction_order_id,
             'name' => $data['name'] ?? $transactionOrder->name,
             'group' => $data['group'] ?? $transactionOrder->group,
             'country' => $data['country'] ?? $transactionOrder->country,
