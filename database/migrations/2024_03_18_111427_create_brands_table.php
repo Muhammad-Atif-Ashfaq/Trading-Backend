@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
             $table->string('public_key');
-            $table->string('login_id');
+            $table->string('domain');
+            $table->string('margin_call');
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('trading_group_symbols', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('symbel_setting_id')->references('id')->on('symbel_settings')->onDelete('cascade');
+            $table->foreignId('symbel_group_id')->references('id')->on('symbel_groups')->onDelete('cascade');
             $table->foreignId('trading_group_id')->references('id')->on('trading_groups')->onDelete('cascade');
             $table->timestamps();
         });
