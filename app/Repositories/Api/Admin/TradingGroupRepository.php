@@ -31,8 +31,6 @@ class TradingGroupRepository
 
         $tradingGroup = $this->model->create([
             'name' => $data['name'],
-            'mass_trading_orders' => $data['mass_trading_orders'],
-            'mass_transaction_orders' => $data['mass_transaction_orders'],
             'mass_leverage' => $data['mass_leverage'],
             'mass_swap' => $data['mass_swap'],
         ]);
@@ -51,8 +49,6 @@ class TradingGroupRepository
         $tradingGroup = $this->model->findOrFail($id);
         $tradingGroup->update([
             'name' => $data['name'] ?? $tradingGroup->name,
-            'mass_trading_orders' => $data['mass_trading_orders'] ?? $tradingGroup->mass_trading_orders,
-            'mass_transaction_orders' => $data['mass_transaction_orders'] ?? $tradingGroup->mass_transaction_orders,
             'mass_leverage' => $data['mass_leverage'] ?? $tradingGroup->mass_leverage,
             'mass_swap' => $data['mass_swap'] ?? $tradingGroup->mass_swap,
         ]);

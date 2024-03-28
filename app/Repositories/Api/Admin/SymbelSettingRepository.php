@@ -32,15 +32,19 @@ class SymbelSettingRepository
         $symbelSetting = $this->model->create([
             'name' => $data['name'],
             'symbel_group_id'  => $data['symbel_group_id'],
-            'speed_min' => $data['speed_min'] ?? null,
-            'speed_max' => $data['speed_max'] ?? null,
-            'lot_size'  => $data['lot_size'] ?? null,
-            'lot_step'  => $data['lot_step'] ?? null,
-            'commission'=> $data['commission'] ?? null,
-            'swap_long' => $data['swap_long'] ?? null,
-            'swap_short'=> $data['swap_short'] ?? null,
+            'feed_name' => $data['feed_name'],
+            'feed_name_fetch' => $data['feed_name_fetch'],
+            'feed_price_fetch'  => $data['feed_price_fetch'],
+            'speed_max'  => $data['speed_max'],
+            'leverage'=> $data['leverage'],
+            'swap' => $data['swap'],
+            'lot_size'=> $data['lot_size'],
+            'lot_step'=> $data['lot_step'],
+            'vol_min'=> $data['vol_min'],
+            'vol_max'=> $data['vol_max'],
+            'commission'=> $data['commission'],
             'enabled'   => $data['enabled'] ?? 0,
-            'viable'    => $data['viable'] ?? 0
+
         ]);
 
 
@@ -58,15 +62,19 @@ class SymbelSettingRepository
         $symbelSetting->update([
             'name' => $data['name'] ?? $symbelSetting->name,
             'symbel_group_id'  => $data['symbel_group_id'] ?? $symbelSetting->symbel_group_id,
-            'speed_min' => $data['speed_min'] ?? $symbelSetting->speed_min,
-            'speed_max' => $data['speed_max'] ?? $symbelSetting->speed_max,
-            'lot_size'  => $data['lot_size'] ?? $symbelSetting->lot_size,
-            'lot_step'  => $data['lot_step'] ?? $symbelSetting->lot_step,
+            'feed_name' => $data['feed_name'] ?? $symbelSetting->feed_name,
+            'feed_name_fetch' => $data['feed_name_fetch'] ?? $symbelSetting->feed_name_fetch,
+            'feed_price_fetch'  => $data['feed_price_fetch'] ?? $symbelSetting->feed_price_fetch,
+            'speed_max'  => $data['speed_max'] ?? $symbelSetting->speed_max,
+            'leverage'=> $data['leverage'] ?? $symbelSetting->leverage,
+            'swap' => $data['swap'] ?? $symbelSetting->swap,
+            'lot_size'=> $data['lot_size'] ?? $symbelSetting->lot_size,
+            'lot_step'=> $data['lot_step'] ?? $symbelSetting->lot_step,
+            'vol_min'=> $data['vol_min'] ?? $symbelSetting->vol_min,
+            'vol_max'=> $data['vol_max'] ?? $symbelSetting->vol_max,
             'commission'=> $data['commission'] ?? $symbelSetting->commission,
-            'swap_long' => $data['swap_long'] ?? $symbelSetting->swap_long,
-            'swap_short'=> $data['swap_short'] ?? $symbelSetting->swap_short,
             'enabled'   => $data['enabled'] ?? $symbelSetting->enabled,
-            'viable'    => $data['viable'] ?? $symbelSetting->viable
+
         ]);
         return $symbelSetting;
     }

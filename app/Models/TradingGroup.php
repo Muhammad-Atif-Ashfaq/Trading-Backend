@@ -11,8 +11,6 @@ class TradingGroup extends Model
 
     protected $fillable = [
         'name',
-        'mass_trading_orders',
-        'mass_transaction_orders',
         'mass_leverage',
         'mass_swap',
     ];
