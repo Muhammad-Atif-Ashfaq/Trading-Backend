@@ -3,16 +3,17 @@ namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
 use App\Models\TradeOrder;
+use App\Models\TradingAccount;
 
 
 class TradeOrderRepository
 {
     private $model;
+    private $model_1;
 
     public function __construct()
     {
         $this->model = new TradeOrder();
-
     }
 
     public function getAllTradeOrders($request)
@@ -46,8 +47,5 @@ class TradeOrderRepository
         $this->model->findOrFail($id)->delete();
     }
 
-    public function createGroupTradeOrder($request)
-    {
-        dd($request);
-    }
+    
 }
