@@ -50,7 +50,11 @@ class GroupTransactionOrderRepository
 
     public function updateGroupTransactionOrder(array $data, $id)
     {
-        return $this->model->updateTransactionOrder($data, $id);
+        $trading_account_ids = $this->model->scopeWhereGroupUniqueId($id)->pluck('id');
+        foreach ($trading_account_ids as $trading_account_id) {
+            $this->model->updateTransactionOrder($data, $trading_account_id);
+        }
+        return true;
     }
 
     public function deleteGroupTransactionOrder($id)
@@ -58,4 +62,3 @@ class GroupTransactionOrderRepository
         $this->model->findOrFail($id)->delete();
     }
 }
-
