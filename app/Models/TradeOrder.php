@@ -10,6 +10,8 @@ class TradeOrder extends Model
 {
     use HasFactory,HasTradeOrder;
 
+    public static $PREFIX = '0xXX'.'new_order';
+
     protected $fillable = [
         'order_type',
         'symbol',

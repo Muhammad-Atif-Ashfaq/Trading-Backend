@@ -34,7 +34,7 @@ class GroupTradeOrderRepository
 
     public function createGroupTradeOrder(array $data)
     {
-        $trading_group_trade_order_id = uniqid($this->trading_account::$PREFIX);
+        $trading_group_trade_order_id = uniqid($this->model::$PREFIX);
         $trading_account_ids = $this->trading_account->where('trading_group_id', $data['trading_group_id'])->pluck('id');
         foreach ($trading_account_ids as $trading_account_id) {
             $data['trading_account_id'] = $trading_account_id;
