@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('symbol')->references('name')->on('symbol_settings')->onDelete('cascade');;
             $table->foreignId('trading_account_id')->constrained('trading_accounts')->onDelete('cascade');
             $table->bigInteger('trading_group_id')->nullable();
-            $table->string('trading_group_trade_order_id')->nullable()->unique();
+            $table->string('group_unique_id')->nullable();
             $table->enum('type', ['buy', 'sell']);
             $table->string('volume');
             $table->string('stopLoss')->nullable();
