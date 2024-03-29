@@ -13,15 +13,18 @@ class Create extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'symbel_group_id' => 'nullable|exists:symbel_groups,id',
-            'speed_min' => 'nullable|string|max:255',
-            'speed_max' => 'nullable|string|max:255',
-            'lot_size' => 'nullable|string|max:255',
-            'lot_step' => 'nullable|string|max:255',
-            'commission' => 'nullable|string|max:255',
-            'swap_long' => 'nullable|string|max:255',
-            'swap_short' => 'nullable|string|max:255',
+            'feed_name' => 'string|max:255',
+            'feed_name_fetch' => 'string|max:255',
+            'feed_price_fetch' => 'string|max:255',
+            'speed_max' => 'string|max:255',
+            'leverage' => 'string|max:255',
+            'swap' => 'string|max:255',
+            'lot_size' => 'string|max:255',
+            'lot_step' => 'string|max:255',
+            'vol_min' => 'string|max:255',
+            'vol_max' => 'string|max:255',
+            'commission' => 'string|max:255',
             'enabled' => 'nullable|boolean',
-            'viable' => 'nullable|boolean',
         ];
     }
 }
