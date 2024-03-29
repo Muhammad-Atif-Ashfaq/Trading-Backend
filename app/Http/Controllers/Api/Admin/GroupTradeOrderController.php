@@ -10,7 +10,7 @@ use App\Http\Requests\Api\Admin\GroupTradeOrders\Create as GroupTradeOrderCreate
 use Illuminate\Http\Request;
 
 
-class GroupGroupTradeOrderController extends Controller
+class GroupTradeOrderController extends Controller
 {
     protected $groupTradeOrderRepository;
 
