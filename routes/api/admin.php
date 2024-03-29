@@ -9,6 +9,7 @@ use  App\Http\Controllers\Api\Admin\{
         TradingAccountController,
         SymbelSettingController,
         TradeOrderController,
+        GroupTradeOrderController,
         DataFeedController,
         TickAndChartController
     };
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::apiResource('/symbel_group',           SymbelGroupController::class);
     Route::apiResource('/symbel_setting',         SymbelSettingController::class);
     Route::apiResource('/trade_orders',           TradeOrderController::class);
+    Route::apiResource('/group_trade_orders',     GroupTradeOrderController::class);
     Route::apiResource('/data_feed',              DataFeedController::class);
 
     Route::get('/ticks',                          [TickAndChartController::class, 'ticks']);
