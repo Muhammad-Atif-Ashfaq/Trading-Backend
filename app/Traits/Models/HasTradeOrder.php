@@ -11,7 +11,7 @@ trait HasTradeOrder
             'symbol'     => $data['symbol'],
             'trading_account_id' => $data['trading_account_id'],
             'trading_group_id' => $data['trading_group_id'] ?? null,
-            'trading_group_trade_order_id' => $data['trading_group_trade_order_id'] ?? null,
+            'group_unique_id' => $data['group_unique_id'] ?? null,
             'type'       => $data['type'],
             'volume'     => $data['volume'],
             'stopLoss'   => $data['stopLoss'] ?? null,
@@ -38,7 +38,7 @@ trait HasTradeOrder
             'symbol'     => $data['symbol'] ?? $tradeOrder->order_type,
             'trading_account_id' => $data['trading_account_id'] ?? $tradeOrder->trading_account_id,
             'trading_group_id' => $data['trading_group_id'] ?? $tradeOrder->trading_group_id,
-            'trading_group_trade_order_id' => $data['trading_group_trade_order_id'] ?? $tradeOrder->trading_group_trade_order_id,
+            'group_unique_id' => $data['group_unique_id'] ?? $tradeOrder->group_unique_id,
             'type'       => $data['type'] ?? $tradeOrder->type,
             'volume'     => $data['volume'] ?? $tradeOrder->volume,
             'stopLoss'   => $data['stopLoss'] ?? $tradeOrder->stopLoss,
@@ -55,4 +55,5 @@ trait HasTradeOrder
         ]);
         return $tradeOrder;
     }
+
 }

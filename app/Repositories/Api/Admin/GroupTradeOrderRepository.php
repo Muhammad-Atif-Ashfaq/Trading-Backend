@@ -41,21 +41,26 @@ class GroupTradeOrderRepository
             $data['trading_group_trade_order_id'] = $trading_group_trade_order_id;
             $this->model->createTradeOrder($data);
         }
+        return true;
     }
 
     public function findGroupTradeOrderById($id)
     {
-        return $this->model->findOrFail($id);
+        return $this->model->scopeFindGroupUniqueId($id);
     }
 
     public function updateGroupTradeOrder(array $data, $id)
     {
-        return $this->model->updateTradeOrder($data, $id);
+        $trading_account_ids = $this->model->scopeWhereGroupUniqueId($id)->pluck('id');
+        foreach ($trading_account_ids as $trading_account_id) {
+            $this->model->updateTradeOrder($data, $trading_account_id);
+        }
+        return true;
     }
 
     public function deleteGroupTradeOrder($id)
     {
-        $this->model->findOrFail($id)->delete();
+        $this->model->scopeFindGroupUniqueId($id)->delete();
     }
 }
 

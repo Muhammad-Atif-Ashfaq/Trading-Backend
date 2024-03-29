@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\Models\HasGroupUniqueId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\HasTradeOrder;
 
 class TradeOrder extends Model
 {
-    use HasFactory,HasTradeOrder;
+    use HasFactory,
+        HasTradeOrder,
+        HasGroupUniqueId;
 
     public static $PREFIX = '0xXX'.'new_order';
 
@@ -17,7 +20,7 @@ class TradeOrder extends Model
         'symbol',
         'trading_account_id',
         'trading_group_id',
-        'trading_group_trade_order_id',
+        'group_unique_id',
         'type',
         'volume',
         'stopLoss',
@@ -42,4 +45,6 @@ class TradeOrder extends Model
     {
         return $this->belongsTo(TradingAccount::class);
     }
+
+
 }
