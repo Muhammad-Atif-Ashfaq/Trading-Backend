@@ -1,15 +1,16 @@
 <?php
+
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\BrandInterface;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Brand;
 use App\Services\GenerateRandomService;
-use Illuminate\Database\Eloquent\Model;
 use Str;
 
-class BrandRepository
+class BrandRepository implements BrandInterface
 {
     private $model;
     private $user;
@@ -20,6 +21,7 @@ class BrandRepository
         $this->user = new User();
     }
 
+    // TODO: Get all brands.
     public function getAllBrands($request)
     {
         $brands = $this->model->query();
@@ -31,6 +33,7 @@ class BrandRepository
         return $brands;
     }
 
+    // TODO: Create a brand.
     public function createBrand(array $data)
     {
         $password = Str::random(6);
@@ -54,11 +57,13 @@ class BrandRepository
         return $user;
     }
 
+    // TODO: Find a brand by ID.
     public function findBrandById($id)
     {
         return $this->model->findOrFail($id);
     }
 
+    // TODO: Update a brand.
     public function updateBrand(array $data, $id)
     {
         $brand = $this->model->findOrFail($id);
@@ -70,6 +75,7 @@ class BrandRepository
         return $brand;
     }
 
+    // TODO: Delete a brand.
     public function deleteBrand($id)
     {
         $this->model->findOrFail($id)->delete();

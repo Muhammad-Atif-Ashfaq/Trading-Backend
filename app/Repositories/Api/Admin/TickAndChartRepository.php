@@ -2,6 +2,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\TickAndChartInterface;
 use App\Models\Chart;
 use App\Models\Role;
 use App\Models\Tick;
@@ -11,7 +12,7 @@ use App\Services\GenerateRandomService;
 use Illuminate\Database\Eloquent\Model;
 use Psy\Util\Str;
 
-class TickAndChartRepository
+class TickAndChartRepository implements TickAndChartInterface
 {
     private $tick;
     private $chart;
@@ -22,6 +23,7 @@ class TickAndChartRepository
         $this->chart = new Chart();
     }
 
+    // TODO: Get all ticks.
     public function getAllTicks($request)
     {
         $ticks = $this->tick->query();
@@ -32,6 +34,8 @@ class TickAndChartRepository
         );
         return $ticks;
     }
+
+    // TODO: Get all charts.
     public function getAllCharts($request)
     {
         $charts = $this->chart->query();

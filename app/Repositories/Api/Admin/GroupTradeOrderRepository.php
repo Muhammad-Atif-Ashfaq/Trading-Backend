@@ -3,12 +3,13 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\GroupTradeOrderInterface;
 use App\Models\TradeOrder;
 use App\Models\TradingAccount;
 use Illuminate\Database\Eloquent\Model;
 
 
-class GroupTradeOrderRepository
+class GroupTradeOrderRepository implements GroupTradeOrderInterface
 {
     private $model;
     private $trading_account;
@@ -17,10 +18,9 @@ class GroupTradeOrderRepository
     {
         $this->model = new TradeOrder();
         $this->trading_account = new TradingAccount();
-
-
     }
 
+    // TODO: Get all group trade orders.
     public function getAllGroupTradeOrders($request)
     {
         $groupTradeOrders = $this->model->query();
@@ -32,6 +32,7 @@ class GroupTradeOrderRepository
         return $groupTradeOrders;
     }
 
+    // TODO: Create a group trade order.
     public function createGroupTradeOrder(array $data)
     {
         $trading_group_trade_order_id = uniqid($this->model::$PREFIX);
@@ -44,11 +45,13 @@ class GroupTradeOrderRepository
         return true;
     }
 
+    // TODO: Find a group trade order by its ID.
     public function findGroupTradeOrderById($id)
     {
         return $this->model->scopeFindGroupUniqueId($id);
     }
 
+    // TODO: Update a group trade order.
     public function updateGroupTradeOrder(array $data, $id)
     {
         $trading_account_ids = $this->model->scopeWhereGroupUniqueId($id)->pluck('id');
@@ -58,6 +61,7 @@ class GroupTradeOrderRepository
         return true;
     }
 
+    // TODO: Delete a group trade order.
     public function deleteGroupTradeOrder($id)
     {
         $this->model->scopeFindGroupUniqueId($id)->delete();

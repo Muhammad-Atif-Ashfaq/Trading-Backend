@@ -2,19 +2,19 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\TradingGroupInterface;
 use App\Models\TradingGroup;
 
-
-class TradingGroupRepository
+class TradingGroupRepository implements TradingGroupInterface
 {
     private $model;
 
     public function __construct()
     {
         $this->model = new TradingGroup();
-
     }
 
+    // TODO: Get all trading groups.
     public function getAllTradingGroups($request)
     {
         $tradingGroups = $this->model->query();
@@ -26,6 +26,7 @@ class TradingGroupRepository
         return $tradingGroups;
     }
 
+    // TODO: Create a trading group.
     public function createTradingGroup(array $data)
     {
 
@@ -39,11 +40,13 @@ class TradingGroupRepository
         return $tradingGroup;
     }
 
+    // TODO: Find a trading group by ID.
     public function findTradingGroupById($id)
     {
         return $this->model->findOrFail($id);
     }
 
+    //  TODO: Update a trading group.
     public function updateTradingGroup(array $data, $id)
     {
         $tradingGroup = $this->model->findOrFail($id);
@@ -55,6 +58,7 @@ class TradingGroupRepository
         return $tradingGroup;
     }
 
+    //  TODO: Delete a trading group.
     public function deleteTradingGroup($id)
     {
         $this->model->findOrFail($id)->delete();

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Api\Admin\TickAndChartRepository;
+use App\Repositories\Api\Admin\TickAndChartInterface;
 use App\Helpers\{ExceptionHandlerHelper, PaginationHelper};
 use Illuminate\Http\Request;
 use App\Models\Tick;
@@ -13,7 +13,7 @@ class TickAndChartController extends Controller
 
     protected $tickAndChartRepository;
 
-    public function __construct(TickAndChartRepository $tickAndChartRepository)
+    public function __construct(TickAndChartInterface $tickAndChartRepository)
     {
         $this->tickAndChartRepository = $tickAndChartRepository;
     }

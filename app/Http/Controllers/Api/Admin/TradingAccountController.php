@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\TradingAccountRepository;
+use App\Repositories\Api\Admin\TradingAccountInterface;
 use App\Http\Requests\Api\Admin\TradingAccounts\Create as TradingAccountCreate;
 use App\Http\Requests\Api\Admin\TradingAccounts\Index as TradingAccountIndex;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class TradingAccountController extends Controller
 {
     protected $tradingAccountRepository;
 
-    public function __construct(TradingAccountRepository $tradingAccountRepository)
+    public function __construct(TradingAccountInterface $tradingAccountRepository)
     {
         $this->tradingAccountRepository = $tradingAccountRepository;
     }
