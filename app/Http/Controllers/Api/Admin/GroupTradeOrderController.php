@@ -19,6 +19,7 @@ class GroupTradeOrderController extends Controller
         $this->groupTradeOrderRepository = $groupTradeOrderRepository;
     }
 
+    // TODO: Retrieves all group trade orders.
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -27,6 +28,7 @@ class GroupTradeOrderController extends Controller
         });
     }
 
+    // TODO: Stores a new group trade order.
     public function store(GroupTradeOrderCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +37,7 @@ class GroupTradeOrderController extends Controller
         });
     }
 
+    // TODO: Retrieves a single group trade order by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +46,7 @@ class GroupTradeOrderController extends Controller
         });
     }
 
+    // TODO: Updates a group trade order.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +55,7 @@ class GroupTradeOrderController extends Controller
         });
     }
 
+    // TODO: Deletes a group trade order by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

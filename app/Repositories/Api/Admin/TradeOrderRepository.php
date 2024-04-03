@@ -17,7 +17,9 @@ class TradeOrderRepository
 
     public function getAllTradeOrders($request)
     {
-        $tradeOrders = $this->model->query();
+        $tradeOrders = $this->model->when($request->has('order_type'), function ($query) use ($request) {
+            return $query->where('order_type', $request->order_type);
+        });
         $tradeOrders = PaginationHelper::paginate(
             $tradeOrders,
             $request->input('per_page', config('systemSetting.system_per_page_count')),

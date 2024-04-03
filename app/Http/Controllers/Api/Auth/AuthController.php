@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    // TODO: Authenticate user and generate token.
     public function login(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -23,6 +24,7 @@ class AuthController extends Controller
         });
     }
 
+    // TODO: Logout the authenticated user.
     public function logout(Request $request) {
         return ExceptionHandlerHelper::tryCatch(function () use($request) {
             $request->user()->currentAccessToken()->delete();

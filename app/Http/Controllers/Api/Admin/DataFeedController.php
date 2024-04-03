@@ -19,6 +19,7 @@ class DataFeedController extends Controller
         $this->dataFeedRepository = $dataFeedRepository;
     }
 
+    // TODO: Retrieves all data feeds.
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -27,6 +28,7 @@ class DataFeedController extends Controller
         });
     }
 
+    // TODO: Stores a new data feed.
     public function store(DataFeedCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +37,7 @@ class DataFeedController extends Controller
         });
     }
 
+    // TODO: Retrieves a single data feed by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +46,7 @@ class DataFeedController extends Controller
         });
     }
 
+    // TODO: Updates a data feed.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +55,7 @@ class DataFeedController extends Controller
         });
     }
 
+    // TODO: Deletes a data feed by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

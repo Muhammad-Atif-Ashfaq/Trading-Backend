@@ -19,6 +19,7 @@ class TradingAccountController extends Controller
         $this->TradingAccountRepository = $TradingAccountRepository;
     }
 
+    // TODO: Store a newly created trading account.
     public function store(TradingAccountCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -27,6 +28,7 @@ class TradingAccountController extends Controller
         });
     }
 
+    // TODO: Change the password of the trading account.
     public function changePassword(ChangePassword $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {

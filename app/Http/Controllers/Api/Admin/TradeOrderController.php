@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Admin\TradeOrderRepository;
 use App\Http\Requests\Api\Admin\TradeOrders\Create as TradeOrderCreate;
+use App\Http\Requests\Api\Admin\TradeOrders\Index as TradeOrderIndex;
 use Illuminate\Http\Request;
 
 
@@ -19,14 +20,16 @@ class TradeOrderController extends Controller
         $this->tradeOrderRepository = $tradeOrderRepository;
     }
 
-    public function index(Request $request)
+    // TODO: Retrieves all trade orders.
+    public function index(TradeOrderIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $tradeOrders = $this->tradeOrderRepository->getAllTradeOrders($request);
+            $tradeOrders = $this->tradeOrderRepository->getAllTradeOrders($request->validated());
             return $this->sendResponse($tradeOrders, 'All TradeOrders');
         });
     }
 
+    // TODO: Stores a new trade order.
     public function store(TradeOrderCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +38,7 @@ class TradeOrderController extends Controller
         });
     }
 
+    // TODO: Retrieves a single trade order by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +47,7 @@ class TradeOrderController extends Controller
         });
     }
 
+    // TODO: Updates a trade order.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +56,7 @@ class TradeOrderController extends Controller
         });
     }
 
+    // TODO: Deletes a trade order by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

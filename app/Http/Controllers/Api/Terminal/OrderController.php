@@ -18,6 +18,7 @@ class OrderController extends Controller
         $this->orderRepository = $orderRepository;
     }
 
+    // TODO: Get all orders for the terminal.
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -26,6 +27,7 @@ class OrderController extends Controller
         });
     }
 
+    // TODO: Store a new order for the terminal.
     public function store(OrderCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -34,6 +36,7 @@ class OrderController extends Controller
         });
     }
 
+    // TODO: Get a single order by its ID for the terminal.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -42,6 +45,7 @@ class OrderController extends Controller
         });
     }
 
+    // TODO: Update an existing order for the terminal.
     public function update(OrderCreate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -50,6 +54,7 @@ class OrderController extends Controller
         });
     }
 
+    // TODO: Delete an existing order for the terminal.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

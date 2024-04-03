@@ -19,6 +19,7 @@ class TradingGroupController extends Controller
         $this->tradingGroupRepository = $tradingGroupRepository;
     }
 
+    // TODO: Retrieves all trading groups.
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -27,6 +28,7 @@ class TradingGroupController extends Controller
         });
     }
 
+    // TODO: Stores a new trading group.
     public function store(TradingGroupCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +37,7 @@ class TradingGroupController extends Controller
         });
     }
 
+    // TODO: Retrieves a single trading group by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +46,7 @@ class TradingGroupController extends Controller
         });
     }
 
+    // TODO: Updates a trading group.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +55,7 @@ class TradingGroupController extends Controller
         });
     }
 
+    // TODO: Deletes a trading group by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
