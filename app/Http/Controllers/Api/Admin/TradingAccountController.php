@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Admin\TradingAccountRepository;
 use App\Http\Requests\Api\Admin\TradingAccounts\Create as TradingAccountCreate;
+use App\Http\Requests\Api\Admin\TradingAccounts\Index as TradingAccountIndex;
 use Illuminate\Http\Request;
 
 
@@ -19,14 +20,16 @@ class TradingAccountController extends Controller
         $this->tradingAccountRepository = $tradingAccountRepository;
     }
 
-    public function index(Request $request)
+    // TODO: Retrieves all trading accounts.
+    public function index(TradingAccountIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccounts($request);
+            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccounts($request->validated());
             return $this->sendResponse($tradingAccounts, 'All TradingAccounts');
         });
     }
 
+    // TODO: Stores a new trading account.
     public function store(TradingAccountCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +38,7 @@ class TradingAccountController extends Controller
         });
     }
 
+    // TODO: Retrieves a single trading account by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +47,7 @@ class TradingAccountController extends Controller
         });
     }
 
+    // TODO: Updates a trading account.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +56,7 @@ class TradingAccountController extends Controller
         });
     }
 
+    // TODO: Deletes a trading account by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

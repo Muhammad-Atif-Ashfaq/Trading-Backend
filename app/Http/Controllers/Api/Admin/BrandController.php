@@ -19,6 +19,7 @@ class BrandController extends Controller
         $this->brandRepository = $brandRepository;
     }
 
+    // TODO: Retrieves all brands.
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -27,6 +28,7 @@ class BrandController extends Controller
         });
     }
 
+    // TODO: Stores a new brand.
     public function store(BrandCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +37,7 @@ class BrandController extends Controller
         });
     }
 
+    // TODO: Retrieves a single brand by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +46,7 @@ class BrandController extends Controller
         });
     }
 
+    // TODO: Updates a brand.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +55,7 @@ class BrandController extends Controller
         });
     }
 
+    // TODO: Deletes a brand by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

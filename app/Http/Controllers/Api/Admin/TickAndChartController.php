@@ -18,6 +18,7 @@ class TickAndChartController extends Controller
         $this->tickAndChartRepository = $tickAndChartRepository;
     }
 
+    // TODO: Retrieves all ticks.
     public function ticks(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -26,6 +27,7 @@ class TickAndChartController extends Controller
         });
     }
 
+    // TODO: Retrieves all charts.
     public function charts(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {

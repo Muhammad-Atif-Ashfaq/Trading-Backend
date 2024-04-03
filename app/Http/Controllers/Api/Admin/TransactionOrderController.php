@@ -19,6 +19,7 @@ class TransactionOrderController extends Controller
         $this->transactionOrderRepository = $transactionOrderRepository;
     }
 
+    // TODO: Retrieves all transaction orders.
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -27,6 +28,7 @@ class TransactionOrderController extends Controller
         });
     }
 
+    // TODO: Stores a new transaction order.
     public function store(TransactionOrderCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +37,7 @@ class TransactionOrderController extends Controller
         });
     }
 
+    // TODO: Retrieves a single transaction order by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +46,7 @@ class TransactionOrderController extends Controller
         });
     }
 
+    // TODO: Updates a transaction order.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +55,7 @@ class TransactionOrderController extends Controller
         });
     }
 
+    // TODO: Deletes a transaction order by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

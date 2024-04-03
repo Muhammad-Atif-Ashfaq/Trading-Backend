@@ -19,6 +19,7 @@ class SymbelGroupController extends Controller
         $this->symbelGroupRepository = $symbelGroupRepository;
     }
 
+    // TODO: Retrieves all symbol groups.
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -27,6 +28,7 @@ class SymbelGroupController extends Controller
         });
     }
 
+    // TODO: Stores a new symbol group.
     public function store(SymbelGroupCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +37,7 @@ class SymbelGroupController extends Controller
         });
     }
 
+    // TODO: Retrieves a single symbol group by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +46,7 @@ class SymbelGroupController extends Controller
         });
     }
 
+    // TODO: Updates a symbol group.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +55,7 @@ class SymbelGroupController extends Controller
         });
     }
 
+    // TODO: Deletes a symbol group by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

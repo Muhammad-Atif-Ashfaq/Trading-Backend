@@ -19,6 +19,7 @@ class SymbelSettingController extends Controller
         $this->symbelSettingRepository = $symbelSettingRepository;
     }
 
+    // TODO: Retrieves all symbol settings.
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -27,6 +28,7 @@ class SymbelSettingController extends Controller
         });
     }
 
+    // TODO: Stores a new symbol setting.
     public function store(SymbelSettingCreate $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -35,6 +37,7 @@ class SymbelSettingController extends Controller
         });
     }
 
+    // TODO: Retrieves a single symbol setting by ID.
     public function show($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
@@ -43,6 +46,7 @@ class SymbelSettingController extends Controller
         });
     }
 
+    // TODO: Updates a symbol setting.
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
@@ -51,6 +55,7 @@ class SymbelSettingController extends Controller
         });
     }
 
+    // TODO: Deletes a symbol setting by ID.
     public function destroy($id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {

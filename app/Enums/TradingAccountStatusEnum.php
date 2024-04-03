@@ -8,6 +8,8 @@ final class TradingAccountStatusEnum
     const INACTIVE = 'inactive';
     const MARGIN_CALL = 'margin_call';
 
+    // TODO: Define a method to retrieve all available trading account statuses.
+    // TODO: This method returns an array containing all available trading account statuses: ACTIVE, INACTIVE, and MARGIN_CALL.
     public static function getStatuses()
     {
         return [

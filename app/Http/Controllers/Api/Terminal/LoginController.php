@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    // TODO: Attempt to authenticate the user and generate a token for the terminal.
    public function login(Request $request){
        return ExceptionHandlerHelper::tryCatch(function () use($request) {
            $credentials = $request->only('login_id', 'password');

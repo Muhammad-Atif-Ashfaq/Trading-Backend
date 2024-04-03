@@ -16,12 +16,13 @@ class SymbelController extends Controller
         $this->symbelRepository = $SymbelRepository;
     }
 
+    // TODO: Get all symbel Groups with symbel settings for the terminal.
     public function index()
     {
         return ExceptionHandlerHelper::tryCatch(function () {
             $symbel = $this->symbelRepository->getAllSymbels();
             return $this->sendResponse($symbel, 'All Symbels');
         });
-        
+
     }
 }

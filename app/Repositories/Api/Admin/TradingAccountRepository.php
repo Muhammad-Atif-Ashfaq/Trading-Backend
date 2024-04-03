@@ -19,7 +19,9 @@ class TradingAccountRepository
 
     public function getAllTradingAccounts($request)
     {
-        $tradingAccounts = $this->model->query();
+        $tradingAccounts = $this->model->when($request->has('status'), function ($query) use ($request) {
+            return $query->where('status', $request->status);
+        });
         $tradingAccounts = PaginationHelper::paginate(
             $tradingAccounts,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
