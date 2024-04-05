@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\TradeOrderRepository;
+use App\Repositories\Api\Admin\TradeOrderInterface;
 use App\Http\Requests\Api\Admin\TradeOrders\Create as TradeOrderCreate;
 use App\Http\Requests\Api\Admin\TradeGroupOrders\Create as TradeGroupOrders;
 use App\Http\Requests\Api\Admin\TradeOrders\Index as TradeOrderIndex;
@@ -16,7 +16,7 @@ class TradeOrderController extends Controller
 {
     protected $tradeOrderRepository;
 
-    public function __construct(TradeOrderRepository $tradeOrderRepository)
+    public function __construct(TradeOrderInterface $tradeOrderRepository)
     {
         $this->tradeOrderRepository = $tradeOrderRepository;
     }

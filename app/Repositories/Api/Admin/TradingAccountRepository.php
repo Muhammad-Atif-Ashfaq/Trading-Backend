@@ -2,21 +2,21 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\TradingAccountInterface;
 use App\Models\TradingAccount;
 use App\Services\GenerateRandomService;
 use Carbon\Carbon;
 
-
-class TradingAccountRepository
+class TradingAccountRepository implements TradingAccountInterface
 {
     private $model;
 
     public function __construct()
     {
         $this->model = new TradingAccount();
-
     }
 
+    // TODO: Get all trading accounts.
     public function getAllTradingAccounts($request)
     {
         $tradingAccounts = $this->model->when($request->has('status'), function ($query) use ($request) {
@@ -30,6 +30,7 @@ class TradingAccountRepository
         return $tradingAccounts;
     }
 
+    // TODO: Create a trading account.
     public function createTradingAccount(array $data)
     {
 
@@ -60,11 +61,13 @@ class TradingAccountRepository
         return $tradingAccount;
     }
 
+    // TODO: Find a trading account by ID.
     public function findTradingAccountById($id)
     {
         return $this->model->findOrFail($id);
     }
 
+    // TODO: Update a trading account.
     public function updateTradingAccount(array $data, $id)
     {
         $tradingAccount = $this->model->findOrFail($id);
@@ -89,6 +92,7 @@ class TradingAccountRepository
         return $tradingAccount;
     }
 
+    // TODO: Delete a trading account.
     public function deleteTradingAccount($id)
     {
         $this->model->findOrFail($id)->delete();

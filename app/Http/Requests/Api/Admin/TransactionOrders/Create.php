@@ -10,7 +10,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class Create extends FormRequest
 {
-    use ResponseTrait;
+    use ResponseTrait; // TODO: Using the ResponseTrait for sending responses
+
     public function rules(): array
     {
         return [

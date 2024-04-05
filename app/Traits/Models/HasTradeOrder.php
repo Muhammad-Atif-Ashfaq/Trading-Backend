@@ -5,6 +5,7 @@ namespace App\Traits\Models;
 
 trait HasTradeOrder
 {
+    // TODO:Create a new trade order.
     public function createTradeOrder(array $data){
         $tradeOrder = static::create([
             'order_type' => $data['order_type'],
@@ -28,7 +29,7 @@ trait HasTradeOrder
         ]);
         return $tradeOrder;
     }
-
+    // TODO:Update an existing trade order.
     public function updateTradeOrder(array $data, $id)
     {
         $tradeOrder = static::findOrFail($id);

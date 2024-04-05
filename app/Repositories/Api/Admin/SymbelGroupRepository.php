@@ -2,20 +2,20 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\SymbelGroupInterface;
 use App\Models\SymbelGroup;
 
 
-class SymbelGroupRepository
+class SymbelGroupRepository implements SymbelGroupInterface
 {
     private $model;
-
 
     public function __construct()
     {
         $this->model = new SymbelGroup();
-
     }
 
+    //  TODO: Get all symbel groups.
     public function getAllSymbelGroups($request)
     {
         $symbelGroups = $this->model->query();
@@ -27,6 +27,7 @@ class SymbelGroupRepository
         return $symbelGroups;
     }
 
+    // TODO: Create a symbel group.
     public function createSymbelGroup(array $data)
     {
 
@@ -44,11 +45,13 @@ class SymbelGroupRepository
         return $symbelGroup;
     }
 
+    // TODO: Find a symbel group by its ID.
     public function findSymbelGroupById($id)
     {
         return $this->model->findOrFail($id);
     }
 
+    // TODO: Update a symbel group.
     public function updateSymbelGroup(array $data, $id)
     {
         $symbelGroup = $this->model->findOrFail($id);
@@ -64,6 +67,7 @@ class SymbelGroupRepository
         return $symbelGroup;
     }
 
+    // TODO: Delete a symbel group.
     public function deleteSymbelGroup($id)
     {
         $this->model->findOrFail($id)->delete();

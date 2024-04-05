@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\SymbelSettingRepository;
+use App\Repositories\Api\Admin\SymbelSettingInterface;
 use App\Http\Requests\Api\Admin\SymbelSettings\Create as SymbelSettingCreate;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class SymbelSettingController extends Controller
 {
     protected $symbelSettingRepository;
 
-    public function __construct(SymbelSettingRepository $symbelSettingRepository)
+    public function __construct(SymbelSettingInterface $symbelSettingRepository)
     {
         $this->symbelSettingRepository = $symbelSettingRepository;
     }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\TransactionOrderRepository;
+use App\Repositories\Api\Admin\TransactionOrderInterface;
 use App\Http\Requests\Api\Admin\TransactionOrders\Create as TransactionOrderCreate;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class TransactionOrderController extends Controller
 {
     protected $transactionOrderRepository;
 
-    public function __construct(TransactionOrderRepository $transactionOrderRepository)
+    public function __construct(TransactionOrderInterface $transactionOrderRepository)
     {
         $this->transactionOrderRepository = $transactionOrderRepository;
     }

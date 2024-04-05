@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\GroupTradeOrderRepository;
+use App\Repositories\Api\Admin\GroupTradeOrderInterface;
 use App\Http\Requests\Api\Admin\GroupTradeOrders\Create as GroupTradeOrderCreate;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class GroupTradeOrderController extends Controller
 {
     protected $groupTradeOrderRepository;
 
-    public function __construct(GroupTradeOrderRepository $groupTradeOrderRepository)
+    public function __construct(GroupTradeOrderInterface $groupTradeOrderRepository)
     {
         $this->groupTradeOrderRepository = $groupTradeOrderRepository;
     }

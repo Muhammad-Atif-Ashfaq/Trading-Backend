@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\TradingAccount;
@@ -10,6 +9,7 @@ use App\Models\Brand;
 
 class TerminalLoginService extends Service
 {
+    // TODO: Attempt to authenticate a user based on login credentials.
     public static function attempt(array  $data){
         $trading_account = TradingAccount::where('login_id',$data['login_id'])->where('password',$data['password']);
 

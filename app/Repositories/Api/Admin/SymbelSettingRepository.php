@@ -2,22 +2,22 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\SymbelSettingInterface;
 use App\Models\SymbelSetting;
 
-
-class SymbelSettingRepository
+class SymbelSettingRepository implements SymbelSettingInterface
 {
     private $model;
 
     public function __construct()
     {
         $this->model = new SymbelSetting();
-
     }
 
+    // TODO: Get all symbel settings.
     public function getAllSymbelSettings($request)
     {
-        $symbelSettings = $this->model::query();
+        $symbelSettings = $this->model->query();
         $symbelSettings = PaginationHelper::paginate(
             $symbelSettings,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -26,6 +26,7 @@ class SymbelSettingRepository
         return $symbelSettings;
     }
 
+    // TODO: Create a symbel setting.
     public function createSymbelSetting(array $data)
     {
 
@@ -51,14 +52,16 @@ class SymbelSettingRepository
         return $symbelSetting;
     }
 
+    // TODO: Find a symbel setting by its ID.
     public function findSymbelSettingById($id)
     {
-        return $this->model::findOrFail($id);
+        return $this->model->findOrFail($id);
     }
 
+    // TODO: Update a symbel setting.
     public function updateSymbelSetting(array $data, $id)
     {
-        $symbelSetting = $this->model::findOrFail($id);
+        $symbelSetting = $this->model->findOrFail($id);
         $symbelSetting->update([
             'name' => $data['name'] ?? $symbelSetting->name,
             'symbel_group_id'  => $data['symbel_group_id'] ?? $symbelSetting->symbel_group_id,
@@ -79,8 +82,9 @@ class SymbelSettingRepository
         return $symbelSetting;
     }
 
+    //  TODO: Delete a symbel setting.
     public function deleteSymbelSetting($id)
     {
-        $this->model::findOrFail($id)->delete();
+        $this->model->findOrFail($id)->delete();
     }
 }

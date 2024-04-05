@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Terminal;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Terminal\Order\Create as OrderCreate;
-use App\Repositories\Api\Terminal\OrderRepository;
+use App\Repositories\Api\Terminal\OrderInterface;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -13,7 +13,7 @@ class OrderController extends Controller
 
     protected $orderRepository;
 
-    public function __construct(OrderRepository $orderRepository)
+    public function __construct(OrderInterface $orderRepository)
     {
         $this->orderRepository = $orderRepository;
     }

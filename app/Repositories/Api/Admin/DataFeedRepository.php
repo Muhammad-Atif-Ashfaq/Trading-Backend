@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\DataFeedInterface;
 use App\Models\DataFeed;
 
 
-class DataFeedRepository
+class DataFeedRepository implements DataFeedInterface
 {
     private $model;
 
@@ -15,6 +17,7 @@ class DataFeedRepository
 
     }
 
+    // TODO: Get all data feeds.
     public function getAllDataFeeds($request)
     {
         $dataFeeds = $this->model->query();
@@ -26,6 +29,7 @@ class DataFeedRepository
         return $dataFeeds;
     }
 
+    // TODO: Create a new data feed.
     public function createDataFeed(array $data)
     {
 
@@ -33,7 +37,7 @@ class DataFeedRepository
             'name' => $data['name'],
             'module' => $data['module'],
             'feed_server' => $data['feed_server'],
-            'feed_login'  => $data['feed_login'] ?? null,
+            'feed_login' => $data['feed_login'] ?? null,
             'feed_password' => $data['feed_password'] ?? null
         ]);
 
@@ -41,11 +45,13 @@ class DataFeedRepository
         return $dataFeed;
     }
 
+    //  TODO: Find a data feed by its ID.
     public function findDataFeedById($id)
     {
         return $this->model->findOrFail($id);
     }
 
+    // TODO: Update a data feed.
     public function updateDataFeed(array $data, $id)
     {
         $dataFeed = $this->model->findOrFail($id);
@@ -53,12 +59,13 @@ class DataFeedRepository
             'name' => $data['name'] ?? $dataFeed->name,
             'module' => $data['module'] ?? $dataFeed->module,
             'feed_server' => $data['feed_server'] ?? $dataFeed->feed_server,
-            'feed_login'  => $data['feed_login'] ?? $dataFeed->feed_login,
+            'feed_login' => $data['feed_login'] ?? $dataFeed->feed_login,
             'feed_password' => $data['feed_password'] ?? $dataFeed->feed_password
         ]);
         return $dataFeed;
     }
 
+    //TODO: Delete a data feed.
     public function deleteDataFeed($id)
     {
         $this->model->findOrFail($id)->delete();

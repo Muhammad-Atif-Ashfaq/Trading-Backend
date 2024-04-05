@@ -5,6 +5,8 @@ namespace App\Traits\Models;
 
 trait HasTransactionOrder
 {
+
+    // TODO: Create a new transaction order.
     public function createTransactionOrder(array $data){
         $transactionOrder = $this->model->create([
             'amount' => $data['amount'],
@@ -25,6 +27,7 @@ trait HasTransactionOrder
         return $transactionOrder;
     }
 
+    // TODO: Update an existing transaction order.
     public function updateTransactionOrder(array $data, $id)
     {
         $transactionOrder = $this->model->findOrFail($id);
