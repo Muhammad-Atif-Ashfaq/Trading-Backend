@@ -28,7 +28,7 @@ class TickAndChartRepository
         $ticks = PaginationHelper::paginate(
             $ticks,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
-            $request->input('page', config('systemSetting.system_per_page_count'))
+            $request->input('page', config('systemSetting.system_current_page'))
         );
         return $ticks;
     }

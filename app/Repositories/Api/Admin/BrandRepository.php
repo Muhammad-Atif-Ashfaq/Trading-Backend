@@ -26,7 +26,7 @@ class BrandRepository
         $brands = PaginationHelper::paginate(
             $brands,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
-            $request->input('page', config('systemSetting.system_per_page_count'))
+            $request->input('page', config('systemSetting.system_current_page'))
         );
         return $brands;
     }

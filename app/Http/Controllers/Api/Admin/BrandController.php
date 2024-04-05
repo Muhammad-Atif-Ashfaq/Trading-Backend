@@ -50,7 +50,7 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $brand = $this->brandRepository->updateBrand($request, $id);
+            $brand = $this->brandRepository->updateBrand($request->all(), $id);
             return $this->sendResponse($brand, 'Brand updated successfully');
         });
     }

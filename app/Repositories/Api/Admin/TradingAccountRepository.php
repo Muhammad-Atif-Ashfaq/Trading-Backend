@@ -25,7 +25,7 @@ class TradingAccountRepository
         $tradingAccounts = PaginationHelper::paginate(
             $tradingAccounts,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
-            $request->input('page', config('systemSetting.system_per_page_count'))
+            $request->input('page', config('systemSetting.system_current_page'))
         );
         return $tradingAccounts;
     }

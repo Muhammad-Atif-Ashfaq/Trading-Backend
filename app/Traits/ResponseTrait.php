@@ -37,6 +37,6 @@ trait ResponseTrait
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException( $this->sendError('validation_error', $validator->errors()));
+        throw new HttpResponseException( $this->sendError('validation_error', $validator->errors(), 400));
     }
 }
