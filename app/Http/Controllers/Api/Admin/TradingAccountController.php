@@ -24,7 +24,7 @@ class TradingAccountController extends Controller
     public function index(TradingAccountIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccounts($request->validated());
+            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccounts($request);
             return $this->sendResponse($tradingAccounts, 'All TradingAccounts');
         });
     }

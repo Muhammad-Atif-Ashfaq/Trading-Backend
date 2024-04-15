@@ -37,7 +37,7 @@ class GenerateRandomService extends Service
     {
         do {
             $key = Brand::$BRAND . self::RandomSixString();
-        } while (Brand::where("login_id", "=", $key)->first());
+        } while (Brand::where("public_key", "=", $key)->first());
 
         return $key;
     }
