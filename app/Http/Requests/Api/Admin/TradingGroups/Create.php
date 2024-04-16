@@ -13,10 +13,9 @@ class Create extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'mass_trading_orders' => 'nullable|numeric',
-            'mass_transaction_orders' => 'nullable|numeric',
             'mass_leverage' => 'nullable|string',
             'mass_swap' => 'nullable|string',
+            'symbel_group_id' => 'required'
         ];
     }
 }

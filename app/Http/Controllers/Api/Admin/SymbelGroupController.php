@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\SymbelGroupInterface;
+use App\Repositories\Api\Admin\SymbelGroupRepository;
 use App\Http\Requests\Api\Admin\SymbelGroups\Create as SymbelGroupCreate;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class SymbelGroupController extends Controller
 {
     protected $symbelGroupRepository;
 
-    public function __construct(SymbelGroupInterface $symbelGroupRepository)
+    public function __construct(SymbelGroupRepository $symbelGroupRepository)
     {
         $this->symbelGroupRepository = $symbelGroupRepository;
     }

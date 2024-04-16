@@ -30,7 +30,7 @@ class SymbelGroupRepository implements SymbelGroupInterface
     // TODO: Create a symbel group.
     public function createSymbelGroup(array $data)
     {
-
+        
         $symbelGroup = $this->model->create([
             'name'   =>   $data['name'],
             'leverage' => $data['leverage'],
@@ -38,7 +38,8 @@ class SymbelGroupRepository implements SymbelGroupInterface
             'lot_step' => $data['lot_step'],
             'vol_min'  => $data['vol_min'],
             'vol_max'  => $data['vol_max'],
-            'trading_interval' => $data['trading_interval'] ?? null
+            'trading_interval' => $data['trading_interval'] ?? null,
+            'swap'     => $data['swap']
         ]);
 
 
@@ -62,7 +63,8 @@ class SymbelGroupRepository implements SymbelGroupInterface
             'lot_step' => $data['lot_step'] ?? $symbelGroup->lot_step,
             'vol_min'  => $data['vol_min'] ?? $symbelGroup->vol_min,
             'vol_max'  => $data['vol_max'] ?? $symbelGroup->vol_max,
-            'trading_interval' => $data['trading_interval'] ?? $symbelGroup->trading_interval
+            'trading_interval' => $data['trading_interval'] ?? $symbelGroup->trading_interval,
+            'swap'  => $data['swap'] ?? $symbelGroup->swap,
         ]);
         return $symbelGroup;
     }

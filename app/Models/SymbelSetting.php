@@ -41,8 +41,5 @@ class SymbelSetting extends Model
         return $this->hasMany(OneMinuteChart::class);
     }
 
-    public function tradingGroups()
-    {
-        return $this->belongsToMany(TradingGroup::class, 'trading_group_symbols', 'symbel_setting_id', 'trading_group_id');
-    }
+    
 }

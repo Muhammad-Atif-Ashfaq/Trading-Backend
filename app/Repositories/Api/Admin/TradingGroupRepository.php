@@ -29,14 +29,18 @@ class TradingGroupRepository implements TradingGroupInterface
     // TODO: Create a trading group.
     public function createTradingGroup(array $data)
     {
-
         $tradingGroup = $this->model->create([
             'name' => $data['name'],
             'mass_leverage' => $data['mass_leverage'],
             'mass_swap' => $data['mass_swap'],
         ]);
-
-
+        if($tradingGroup)
+        {
+            $group = $this->model::find($tradingGroup->id);
+            foreach ($data['symbel_group_id'] as  $value) {
+                $group->symbelGroup()->attach($value);
+            }
+        }
         return $tradingGroup;
     }
 

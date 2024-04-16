@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('lot_step');
             $table->string('vol_min');
             $table->string('vol_max');
+            $table->string('swap')->nullable();
             $table->string('trading_interval')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

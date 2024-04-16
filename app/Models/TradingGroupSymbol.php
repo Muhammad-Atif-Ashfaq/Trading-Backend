@@ -9,11 +9,11 @@ class TradingGroupSymbol extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['symbol_setting_id', 'trading_group_id'];
+    protected $fillable = ['symbol_group_id', 'trading_group_id'];
 
-    public function symbolSetting()
+    public function symbolGroup()
     {
-        return $this->belongsTo(SymbelSetting::class, 'symbol_setting_id');
+        return $this->belongsTo(SymbelGroup::class, 'symbel_group_id');
     }
 
     public function tradingGroup()
