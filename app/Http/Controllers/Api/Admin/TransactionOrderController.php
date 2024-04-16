@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\TransactionOrderInterface;
+use App\Repositories\Api\Admin\TransactionOrderRepository;
 use App\Http\Requests\Api\Admin\TransactionOrders\Create as TransactionOrderCreate;
+use App\Http\Requests\Api\Admin\TransactionOrders\index as TransactionOrderIndex;
 use Illuminate\Http\Request;
 
 
@@ -14,16 +15,16 @@ class TransactionOrderController extends Controller
 {
     protected $transactionOrderRepository;
 
-    public function __construct(TransactionOrderInterface $transactionOrderRepository)
+    public function __construct(TransactionOrderRepository $transactionOrderRepository)
     {
         $this->transactionOrderRepository = $transactionOrderRepository;
     }
 
     // TODO: Retrieves all transaction orders.
-    public function index(Request $request)
+    public function index(TransactionOrderIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $transactionOrders = $this->transactionOrderRepository->getAllTransactionOrders($request);
+            $transactionOrders = $this->transactionOrderRepository->getAllTransactionOrders($request->validated());
             return $this->sendResponse($transactionOrders, 'All TransactionOrders');
         });
     }
@@ -50,7 +51,7 @@ class TransactionOrderController extends Controller
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $transactionOrder = $this->transactionOrderRepository->updateTransactionOrder($request, $id);
+            $transactionOrder = $this->transactionOrderRepository->updateTransactionOrder($request->all(), $id);
             return $this->sendResponse($transactionOrder, 'TransactionOrder updated successfully');
         });
     }

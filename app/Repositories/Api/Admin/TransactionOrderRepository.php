@@ -17,11 +17,13 @@ class TransactionOrderRepository implements TransactionOrderInterface
     // TODO: Get all transaction orders.
     public function getAllTransactionOrders($request)
     {
-        $transactionOrders = $this->model->query();
+        $transactionOrders = $this->model->when(isset($request['trading_account_id']), function ($query) use ($request) {
+            return $query->where('trading_account_id', $request['trading_account_id']);
+        });
         $transactionOrders = PaginationHelper::paginate(
             $transactionOrders,
-            $request->input('per_page', config('systemSetting.system_per_page_count')),
-            $request->input('page', config('systemSetting.system_current_page'))
+          isset( $request['per_page']) ? $request['per_page']:config('systemSetting.system_per_page_count'),
+          isset( $request['page']) ?  $request['page']:config('systemSetting.system_current_page')
         );
         return $transactionOrders;
     }

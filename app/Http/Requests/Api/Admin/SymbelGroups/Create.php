@@ -12,7 +12,7 @@ class Create extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:symbel_groups,name',
             'leverage' => 'required|string|max:255',
             'lot_size' => 'required|string|max:255',
             'lot_step' => 'required|string|max:255',

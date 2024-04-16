@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Traits\Models;
+use App\Models\TransactionOrder;
 
 
 trait HasTransactionOrder
 {
-
     // TODO: Create a new transaction order.
     public function createTransactionOrder(array $data){
-        $transactionOrder = $this->model->create([
+        $transactionOrder = TransactionOrder::create([
             'amount' => $data['amount'],
             'currency' => $data['currency'],
             'trading_account_id' => $data['trading_account_id'],
@@ -30,7 +30,7 @@ trait HasTransactionOrder
     // TODO: Update an existing transaction order.
     public function updateTransactionOrder(array $data, $id)
     {
-        $transactionOrder = $this->model->findOrFail($id);
+        $transactionOrder = TransactionOrder::findOrFail($id);
         $transactionOrder->update([
             'amount' => $data['amount'] ?? $transactionOrder->amount,
             'currency' => $data['currency'] ?? $transactionOrder->currency,

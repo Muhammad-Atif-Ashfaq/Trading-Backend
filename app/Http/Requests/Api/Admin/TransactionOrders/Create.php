@@ -18,6 +18,8 @@ class Create extends FormRequest
             'amount' => 'required|string',
             'currency' => 'required|string',
             'trading_account_id' => 'required|exists:trading_accounts,id',
+            'trading_group_id'   => 'required|exists:trading_groups,id',
+            'group_unique_id'    => 'nullable|string',
             'name' => 'required|string',
             'group' => 'required|string',
             'country' => 'nullable|string',
