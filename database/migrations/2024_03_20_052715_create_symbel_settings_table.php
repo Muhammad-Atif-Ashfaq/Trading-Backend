@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('symbel_group_id')->constrained()->on('symbel_groups')->onDelete('cascade')->nullable();
             $table->string('feed_name');
-            $table->string('feed_name_fetch');
-            $table->string('feed_price_fetch');
+            $table->string('feed_server');
             $table->string('speed_max');
             $table->string('leverage');
             $table->string('swap');
