@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('stopLoss')->nullable();
             $table->string('takeProfit')->nullable();
             $table->string('price');
+            $table->string('stop_limit_price')->nullable();
             $table->string('open_time');
             $table->string('open_price');
             $table->string('close_time')->nullable();

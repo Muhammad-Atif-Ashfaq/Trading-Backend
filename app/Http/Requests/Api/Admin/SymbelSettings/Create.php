@@ -15,7 +15,7 @@ class Create extends FormRequest
             'name' => 'required|string|max:255',
             'symbel_group_id' => 'nullable|exists:symbel_groups,id',
             'feed_name' => 'string|exists:data_feeds,name',
-            'feed_server' => 'string',
+            'feed_server' => 'nullable|string',
             'speed_max' => 'string|max:255',
             'leverage' => 'string|max:255',
             'swap' => 'string|max:255',

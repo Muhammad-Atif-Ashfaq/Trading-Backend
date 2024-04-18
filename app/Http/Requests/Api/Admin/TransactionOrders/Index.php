@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class Index extends FormRequest
 {
-    use ResponseTrait; // TODO: Using the ResponseTrait for sending responses
+    use ResponseTrait; 
 
     public function rules(): array
     {

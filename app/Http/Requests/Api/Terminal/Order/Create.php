@@ -30,6 +30,7 @@ class Create extends FormRequest
             'swap' => 'nullable|string',
             'profit' => 'nullable|string',
             'comment' => 'nullable|string',
+            'stop_limit_price' => 'nullable|string',
         ];
     }
 }

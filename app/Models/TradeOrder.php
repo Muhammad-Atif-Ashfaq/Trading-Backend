@@ -34,6 +34,7 @@ class TradeOrder extends Model
         'swap',
         'profit',
         'comment',
+        'stop_limit_price'
     ];
 
     public function user()

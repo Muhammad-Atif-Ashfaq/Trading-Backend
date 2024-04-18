@@ -25,7 +25,8 @@ trait HasTradeOrder
             'reason'     => $data['reason'] ?? null,
             'swap'       => $data['swap'] ?? null,
             'profit'     => $data['profit'] ?? null,
-            'comment'    => $data['comment']  ?? null
+            'comment'    => $data['comment']  ?? null,
+            'stop_limit_price' => $data['stop_limit_price'] ?? null
         ]);
         return $tradeOrder;
     }
@@ -52,7 +53,8 @@ trait HasTradeOrder
             'reason'     => $data['reason'] ?? $tradeOrder->reason,
             'swap'       => $data['swap'] ?? $tradeOrder->swap,
             'profit'     => $data['profit'] ?? $tradeOrder->profit,
-            'comment'    => $data['comment'] ?? $tradeOrder->comment
+            'comment'    => $data['comment'] ?? $tradeOrder->comment,
+            'stop_limit_price' => $data['stop_limit_price'] ?? $tradeOrder->stop_limit_price
         ]);
         return $tradeOrder;
     }
