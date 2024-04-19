@@ -3,7 +3,9 @@ namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
 use App\Interfaces\Api\Admin\TradingGroupInterface;
+use App\Models\TradingAccount;
 use App\Models\TradingGroup;
+
 
 class TradingGroupRepository implements TradingGroupInterface
 {
@@ -12,6 +14,7 @@ class TradingGroupRepository implements TradingGroupInterface
     public function __construct()
     {
         $this->model = new TradingGroup();
+        $this->trading_account = new TradingAccount();
     }
 
     // TODO: Get all trading groups.
@@ -37,9 +40,19 @@ class TradingGroupRepository implements TradingGroupInterface
         if($tradingGroup)
         {
             $group = $this->model::find($tradingGroup->id);
-            foreach ($data['symbel_group_id'] as  $value) {
-                $group->symbelGroup()->attach($value);
+            if(count($data['symbel_group_ids'])){
+                foreach ($data['symbel_group_ids'] as  $value) {
+                    $group->symbelGroups()->attach($value);
+                }
             }
+            if(count($data['trading_account_ids'])){
+                foreach ($data['trading_account_ids'] as  $value) {
+                    $trading_account = $this->trading_account->find($value);
+                    $trading_account->trading_group_id = $tradingGroup->id;
+                    $trading_account->save();
+                }
+            }
+
         }
         return $tradingGroup;
     }

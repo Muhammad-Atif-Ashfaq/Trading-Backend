@@ -13,6 +13,13 @@ interface TradingAccountInterface
     public function getAllTradingAccounts($request);
 
     /**
+     * TODO: Get all trading accounts not in any group.
+     *
+     * @return mixed
+     */
+    public function getAllTradingAccountsNotInGroup();
+
+    /**
      * TODO: Create a trading account.
      *
      * @param  array  $data

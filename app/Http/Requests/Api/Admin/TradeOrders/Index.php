@@ -14,7 +14,8 @@ class Index extends FormRequest
     public function rules(): array
     {
         return [
-            'order_type' => ['nullable', 'in:' . implode(',', OrderTypeEnum::getOrderTypes())],
+            'order_type' => ['nullable', 'array'],
+            'order_type.*' => ['in:' . implode(',', OrderTypeEnum::getOrderTypes())],
             'trading_account_id' => 'nullable|exists:trading_accounts,id',
             'per_page' => 'nullable',
             'page' => 'nullable',
