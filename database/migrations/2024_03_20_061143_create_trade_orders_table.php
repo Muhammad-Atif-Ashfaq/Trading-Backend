@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('trade_orders', function (Blueprint $table) {
             $table->id();
             $table->enum('order_type', \App\Enums\OrderTypeEnum::getOrderTypes());
-            $table->string('symbol')->references('name')->on('symbol_settings')->onDelete('cascade');;
-            $table->foreignId('trading_account_id')->constrained('trading_accounts')->onDelete('cascade');
+            $table->string('symbol');
+            $table->unsignedBigInteger('trading_account_id');
             $table->bigInteger('trading_group_id')->nullable();
             $table->string('group_unique_id')->nullable();
-            $table->enum('type', ['buy', 'sell']);
+            $table->enum('type', \App\Enums\TradeOrderTypeEnum::getTypes());
             $table->string('volume');
             $table->string('stopLoss')->nullable();
             $table->string('takeProfit')->nullable();

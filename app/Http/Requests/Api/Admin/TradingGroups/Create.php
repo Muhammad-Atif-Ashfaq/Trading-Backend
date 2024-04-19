@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Admin\TradingGroups;
 
+use App\Enums\LeverageEnum;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +14,7 @@ class Create extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'mass_leverage' => 'nullable|string',
+            'mass_leverage' => 'nullable|string|max:255|in:'. implode(',', LeverageEnum::getLeverages()),
             'mass_swap' => 'nullable|string',
             'symbel_group_ids' => ['nullable', 'array'],
             'symbel_group_ids.*' => ['exists:symbel_groups,id'],

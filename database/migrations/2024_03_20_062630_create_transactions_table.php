@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('amount');
             $table->string('currency');
-            $table->foreignId('trading_account_id')->constrained('trading_accounts')->onDelete('cascade');
+            $table->unsignedBigInteger('trading_account_id');
             $table->bigInteger('trading_group_id')->nullable();
             $table->string('group_unique_id')->nullable();
             $table->string('name');

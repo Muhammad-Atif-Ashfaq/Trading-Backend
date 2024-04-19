@@ -50,7 +50,7 @@ class TradingGroupController extends Controller
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $tradingGroup = $this->tradingGroupRepository->updateTradingGroup($request, $id);
+            $tradingGroup = $this->tradingGroupRepository->updateTradingGroup($request->all(), $id);
             return $this->sendResponse($tradingGroup, 'TradingGroup updated successfully');
         });
     }

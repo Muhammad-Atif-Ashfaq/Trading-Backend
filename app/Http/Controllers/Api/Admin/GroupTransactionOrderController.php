@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Admin\GroupTransactionOrderRepository;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\Admin\GroupTransactionOrder\Create as GroupTradeOrderCreate; 
+use App\Http\Requests\Api\Admin\GroupTransactionOrder\Create as GroupTradeOrderCreate;
 
 class GroupTransactionOrderController extends Controller
 {
@@ -16,7 +16,7 @@ class GroupTransactionOrderController extends Controller
     {
         $this->groupTransactionOrderRepository = $groupTransactionOrderRepository;
     }
-    
+
     public function index(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
@@ -44,7 +44,7 @@ class GroupTransactionOrderController extends Controller
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $groupTransactionOrder = $this->groupTransactionOrderRepository->updateGroupTransactionOrder($request, $id);
+            $groupTransactionOrder = $this->groupTransactionOrderRepository->updateGroupTransactionOrder($request->all(), $id);
             return $this->sendResponse($groupTransactionOrder, 'GroupTransactionOrder updated successfully');
         });
     }

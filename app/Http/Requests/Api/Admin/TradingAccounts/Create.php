@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Admin\TradingAccounts;
 
+use App\Enums\LeverageEnum;
 use App\Enums\TradingAccountStatusEnum;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,7 +23,7 @@ class Create extends FormRequest
             'phone' => 'nullable|string',
             'name' => 'nullable|string',
             'email' => 'nullable|string|email',
-            'leverage' => 'nullable|string',
+            'leverage' => 'nullable|string|max:255|in:'. implode(',', LeverageEnum::getLeverages()),
             'balance' => 'nullable|string',
             'credit' => 'nullable|string',
             'equity' => 'nullable|string',

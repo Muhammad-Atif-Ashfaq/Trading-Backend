@@ -50,7 +50,7 @@ class GroupTradeOrderController extends Controller
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $groupTradeOrder = $this->groupTradeOrderRepository->updateGroupTradeOrder($request, $id);
+            $groupTradeOrder = $this->groupTradeOrderRepository->updateGroupTradeOrder($request->all(), $id);
             return $this->sendResponse($groupTradeOrder, 'GroupTradeOrder updated successfully');
         });
     }

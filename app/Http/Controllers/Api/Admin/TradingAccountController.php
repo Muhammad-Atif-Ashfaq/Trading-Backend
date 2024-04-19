@@ -60,7 +60,7 @@ class TradingAccountController extends Controller
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $tradingAccount = $this->tradingAccountRepository->updateTradingAccount($request, $id);
+            $tradingAccount = $this->tradingAccountRepository->updateTradingAccount($request->all(), $id);
             return $this->sendResponse($tradingAccount, 'TradingAccount updated successfully');
         });
     }
