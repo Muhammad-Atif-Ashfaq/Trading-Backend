@@ -15,14 +15,14 @@ class TradingGroup extends Model
         'mass_swap',
     ];
 
-    protected $with = ['symbelGroup'];
+    protected $with = ['symbelGroups','tradingAccounts'];
 
     public function tradingAccounts()
     {
-        return $this->belongsToMany(TradingAccount::class, 'trading_account_groups');
+        return $this->hasMany(TradingAccount::class, 'trading_group_id');
     }
 
-    public function symbelGroup()
+    public function symbelGroups()
     {
         return $this->belongsToMany(SymbelGroup::class, 'trading_group_symbols');
     }

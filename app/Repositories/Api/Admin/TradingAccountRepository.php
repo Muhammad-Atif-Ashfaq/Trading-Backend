@@ -30,18 +30,29 @@ class TradingAccountRepository implements TradingAccountInterface
         return $tradingAccounts;
     }
 
+    // TODO: Get all trading accounts not in any group.
+    public function getAllTradingAccountsNotInGroup()
+    {
+        $tradingAccounts = $this->model
+        ->whereNull('trading_group_id')
+        ->select('login_id', 'id')
+        ->get();
+        return $tradingAccounts;
+    }
+
     // TODO: Create a trading account.
     public function createTradingAccount(array $data)
     {
 
         $loginId = GenerateRandomService::RandomBrand();
         $tradingAccount = $this->model->create([
-            'trading_group_id' => $data['trading_group_id'],
+            'trading_group_id' => $data['trading_group_id'] ?? null,
             'public_key' => GenerateRandomService::getCustomerPublicKey($data['brand_id']),
             'login_id' => $loginId,
             'password' => $loginId,
             'country' => $data['country'],
             'phone'   => $data['phone'],
+            'name'   => $data['name'],
             'email'   => $data['email'],
             'leverage' => $data['leverage'],
             'balance' => $data['balance'],

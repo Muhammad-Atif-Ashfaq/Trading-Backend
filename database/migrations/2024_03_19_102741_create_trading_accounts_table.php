@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('trading_accounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('trading_group_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('trading_group_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->string('public_key')->nullable();
             $table->string('login_id')->nullable();
             $table->string('password')->nullable();
             $table->string('country')->nullable();
+            $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('leverage')->nullable();

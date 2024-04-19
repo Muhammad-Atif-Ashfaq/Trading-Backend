@@ -19,6 +19,7 @@ class TradingAccount extends Model
         'password',
         'country',
         'phone',
+        'name',
         'email',
         'leverage',
         'balance',

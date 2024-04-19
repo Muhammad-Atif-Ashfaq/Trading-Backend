@@ -20,11 +20,11 @@ class TradeOrderRepository implements TradeOrderInterface
     public function getAllTradeOrders($request)
     {
         $tradeOrders = $this->model->when(isset($request['order_type']), function ($query) use ($request) {
-            return $query->where('order_type', $request['order_type']);
+            return $query->whereIn('order_type', $request['order_type']);
         })->when(isset($request['trading_account_id']), function ($query) use ($request) {
             return $query->where('trading_account_id', $request['trading_account_id']);
         });
-        
+
         $tradeOrders = PaginationHelper::paginate(
             $tradeOrders,
           isset( $request['per_page']) ? $request['per_page']:config('systemSetting.system_per_page_count'),
@@ -57,5 +57,5 @@ class TradeOrderRepository implements TradeOrderInterface
         $this->model->findOrFail($id)->delete();
     }
 
-    
+
 }
