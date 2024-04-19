@@ -15,7 +15,10 @@ class Create extends FormRequest
             'name' => 'required|string|max:255',
             'mass_leverage' => 'nullable|string',
             'mass_swap' => 'nullable|string',
-            'symbel_group_id' => 'required'
+            'symbel_group_ids' => ['nullable', 'array'],
+            'symbel_group_ids.*' => ['exists:symbel_groups,id'],
+            'trading_account_ids' => ['nullable', 'array'],
+            'trading_account_ids.*' => ['exists:trading_accounts,id']
         ];
     }
 }

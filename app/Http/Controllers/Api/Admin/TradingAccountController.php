@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\TradingAccountInterface;
+use App\Repositories\Api\Admin\TradingAccountRepository;
 use App\Http\Requests\Api\Admin\TradingAccounts\Create as TradingAccountCreate;
 use App\Http\Requests\Api\Admin\TradingAccounts\Index as TradingAccountIndex;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class TradingAccountController extends Controller
 {
     protected $tradingAccountRepository;
 
-    public function __construct(TradingAccountInterface $tradingAccountRepository)
+    public function __construct(TradingAccountRepository $tradingAccountRepository)
     {
         $this->tradingAccountRepository = $tradingAccountRepository;
     }
@@ -24,8 +24,17 @@ class TradingAccountController extends Controller
     public function index(TradingAccountIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccounts($request);
+            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccounts($request->validated());
             return $this->sendResponse($tradingAccounts, 'All TradingAccounts');
+        });
+    }
+
+    // TODO: Retrieves all trading accounts not in any group.
+    public function getAllTradingAccountsNotInGroup()
+    {
+        return ExceptionHandlerHelper::tryCatch(function () {
+            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountsNotInGroup();
+            return $this->sendResponse($tradingAccounts, 'All TradingAccounts not in any group');
         });
     }
 

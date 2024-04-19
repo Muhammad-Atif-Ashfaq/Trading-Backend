@@ -20,6 +20,7 @@ class Create extends FormRequest
             'password' => 'nullable|string',
             'country' => 'nullable|string',
             'phone' => 'nullable|string',
+            'name' => 'nullable|string',
             'email' => 'nullable|string|email',
             'leverage' => 'nullable|string',
             'balance' => 'nullable|string',
