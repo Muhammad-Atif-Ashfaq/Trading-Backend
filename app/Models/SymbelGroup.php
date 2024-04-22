@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\LeverageEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class SymbelGroup extends Model
 {
@@ -19,5 +21,12 @@ class SymbelGroup extends Model
     public function tradingGroups()
     {
         return $this->belongsToMany(TradingGroup::class, 'trading_group_symbols');
+    }
+
+    protected function leverage(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => LeverageEnum::getAllLeverage()[$value],
+        );
     }
 }

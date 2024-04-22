@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\LeverageEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
@@ -53,5 +55,12 @@ class TradingAccount extends Model
     public function tradeOrders()
     {
         return $this->hasMany(TradeOrder::class);
+    }
+
+    protected function leverage(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => LeverageEnum::getAllLeverage()[$value],
+        );
     }
 }

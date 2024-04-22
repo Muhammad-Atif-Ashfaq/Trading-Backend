@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('api')
                 ->prefix('api/auth')
                 ->group(base_path('routes/api/auth.php'));
-                
+
             Route::middleware('api')
                 ->prefix('api/admin')
                 ->group(base_path('routes/api/admin.php'));
@@ -40,9 +40,14 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('api')
                 ->prefix('api/terminal')
                 ->group(base_path('routes/api/terminal.php'));
+
             Route::middleware('api')
                 ->prefix('api/trading_account')
                 ->group(base_path('routes/api/trading_account.php'));
+
+            Route::middleware('api')
+                ->prefix('api/config')
+                ->group(base_path('routes/api/config.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('symbel_settings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('symbel_group_id')->constrained()->on('symbel_groups')->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('symbel_group_id')->nullable();
             $table->string('feed_name');
             $table->string('feed_server')->nullable();
+            $table->string('feed_fetch_name');
             $table->string('speed_max');
             $table->string('leverage');
             $table->string('swap');

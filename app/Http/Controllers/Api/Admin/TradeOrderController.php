@@ -54,7 +54,7 @@ class TradeOrderController extends Controller
     public function update(Request $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $tradeOrder = $this->tradeOrderRepository->updateTradeOrder($request, $id);
+            $tradeOrder = $this->tradeOrderRepository->updateTradeOrder($request->all(), $id);
             return $this->sendResponse($tradeOrder, 'TradeOrder updated successfully');
         });
     }
