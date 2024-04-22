@@ -98,7 +98,7 @@ class TradingAccountRepository implements TradingAccountInterface
             'margin_level_percentage' => $data['margin_level_percentage'] ??  $tradingAccount->margin_level_percentage,
             'trading_account_group_id' => $data['trading_account_group_id ']??  $tradingAccount->trading_account_group_id,
             'brand_id' => $data['brand_id'] ??  $tradingAccount->brand_id,
-            'status'   => $data['status'] ?? $account->status
+            'status'   => $data['status'] ?? $tradingAccount->status
         ]);
         return $tradingAccount;
     }

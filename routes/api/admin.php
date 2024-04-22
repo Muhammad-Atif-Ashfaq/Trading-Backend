@@ -13,7 +13,8 @@ use  App\Http\Controllers\Api\Admin\{
         DataFeedController,
         TickAndChartController,
         GroupTransactionOrderController,
-        AdminController
+        AdminController,
+        DashboardController
     };
 
 
@@ -45,5 +46,6 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('/charts',                         [TickAndChartController::class, 'charts']);
 
     Route::post('/change-password',                [AdminController::class, 'changePassword']);
+    Route::post('/tradingOrderNumbers',            [DashboardController::class, 'tradingOrderNumbers']);
 });
 

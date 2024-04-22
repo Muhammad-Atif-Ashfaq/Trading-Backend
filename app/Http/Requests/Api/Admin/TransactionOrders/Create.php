@@ -16,18 +16,18 @@ class Create extends FormRequest
     {
         return [
             'amount' => 'required|string',
-            'currency' => 'required|string',
+            'currency' => 'nullable|string',
             'trading_account_id' => 'required|exists:trading_accounts,id',
-            'trading_group_id'   => 'required|exists:trading_groups,id',
+            'trading_group_id'   => 'nullable|exists:trading_groups,id',
             'group_unique_id'    => 'nullable|string',
-            'name' => 'required|string',
-            'group' => 'required|string',
+            'name' => 'nullable|string',
+            'group' => 'nullable|string',
             'country' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
             'type' => 'required|in:' . implode(',', TransactionOrderTypeEnum::getTypes()),
             'method' => 'required|in:' . implode(',', TransactionOrderMethodEnum::getMethods()),
-            'status' => 'required|in:' . implode(',', TransactionOrderStatusEnum::getStatuses()),
+            'status' => 'nullable|in:' . implode(',', TransactionOrderStatusEnum::getStatuses()),
             'comment' => 'nullable|string',
         ];
     }

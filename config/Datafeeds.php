@@ -12,7 +12,7 @@ return [
         'module' => 'fcsapi',
         'feed_server' => 'https://fcsapi.com/api-v3',
         'fields'=>[
-            'access_key'
+            'feed_login' => 'Access Key'
         ]
     ],
 ];
