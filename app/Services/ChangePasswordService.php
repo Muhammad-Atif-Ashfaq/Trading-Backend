@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use Illuminate\Support\Str;
-use App\Models\TradingAccount;
+use App\Models\{TradingAccount, User};
+use Hash;
 
 class ChangePasswordService extends Service
 {
@@ -16,5 +16,15 @@ class ChangePasswordService extends Service
             'password' => $request['new_password']
         ]);
         return $tradingAccount;
+    }
+
+    public static function adminChangePassword($request)
+    {
+        $admin = User::find(auth()->user()->id);
+        $update = $admin->update([
+            'password' => Hash::make($request['new_password']),
+            'original_password' => $request['new_password']
+        ]);
+        return $admin;
     }
 }
