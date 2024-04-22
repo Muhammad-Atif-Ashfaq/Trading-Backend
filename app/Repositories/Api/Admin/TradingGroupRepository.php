@@ -3,8 +3,8 @@ namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
 use App\Interfaces\Api\Admin\TradingGroupInterface;
-use App\Models\TradingAccount;
-use App\Models\TradingGroup;
+use App\Models\{TradingAccount, TradingGroupSymbol, TradingGroup};
+
 
 
 class TradingGroupRepository implements TradingGroupInterface
@@ -72,6 +72,23 @@ class TradingGroupRepository implements TradingGroupInterface
             'mass_leverage' => $data['mass_leverage'] ?? $tradingGroup->mass_leverage,
             'mass_swap' => $data['mass_swap'] ?? $tradingGroup->mass_swap,
         ]);
+        if(count($data['symbel_group_ids'])){
+            foreach ($data['symbel_group_ids'] as  $value) {
+                $trading_group_symbel = TradingGroupSymbol::where('trading_group_id', $tradingGroup->id);
+
+                if ($trading_group_symbel->exists()) {
+                    $trading_group_symbel->delete();
+                }
+                $tradingGroup->symbelGroups()->attach($value);
+            }
+        }
+        if(count($data['trading_account_ids'])){
+            foreach ($data['trading_account_ids'] as  $value) {
+                $trading_account = $this->trading_account->find($value);
+                $trading_account->trading_group_id = $tradingGroup->id;
+                $trading_account->save();
+            }
+        }
         return $tradingGroup;
     }
 
