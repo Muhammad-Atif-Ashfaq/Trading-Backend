@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\LeverageEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +15,7 @@ class SymbelSetting extends Model
         'name',
         'symbel_group_id',
         'feed_name',
-        'feed_server',
+        'feed_fetch_name',
         'speed_max',
         'leverage',
         'swap',
@@ -40,5 +42,11 @@ class SymbelSetting extends Model
         return $this->hasMany(OneMinuteChart::class);
     }
 
-    
+    protected function leverage(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => LeverageEnum::getAllLeverage()[$value],
+        );
+    }
+
 }

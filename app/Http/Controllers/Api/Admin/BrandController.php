@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\BrandInterface;
+
 use App\Http\Requests\Api\Admin\Brands\Create as BrandCreate;
+use App\Repositories\Api\Admin\BrandRepository;
 use Illuminate\Http\Request;
 
 
@@ -14,7 +15,7 @@ class BrandController extends Controller
 {
     protected $brandRepository;
 
-    public function __construct(BrandInterface $brandRepository)
+    public function __construct(BrandRepository $brandRepository)
     {
         $this->brandRepository = $brandRepository;
     }
