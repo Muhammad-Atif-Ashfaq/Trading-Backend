@@ -21,7 +21,6 @@ class Create extends FormRequest
             'volume' => 'required|string',
             'stopLoss' => 'nullable|string',
             'takeProfit' => 'nullable|string',
-            'price' => 'required|string',
             'open_time' => 'required|string',
             'open_price' => 'required|string',
             'close_time' => 'nullable|string',

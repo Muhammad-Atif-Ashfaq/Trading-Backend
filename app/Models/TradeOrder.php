@@ -25,7 +25,7 @@ class TradeOrder extends Model
         'volume',
         'stopLoss',
         'takeProfit',
-        'price',
+
         'open_time',
         'open_price',
         'close_time',

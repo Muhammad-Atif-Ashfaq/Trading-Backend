@@ -28,6 +28,15 @@ class SymbelGroupController extends Controller
         });
     }
 
+    // TODO: Retrieves all trading SymbelGroups list.
+    public function getAllSymbelGroupList()
+    {
+        return ExceptionHandlerHelper::tryCatch(function () {
+            $symbelGroups = $this->symbelGroupRepository->getAllSymbelGroupList();
+            return $this->sendResponse($symbelGroups, 'All SymbelGroups list');
+        });
+    }
+
     // TODO: Stores a new symbol group.
     public function store(SymbelGroupCreate $request)
     {

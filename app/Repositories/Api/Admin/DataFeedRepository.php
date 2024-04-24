@@ -29,6 +29,15 @@ class DataFeedRepository implements DataFeedInterface
         return $dataFeeds;
     }
 
+    // TODO: Get all data feeds list.
+    public function getAllDataFeedList()
+    {
+        $dataFeeds = $this->model
+            ->select('name', 'module')
+            ->get();
+        return $dataFeeds;
+    }
+
     // TODO: Create a new data feed.
     public function createDataFeed(array $data)
     {

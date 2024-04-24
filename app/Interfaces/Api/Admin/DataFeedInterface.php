@@ -13,6 +13,13 @@ interface DataFeedInterface
     public function getAllDataFeeds($request);
 
     /**
+     * TODO: Get all data feeds list.
+     *
+     * @return mixed
+     */
+    public function getAllDataFeedList();
+
+    /**
      * TODO: Create a new data feed.
      *
      * @param  array  $data

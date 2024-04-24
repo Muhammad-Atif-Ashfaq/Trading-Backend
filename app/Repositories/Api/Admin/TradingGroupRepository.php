@@ -29,6 +29,15 @@ class TradingGroupRepository implements TradingGroupInterface
         return $tradingGroups;
     }
 
+    // TODO: Get all trading groups list.
+    public function getAllTradingGroupList()
+    {
+        $tradingGroups = $this->model
+            ->select('name', 'id')
+            ->get();
+        return $tradingGroups;
+    }
+
     // TODO: Create a trading group.
     public function createTradingGroup(array $data)
     {

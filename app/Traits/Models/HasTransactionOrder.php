@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Traits\Models;
+
+use App\Enums\TransactionOrderTypeEnum;
+use App\Models\TradingAccount;
 use App\Models\TransactionOrder;
 
 
 trait HasTransactionOrder
 {
     // TODO: Create a new transaction order.
-    public function createTransactionOrder(array $data){
+    public function createTransactionOrder(array $data)
+    {
         $transactionOrder = TransactionOrder::create([
             'amount' => $data['amount'],
             'currency' => $data['currency'],
@@ -24,6 +28,16 @@ trait HasTransactionOrder
             'status' => $data['status'],
             'comment' => $data['comment'] ?? null
         ]);
+
+        // Update trading account balance based on transaction type
+        $trading_account = TradingAccount::find($data['trading_account_id']);
+        if ($data['type'] == TransactionOrderTypeEnum::DEPOSIT) {
+            $trading_account->balance += $data['amount'];
+        } elseif ($data['type'] == TransactionOrderTypeEnum::WITHDRAW) {
+            $trading_account->balance -= $data['amount'];
+        }
+        $trading_account->save();
+
         return $transactionOrder;
     }
 

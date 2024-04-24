@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
@@ -30,13 +31,22 @@ class TradingAccountRepository implements TradingAccountInterface
         return $tradingAccounts;
     }
 
+    // TODO: Get all trading accounts list.
+    public function getAllTradingAccountList()
+    {
+        $tradingAccounts = $this->model
+            ->select('login_id', 'id')
+            ->get();
+        return $tradingAccounts;
+    }
+
     // TODO: Get all trading accounts not in any group.
     public function getAllTradingAccountsNotInGroup()
     {
         $tradingAccounts = $this->model
-        ->whereNull('trading_group_id')
-        ->select('login_id', 'id')
-        ->get();
+            ->whereNull('trading_group_id')
+            ->select('login_id', 'id')
+            ->get();
         return $tradingAccounts;
     }
 
@@ -65,7 +75,12 @@ class TradingAccountRepository implements TradingAccountInterface
             'registration_time' => Carbon::now(),
             'trading_account_group_id' => $data['trading_account_group_id']  ?? null,
             'brand_id' => $data['brand_id']  ?? null,
-            'status'   => $data['status'] ?? null
+            'status'   => $data['status'] ?? null,
+            'status'   => $data['status'] ?? null,
+            'enable_password_change'   => $data['enable_password_change'] ?? null,
+            'enable_investor_trading'   => $data['enable_investor_trading'] ?? null,
+            'change_password_at_next_login'   => $data['change_password_at_next_login'] ?? null,
+            'enable'   => $data['enable'] ?? null
         ]);
 
 
@@ -96,10 +111,15 @@ class TradingAccountRepository implements TradingAccountInterface
             'swap'    => $data['swap'] ??  $tradingAccount->swap,
             'currency' => $data['currency'] ??  $tradingAccount->currency,
             'margin_level_percentage' => $data['margin_level_percentage'] ??  $tradingAccount->margin_level_percentage,
-            'trading_account_group_id' => $data['trading_account_group_id ']??  $tradingAccount->trading_account_group_id,
+            'trading_account_group_id' => $data['trading_account_group_id '] ??  $tradingAccount->trading_account_group_id,
             'brand_id' => $data['brand_id'] ??  $tradingAccount->brand_id,
-            'status'   => $data['status'] ?? $tradingAccount->status
+            'enable_password_change'   => $data['enable_password_change'] ?? $account->enable_password_change,
+            'enable_investor_trading'   => $data['enable_investor_trading'] ?? $account->enable_investor_trading,
+            'change_password_at_next_login'   => $data['change_password_at_next_login'] ?? $account->change_password_at_next_login,
+            'enable'   => $data['enable'] ?? $account->enable,
+            'status'   => $data['status'] ?? $account->status,
         ]);
+
         return $tradingAccount;
     }
 

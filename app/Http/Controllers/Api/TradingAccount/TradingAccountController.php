@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\TradingAccount;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Api\TradingAccount\TradingAccountRepository;
 use Illuminate\Http\Request;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\TradingAccount\ConfigRepository;
 use App\Http\Requests\Api\TradingAccount\ChangePassword;
 use App\Http\Requests\Api\Admin\TradingAccounts\Create as TradingAccountCreate;
 use App\Services\ChangePasswordService;
@@ -14,7 +14,7 @@ class TradingAccountController extends Controller
 {
     protected $TradingAccountRepository;
 
-    public function __construct(ConfigRepository $TradingAccountRepository)
+    public function __construct(TradingAccountRepository $TradingAccountRepository)
     {
         $this->TradingAccountRepository = $TradingAccountRepository;
     }

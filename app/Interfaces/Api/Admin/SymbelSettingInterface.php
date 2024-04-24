@@ -13,6 +13,13 @@ interface SymbelSettingInterface
     public function getAllSymbelSettings($request);
 
     /**
+     * TODO: Get all symbol settings list.
+     *
+     * @return mixed
+     */
+    public function getAllSymbelSettingList();
+
+    /**
      * TODO: Create a new symbol setting.
      *
      * @param  array  $data

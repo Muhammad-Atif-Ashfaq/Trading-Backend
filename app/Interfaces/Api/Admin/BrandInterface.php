@@ -13,6 +13,13 @@ interface BrandInterface
     public function getAllBrands($request);
 
     /**
+     * TODO: Get all brands list.
+     *
+     * @return mixed
+     */
+    public function getAllBrandList();
+
+    /**
      * TODO: Create a new brand.
      *
      * @param  array  $data

@@ -28,6 +28,15 @@ class BrandController extends Controller
         });
     }
 
+    // TODO: Retrieves all trading brands list.
+    public function getAllBrandList()
+    {
+        return ExceptionHandlerHelper::tryCatch(function () {
+            $brands = $this->brandRepository->getAllBrandList();
+            return $this->sendResponse($brands, 'All brands list');
+        });
+    }
+
     // TODO: Stores a new brand.
     public function store(BrandCreate $request)
     {

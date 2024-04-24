@@ -29,6 +29,15 @@ class DataFeedController extends Controller
         });
     }
 
+    // TODO: Retrieves all trading dataFeeds list.
+    public function getAllDataFeedList()
+    {
+        return ExceptionHandlerHelper::tryCatch(function () {
+            $DataFeeds = $this->dataFeedRepository->getAllDataFeedList();
+            return $this->sendResponse($DataFeeds, 'All DataFeeds list');
+        });
+    }
+
     // TODO: Stores a new data feed.
     public function store(DataFeedCreate $request)
     {

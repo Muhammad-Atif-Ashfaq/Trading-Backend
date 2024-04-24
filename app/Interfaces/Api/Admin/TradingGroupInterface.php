@@ -13,6 +13,13 @@ interface TradingGroupInterface
     public function getAllTradingGroups($request);
 
     /**
+     * TODO: Get all trading groups list.
+     *
+     * @return mixed
+     */
+    public function getAllTradingGroupList();
+
+    /**
      * TODO: Create a trading group.
      *
      * @param  array  $data

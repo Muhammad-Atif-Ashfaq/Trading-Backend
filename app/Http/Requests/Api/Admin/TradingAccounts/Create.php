@@ -15,7 +15,7 @@ class Create extends FormRequest
     {
         return [
             'trading_group_id' => 'nullable|exists:trading_groups,id',
-            'brand_id' => 'nullable|exists:brands,id',
+            'brand_id' => 'required|exists:brands,public_key',
             'public_key' => 'nullable|string',
             'login_id' => 'nullable|string',
             'password' => 'nullable|string',
@@ -35,6 +35,11 @@ class Create extends FormRequest
             'last_access_time' => 'nullable|string',
             'last_access_address_IP' => 'nullable|string|ip',
             'status' => 'nullable|in:' . implode(',', TradingAccountStatusEnum::getStatuses()),
+            'enable_password_change' => 'nullable|boolean',
+            'enable_investor_trading' => 'nullable|boolean',
+            'change_password_at_next_login' => 'nullable|boolean',
+            'enable' => 'nullable|boolean',
+
         ];
     }
 }

@@ -27,6 +27,14 @@ class SymbelSetting extends Model
         'enabled'
     ];
 
+    protected $with = ['dataFeed'];
+
+
+    public function dataFeed()
+    {
+        return $this->belongsTo(DataFeed::class, 'feed_name','module');
+    }
+
     public function group()
     {
         return $this->belongsTo(SymbelGroup::class, 'symbel_group_id');
