@@ -27,10 +27,19 @@ class SymbelGroupRepository implements SymbelGroupInterface
         return $symbelGroups;
     }
 
+    // TODO: Get all symbel groups list.
+    public function getAllSymbelGroupList()
+    {
+        $symbelGroups = $this->model
+            ->select('name', 'id')
+            ->get();
+        return $symbelGroups;
+    }
+
     // TODO: Create a symbel group.
     public function createSymbelGroup(array $data)
     {
-        
+
         $symbelGroup = $this->model->create([
             'name'   =>   $data['name'],
             'leverage' => $data['leverage'],

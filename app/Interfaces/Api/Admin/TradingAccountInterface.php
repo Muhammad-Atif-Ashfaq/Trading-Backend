@@ -13,6 +13,13 @@ interface TradingAccountInterface
     public function getAllTradingAccounts($request);
 
     /**
+     * TODO: Get all trading accounts list.
+     *
+     * @return mixed
+     */
+    public function getAllTradingAccountList();
+
+    /**
      * TODO: Get all trading accounts not in any group.
      *
      * @return mixed

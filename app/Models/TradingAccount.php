@@ -35,6 +35,10 @@ class TradingAccount extends Model
         'last_access_time',
         'last_access_address_IP',
         'status',
+        'enable_password_change',
+        'enable_investor_trading',
+        'change_password_at_next_login',
+        'enable',
     ];
 
     public function brand()

@@ -28,6 +28,15 @@ class TradingGroupController extends Controller
         });
     }
 
+    // TODO: Retrieves all trading TradingGroups list.
+    public function getAllTradingGroupList()
+    {
+        return ExceptionHandlerHelper::tryCatch(function () {
+            $tradingGroups = $this->tradingGroupRepository->getAllTradingGroupList();
+            return $this->sendResponse($tradingGroups, 'All TradingGroups list');
+        });
+    }
+
     // TODO: Stores a new trading group.
     public function store(TradingGroupCreate $request)
     {

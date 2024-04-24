@@ -13,6 +13,13 @@ interface SymbelGroupInterface
     public function getAllSymbelGroups($request);
 
     /**
+     * TODO: Get all symbol groups list.
+     *
+     * @return mixed
+     */
+    public function getAllSymbelGroupList();
+
+    /**
      * TODO: Create a new symbol group.
      *
      * @param  array  $data

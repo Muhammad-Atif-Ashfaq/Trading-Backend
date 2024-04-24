@@ -17,7 +17,7 @@ trait HasTradeOrder
             'volume'     => $data['volume'],
             'stopLoss'   => $data['stopLoss'] ?? null,
             'takeProfit' => $data['takeProfit'] ?? null,
-            'price'      => $data['price'],
+
             'open_time'  => $data['open_time'],
             'open_price' => $data['open_price'],
             'close_time' => $data['close_time'] ?? null,
@@ -44,8 +44,7 @@ trait HasTradeOrder
             'volume'     => $data['volume'] ?? $tradeOrder->volume,
             'stopLoss'   => $data['stopLoss'] ?? $tradeOrder->stopLoss,
             'takeProfit' => $data['takeProfit'] ?? $tradeOrder->takeProfit,
-            'price'      => $data['price'] ?? $tradeOrder->open_time,
-            'open_time'  => $data['open_time'] ?? $tradeOrder->price,
+            'open_time'  => $data['open_time'] ?? $tradeOrder->open_time,
             'open_price' => $data['open_price'] ?? $tradeOrder->open_price,
             'close_time' => $data['close_time'] ?? $tradeOrder->close_time,
             'close_price'=> $data['close_price'] ?? $tradeOrder->close_price,

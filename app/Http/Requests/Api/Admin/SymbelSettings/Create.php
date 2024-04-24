@@ -15,12 +15,9 @@ class Create extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:symbel_settings,name',
             'symbel_group_id' => 'nullable|exists:symbel_groups,id',
-            'feed_name' => 'string|exists:data_feeds,name',
-
+            'feed_name' => 'string|exists:data_feeds,module',
             'feed_server' => 'string',
-
             'feed_fetch_name' => 'required|string|unique:symbel_settings,feed_fetch_name',
-
             'speed_max' => 'string|max:255',
             'leverage' => 'string|max:255|in:'. implode(',', LeverageEnum::getLeverages()),
             'swap' => 'string|max:255',

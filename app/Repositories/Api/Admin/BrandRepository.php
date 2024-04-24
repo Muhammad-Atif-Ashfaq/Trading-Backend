@@ -33,6 +33,15 @@ class BrandRepository implements BrandInterface
         return $brands;
     }
 
+    // TODO: Get all brands list.
+    public function getAllBrandList()
+    {
+        $brands = $this->model
+            ->select('name', 'id','public_key')
+            ->get();
+        return $brands;
+    }
+
     // TODO: Create a brand.
     public function createBrand(array $data)
     {
