@@ -7,7 +7,7 @@ final class TransactionOrderMethodEnum
     const BALANCE = 'balance';
     const COMMISSION = 'commission';
     const TAX = 'tax';
-    const CREDIT = 'Credit';
+    const CREDIT = 'credit';
     const BONUS = 'bonus';
 
     // TODO: Define a method to retrieve all available transaction order methods.

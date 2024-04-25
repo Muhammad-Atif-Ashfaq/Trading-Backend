@@ -18,13 +18,11 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
     {
         $this->model = new TransactionOrder();
         $this->trading_account = new TradingAccount();
-
-
     }
 
     public function getAllGroupTransactionOrder($request)
     {
-        $groupTransactionOrder = $this->model->query();
+        $groupTransactionOrder = $this->model->allGroupUniqueId();
         $groupTransactionOrder = PaginationHelper::paginate(
             $groupTransactionOrder,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -39,19 +37,19 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
         $trading_account_ids = $this->trading_account->where('trading_group_id', $data['trading_group_id'])->pluck('id');
         foreach ($trading_account_ids as $trading_account_id) {
             $data['trading_account_id'] = $trading_account_id;
-            $data['trading_group_trade_order_id'] = $trading_group_trade_order_id;
+            $data['group_unique_id'] = $trading_group_trade_order_id;
             $this->model->createTransactionOrder($data);
         }
     }
 
     public function findGroupTransactionOrderById($id)
     {
-        return $this->model->findOrFail($id);
+        return $this->model->findGroupUniqueId($id);
     }
 
     public function updateGroupTransactionOrder(array $data, $id)
     {
-        $trading_account_ids = $this->model->scopeWhereGroupUniqueId($id)->pluck('id');
+        $trading_account_ids = $this->model->whereGroupUniqueId($id)->pluck('id');
         foreach ($trading_account_ids as $trading_account_id) {
             $this->model->updateTransactionOrder($data, $trading_account_id);
         }
@@ -60,6 +58,6 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
 
     public function deleteGroupTransactionOrder($id)
     {
-        $this->model->findOrFail($id)->delete();
+        $this->model->whereGroupUniqueId($id)->delete();
     }
 }
