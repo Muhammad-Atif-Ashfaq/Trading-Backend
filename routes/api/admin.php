@@ -14,7 +14,8 @@ use  App\Http\Controllers\Api\Admin\{
     TickAndChartController,
     GroupTransactionOrderController,
     AdminController,
-    DashboardController
+    DashboardController,
+    MassActionController
 };
 
 
@@ -51,4 +52,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/change-password',                [AdminController::class, 'changePassword']);
     Route::post('/tradingOrderNumbers',            [DashboardController::class, 'tradingOrderNumbers']);
+
+    Route::put('/massEdit',            [MassActionController::class, 'massEdit']);
+    Route::delete('/massDelete',            [MassActionController::class, 'massDelete']);
 });
+

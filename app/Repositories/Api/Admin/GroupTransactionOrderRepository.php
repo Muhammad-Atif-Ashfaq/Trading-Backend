@@ -3,12 +3,13 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\GroupTransactionOrderInterface;
 use App\Models\TransactionOrder;
 use App\Models\TradingAccount;
 use Illuminate\Database\Eloquent\Model;
 
 
-class GroupTransactionOrderRepository
+class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
 {
     private $model;
     private $trading_account;

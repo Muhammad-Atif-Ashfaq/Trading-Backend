@@ -41,19 +41,16 @@ class TradingAccount extends Model
         'enable',
     ];
 
+    protected $with = ['brand'];
+
     public function brand()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Brand::class,'brand_id','public_key');
     }
 
-    public function tradingGroups()
+    public function tradingGroup()
     {
-        return $this->belongsToMany(TradingGroup::class, 'trading_account_groups');
-    }
-
-    public function tradingGroupSymbol()
-    {
-        return $this->hasMany(TradingGroupSymbol::class);
+        return $this->hasOne(TradingGroup::class, 'trading_group_id' , 'id');
     }
 
     public function tradeOrders()

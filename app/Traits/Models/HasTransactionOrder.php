@@ -32,9 +32,9 @@ trait HasTransactionOrder
         // Update trading account balance based on transaction type
         $trading_account = TradingAccount::find($data['trading_account_id']);
         if ($data['type'] == TransactionOrderTypeEnum::DEPOSIT) {
-            $trading_account->balance += $data['amount'];
+            $trading_account->balance = (string)( (double)$trading_account->balance + (double)$data['amount']);
         } elseif ($data['type'] == TransactionOrderTypeEnum::WITHDRAW) {
-            $trading_account->balance -= $data['amount'];
+            $trading_account->balance = (string)( (double)$trading_account->balance - (double)$data['amount']);
         }
         $trading_account->save();
 

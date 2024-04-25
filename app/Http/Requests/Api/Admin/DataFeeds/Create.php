@@ -12,7 +12,7 @@ class Create extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|unique:data_feeds,name|string|max:255',
             'module' => 'required|string|max:255',
             'feed_server' => 'required|string|max:255',
             'feed_login' => 'nullable|string|max:255',

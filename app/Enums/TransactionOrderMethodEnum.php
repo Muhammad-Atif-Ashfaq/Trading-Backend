@@ -5,7 +5,8 @@ namespace App\Enums;
 final class TransactionOrderMethodEnum
 {
     const BALANCE = 'balance';
-    const COMMISSION_TAX = 'commissiontax';
+    const COMMISSION = 'commission';
+    const TAX = 'tax';
     const CREDIT = 'Credit';
     const BONUS = 'bonus';
 
@@ -15,7 +16,8 @@ final class TransactionOrderMethodEnum
     {
         return [
             self::BALANCE,
-            self::COMMISSION_TAX,
+            self::COMMISSION,
+            self::TAX,
             self::CREDIT,
             self::BONUS,
         ];

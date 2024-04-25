@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Api\Terminal;
 
-use App\Helpers\PaginationHelper;
+
 use App\Interfaces\Api\Terminal\SymbelInterface;
 use App\Models\SymbelGroup;
-use Illuminate\Database\Eloquent\Model;
+
 
 class SymbelRepository implements SymbelInterface
 {

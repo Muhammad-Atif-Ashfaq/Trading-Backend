@@ -3,10 +3,11 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Interfaces\Api\Admin\DashboardInterface;
 use App\Models\TradeOrder;
 use Carbon\Carbon;
 
-class DashboardRepository 
+class DashboardRepository implements DashboardInterface
 {
     private $model;
 
@@ -35,7 +36,7 @@ class DashboardRepository
                 'order_count' => $item->order_count
             ];
         });
-        
+
         return $chartData;
     }
 }

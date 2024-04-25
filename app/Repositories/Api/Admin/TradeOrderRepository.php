@@ -9,7 +9,6 @@ use App\Models\TradingAccount;
 class TradeOrderRepository implements TradeOrderInterface
 {
     private $model;
-    private $model_1;
 
     public function __construct()
     {

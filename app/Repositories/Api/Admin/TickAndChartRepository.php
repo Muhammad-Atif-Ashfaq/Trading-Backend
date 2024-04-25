@@ -4,13 +4,8 @@ namespace App\Repositories\Api\Admin;
 use App\Helpers\PaginationHelper;
 use App\Interfaces\Api\Admin\TickAndChartInterface;
 use App\Models\Chart;
-use App\Models\Role;
 use App\Models\Tick;
-use App\Models\User;
-use App\Models\Brand;
-use App\Services\GenerateRandomService;
-use Illuminate\Database\Eloquent\Model;
-use Psy\Util\Str;
+
 
 class TickAndChartRepository implements TickAndChartInterface
 {
