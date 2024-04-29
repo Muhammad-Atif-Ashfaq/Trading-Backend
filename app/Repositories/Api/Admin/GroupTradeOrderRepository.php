@@ -23,7 +23,11 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
     // TODO: Get all group trade orders.
     public function getAllGroupTradeOrders($request)
     {
-        $groupTradeOrders = $this->model->query();
+        $groupTradeOrders = $this->model
+            ->when($request->has('brand_id'), function ($query) use ($request) {
+                return $query->whereIn('brand_id', $request->input('brand_id'));
+            })
+            ->allGroupUniqueId();
         $groupTradeOrders = PaginationHelper::paginate(
             $groupTradeOrders,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -48,13 +52,13 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
     // TODO: Find a group trade order by its ID.
     public function findGroupTradeOrderById($id)
     {
-        return $this->model->scopeFindGroupUniqueId($id);
+        return $this->model->findGroupUniqueId($id);
     }
 
     // TODO: Update a group trade order.
     public function updateGroupTradeOrder(array $data, $id)
     {
-        $trading_account_ids = $this->model->scopeWhereGroupUniqueId($id)->pluck('id');
+        $trading_account_ids = $this->model->whereGroupUniqueId($id)->pluck('id');
         foreach ($trading_account_ids as $trading_account_id) {
             $this->model->updateTradeOrder($data, $trading_account_id);
         }
@@ -64,7 +68,7 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
     // TODO: Delete a group trade order.
     public function deleteGroupTradeOrder($id)
     {
-        $this->model->scopeFindGroupUniqueId($id)->delete();
+        $this->model->findGroupUniqueId($id)->delete();
     }
 }
 

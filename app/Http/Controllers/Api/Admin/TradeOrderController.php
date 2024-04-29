@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Admin\TradeOrderRepository;
 use App\Http\Requests\Api\Admin\TradeOrders\Create as TradeOrderCreate;
-use App\Http\Requests\Api\Admin\TradeGroupOrders\Create as TradeGroupOrders;
 use App\Http\Requests\Api\Admin\TradeOrders\Index as TradeOrderIndex;
 use Illuminate\Http\Request;
 

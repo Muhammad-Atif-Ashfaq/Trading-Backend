@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('trading_groups', function (Blueprint $table) {
             $table->id();
+            $table->string('brand_id');
             $table->string('name');
             $table->string('mass_leverage')->nullable();
             $table->string('mass_swap')->nullable();

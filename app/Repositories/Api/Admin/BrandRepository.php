@@ -48,7 +48,7 @@ class BrandRepository implements BrandInterface
         $password = Str::random(6);
         $user = $this->user->create([
             'name' => $data['name'],
-            'email' => $data['name'] . '@gmail.com',
+            'email' => $data['name'] . '@broker.com',
             'password' => bcrypt($password),
             'original_password' => $password
         ]);

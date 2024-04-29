@@ -19,6 +19,7 @@ class TransactionOrder extends Model
         'amount',
         'currency',
         'trading_account_id',
+        'brand_id',
         'trading_group_id',
         'group_unique_id',
         'name',
@@ -30,10 +31,8 @@ class TransactionOrder extends Model
         'method',
         'status',
         'comment',
+
     ];
 
-    public function brand()
-    {
-        return $this->belongsTo(User::class);
-    }
+
 }

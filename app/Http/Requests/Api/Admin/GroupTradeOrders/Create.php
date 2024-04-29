@@ -16,7 +16,9 @@ class Create extends FormRequest
         return [
             'order_type' => ['required', 'in:' . implode(',', OrderTypeEnum::getOrderTypes())],
             'symbol' => 'required|exists:symbol_settings,name',
+            'trading_account_id' => 'required|exists:trading_accounts,id',
             'trading_group_id' => 'required|exists:trading_groups,id',
+            'brand_id' => 'required|exists:brands,public_key',
             'type' => 'required|in:' . implode(',', TradeOrderTypeEnum::getTypes()),
             'volume' => 'required|string',
             'stopLoss' => 'nullable|string',

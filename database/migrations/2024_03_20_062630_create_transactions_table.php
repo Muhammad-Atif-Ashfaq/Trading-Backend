@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('amount');
             $table->string('currency')->nullable();
             $table->unsignedBigInteger('trading_account_id');
+            $table->string('brand_id');
             $table->bigInteger('trading_group_id')->nullable();
             $table->string('group_unique_id')->nullable();
             $table->string('name')->nullable();

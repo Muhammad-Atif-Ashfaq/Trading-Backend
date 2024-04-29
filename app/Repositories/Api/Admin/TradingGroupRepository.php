@@ -15,6 +15,7 @@ class TradingGroupRepository implements TradingGroupInterface
     {
         $this->model = new TradingGroup();
         $this->trading_account = new TradingAccount();
+        $this->trading_group_symbol = new TradingGroupSymbol();
     }
 
     // TODO: Get all trading groups.
@@ -45,6 +46,7 @@ class TradingGroupRepository implements TradingGroupInterface
             'name' => $data['name'],
             'mass_leverage' => $data['mass_leverage'],
             'mass_swap' => $data['mass_swap'],
+            'brand_id' => $data['brand_id'],
         ]);
         if($tradingGroup)
         {
@@ -80,11 +82,11 @@ class TradingGroupRepository implements TradingGroupInterface
             'name' => $data['name'] ?? $tradingGroup->name,
             'mass_leverage' => $data['mass_leverage'] ?? $tradingGroup->mass_leverage,
             'mass_swap' => $data['mass_swap'] ?? $tradingGroup->mass_swap,
+            'brand_id' => $data['brand_id'] ?? $tradingGroup->brand_id,
         ]);
         if(count($data['symbel_group_ids'])){
             foreach ($data['symbel_group_ids'] as  $value) {
-                $trading_group_symbel = TradingGroupSymbol::where('trading_group_id', $tradingGroup->id);
-
+                $trading_group_symbel = $this->trading_group_symbol->where('trading_group_id', $tradingGroup->id);
                 if ($trading_group_symbel->exists()) {
                     $trading_group_symbel->delete();
                 }
@@ -104,6 +106,10 @@ class TradingGroupRepository implements TradingGroupInterface
     //  TODO: Delete a trading group.
     public function deleteTradingGroup($id)
     {
+        $this->trading_group_symbol->where('trading_group_id', $id)->delete();
+        $this->trading_account->where('trading_group_id',$id)->update([
+            'trading_group_id' => null
+        ]);
         $this->model->findOrFail($id)->delete();
     }
 }

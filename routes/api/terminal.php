@@ -8,9 +8,7 @@ use App\Http\Controllers\Api\Terminal\{
 };
 
 
-
 Route::post('/login',           [LoginController::class,'login']);
-
 Route::middleware('auth:sanctum')->group( function () {
     Route::apiResource('/orders',OrderController::class);
     Route::get('/symbels',      [SymbelController::class,'index']);

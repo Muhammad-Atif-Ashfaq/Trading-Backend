@@ -22,7 +22,11 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
 
     public function getAllGroupTransactionOrder($request)
     {
-        $groupTransactionOrder = $this->model->allGroupUniqueId();
+        $groupTransactionOrder = $this->model
+            ->when($request->has('brand_id'), function ($query) use ($request) {
+                return $query->whereIn('brand_id', $request->input('brand_id'));
+            })
+            ->allGroupUniqueId();
         $groupTransactionOrder = PaginationHelper::paginate(
             $groupTransactionOrder,
             $request->input('per_page', config('systemSetting.system_per_page_count')),

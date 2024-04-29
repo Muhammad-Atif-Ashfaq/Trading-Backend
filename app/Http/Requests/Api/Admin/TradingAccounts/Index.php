@@ -16,6 +16,7 @@ class Index extends FormRequest
             'status' => 'nullable|in:' . implode(',', TradingAccountStatusEnum::getStatuses()),
             'per_page' => 'nullable',
             'page' => 'nullable',
+            'brand_id' => 'nullable|exists:brands,public_key',
         ];
     }
 }

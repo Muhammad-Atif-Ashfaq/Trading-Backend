@@ -30,19 +30,19 @@ class TradingAccountController extends Controller
     }
 
     // TODO: Retrieves all trading accounts list.
-    public function getAllTradingAccountList()
+    public function getAllTradingAccountList(Request $request)
     {
-        return ExceptionHandlerHelper::tryCatch(function () {
-            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountList();
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
+            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountList($request);
             return $this->sendResponse($tradingAccounts, 'All TradingAccounts list');
         });
     }
 
     // TODO: Retrieves all trading accounts not in any group.
-    public function getAllTradingAccountsNotInGroup()
+    public function getAllTradingAccountsNotInGroup(Request $request)
     {
-        return ExceptionHandlerHelper::tryCatch(function () {
-            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountsNotInGroup();
+        return ExceptionHandlerHelper::tryCatch(function () use ($request){
+            $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountsNotInGroup($request);
             return $this->sendResponse($tradingAccounts, 'All TradingAccounts not in any group');
         });
     }

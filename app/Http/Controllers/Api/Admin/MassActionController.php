@@ -25,11 +25,12 @@ class MassActionController extends Controller
             // Get the fillable attributes for the specified table
             $fillableAttributes = app(SystemHelper::tableToModel($tableName))->getFillable();
             // Pass the fillable attributes along with the validated data to the repository
+
             $action = $this->massActionRepository->massEdit(
                 $request->validated(),
-                $request->only($fillableAttributes)
+                SystemHelper::skipValue0($request->only($fillableAttributes))
             );
-            return $this->sendResponse($action, 'successfully');
+            return $this->sendResponse($action, 'Updated successfully');
         });
     }
 
@@ -38,7 +39,7 @@ class MassActionController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $action = $this->massActionRepository->massDelete($request->validated());
-            return $this->sendResponse($action, 'successfully');
+            return $this->sendResponse($action, 'Deleted successfully');
         });
     }
 }

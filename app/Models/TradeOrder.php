@@ -19,6 +19,7 @@ class TradeOrder extends Model
         'order_type',
         'symbol',
         'trading_account_id',
+        'brand_id',
         'trading_group_id',
         'group_unique_id',
         'type',

@@ -15,16 +15,18 @@ interface TradingAccountInterface
     /**
      * TODO: Get all trading accounts list.
      *
+     * @param  mixed  $request
      * @return mixed
      */
-    public function getAllTradingAccountList();
+    public function getAllTradingAccountList($request);
 
     /**
      * TODO: Get all trading accounts not in any group.
      *
+     * @param  mixed  $request
      * @return mixed
      */
-    public function getAllTradingAccountsNotInGroup();
+    public function getAllTradingAccountsNotInGroup($request);
 
     /**
      * TODO: Create a trading account.

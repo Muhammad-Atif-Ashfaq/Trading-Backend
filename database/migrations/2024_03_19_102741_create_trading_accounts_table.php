@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('trading_accounts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('trading_group_id')->nullable();
-            $table->unsignedBigInteger('brand_id');
+            $table->string('brand_id');
             $table->string('public_key')->nullable();
             $table->string('login_id')->nullable();
             $table->string('password')->nullable();

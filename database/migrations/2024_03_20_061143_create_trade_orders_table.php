@@ -16,6 +16,7 @@ return new class extends Migration
             $table->enum('order_type', \App\Enums\OrderTypeEnum::getOrderTypes());
             $table->string('symbol');
             $table->unsignedBigInteger('trading_account_id');
+            $table->string('brand_id');
             $table->bigInteger('trading_group_id')->nullable();
             $table->string('group_unique_id')->nullable();
             $table->enum('type', \App\Enums\TradeOrderTypeEnum::getTypes());

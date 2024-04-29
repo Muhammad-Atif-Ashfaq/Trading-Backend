@@ -23,4 +23,12 @@ class SystemHelper extends Helper
 
         return 'App\\Models\\' . $modelName;
     }
+
+    public static function skipValue0(array $data)
+    {
+        return array_filter($data, function ($value) {
+            return  !empty($value);
+        });
+    }
+
 }

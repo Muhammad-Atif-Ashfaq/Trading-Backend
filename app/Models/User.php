@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,12 +11,25 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-    public static $PREFIX = '0xX'.'AR345WTSQ2567';
-    public static $BRAND = '0xX';
+
+    /**
+     * The prefix for the user.
+     *
+     * @var string
+     */
+    public const PREFIX = '0xXAR345WTSQ2567';
+
+    /**
+     * The brand for the user.
+     *
+     * @var string
+     */
+    public const BRAND = '0xX';
+
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
         'name',
@@ -29,7 +41,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -39,30 +51,43 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['roles'];
+
+
+    /**
+     * Get the trading accounts associated with the user.
+     */
     public function tradingAccounts()
     {
         return $this->hasMany(TradingAccount::class);
     }
 
+    /**
+     * Get the trade orders associated with the user.
+     */
     public function tradeOrders()
     {
         return $this->hasMany(TradeOrder::class);
     }
 
-    public function brands()
-    {
-        return $this->hasMany(Brand::class);
-    }
-
+    /**
+     * Get the transactions orders associated with the user.
+     */
     public function transactionsOrders()
     {
         return $this->hasMany(TransactionOrder::class);
     }
+
 }

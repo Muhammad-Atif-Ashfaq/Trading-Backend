@@ -15,6 +15,7 @@ class TradingGroup extends Model
         'name',
         'mass_leverage',
         'mass_swap',
+        'brand_id',
     ];
 
     protected $with = ['symbelGroups','tradingAccounts'];
