@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('swap')->nullable();
             $table->string('currency')->nullable();
             $table->string('registration_time')->nullable();
-            $table->string('last_access_time')->nullable();
+            $table->timestamp('last_access_time')->nullable();
             $table->string('last_access_address_IP')->nullable();
             $table->boolean('enable_password_change')->default(0);
             $table->boolean('enable_investor_trading')->default(0);
