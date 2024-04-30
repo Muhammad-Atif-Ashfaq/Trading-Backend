@@ -12,8 +12,8 @@ class Create extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required','string','max:255'],
-            'domain' => ['required', 'string', 'max:255', 'unique:brands,domain'], 
+            'name' => ['required','string','max:255', 'unique:brands,name','unique:users,name'],
+            'domain' => ['required', 'string', 'max:255', 'unique:brands,domain'],
             'margin_call' => ['required','string','max:255']
         ];
     }

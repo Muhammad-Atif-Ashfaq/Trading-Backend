@@ -14,7 +14,9 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $login = $request->input('email');
+            $type = filter_var($login , FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+            if (Auth::attempt([$type => $request->email, 'password' => $request->password])) {
                 $user = Auth::user();
                 $success['token'] = $user->createToken('MyApp')->plainTextToken;
                 $success['user'] = $user;
