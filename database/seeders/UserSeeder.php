@@ -22,8 +22,8 @@ class UserSeeder extends Seeder
         // create permissions
         Permission::create(['name' => 'edit']);
         Permission::create(['name' => 'delete']);
-        Permission::create(['name' => 'publish']);
-        Permission::create(['name' => 'unpublish']);
+        Permission::create(['name' => 'create']);
+        Permission::create(['name' => 'read']);
 
         // create roles and assign created permissions
         $role = Role::create(['name' => Role::ADMIN]);

@@ -15,7 +15,8 @@ use  App\Http\Controllers\Api\Admin\{
     GroupTransactionOrderController,
     AdminController,
     DashboardController,
-    MassActionController
+    MassActionController,
+    PermissionController
 };
 
 
@@ -55,5 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/massEdit',            [MassActionController::class, 'massEdit']);
     Route::delete('/massDelete',            [MassActionController::class, 'massDelete']);
+
+    Route::post('/assign_permission',            [PermissionController::class, 'assign_permission']);
 });
 
