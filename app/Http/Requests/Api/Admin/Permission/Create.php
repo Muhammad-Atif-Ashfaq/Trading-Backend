@@ -7,13 +7,15 @@ use App\Traits\ResponseTrait;
 
 class Create extends FormRequest
 {
-    use ResponseTrait; 
+    use ResponseTrait;
 
     public function rules(): array
     {
         return [
-            'brand_id' => 'required',
-            'model_permission' => 'required|string',
+            'user_id' => 'required',
+            'permissions' => 'required|array',
         ];
     }
+
+
 }

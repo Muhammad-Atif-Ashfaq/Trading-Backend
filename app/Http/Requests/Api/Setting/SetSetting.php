@@ -13,8 +13,8 @@ class SetSetting extends FormRequest
     {
         return [
             'data' => ['required','array'],
-            'data.*.name' => ['required','string'],
-            'data.*.value' => ['nullable'],
+            'data.name' => ['required','string'],
+            'data.value' => ['nullable'],
         ];
     }
 }

@@ -17,10 +17,14 @@ class SettingHelper extends Helper
     // TODO: Store Setting.
     public static function setSetting($name, $value)
     {
-        return Setting::create([
-            'name' => $name,
-            'value' => $value
-        ]);
+        return Setting::updateOrCreate(
+            [
+                'name' => $name,
+            ],
+            [
+                'name' => $name,
+                'value' => $value
+            ]);
     }
 
 

@@ -90,4 +90,9 @@ class User extends Authenticatable
         return $this->hasMany(TransactionOrder::class);
     }
 
+    public function getAllPermissions()
+    {
+
+    }
+
 }

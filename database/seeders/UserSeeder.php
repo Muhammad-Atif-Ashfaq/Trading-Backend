@@ -19,19 +19,9 @@ class UserSeeder extends Seeder
         // Reset cached roles and permissions
         app()['cache']->forget('spatie.permission.cache');
 
-        // create permissions
-        Permission::create(['name' => 'edit']);
-        Permission::create(['name' => 'delete']);
-        Permission::create(['name' => 'create']);
-        Permission::create(['name' => 'read']);
-
         // create roles and assign created permissions
         $role = Role::create(['name' => Role::ADMIN]);
-        $role->givePermissionTo([Permission::all()]);
-
-
         $role = Role::create(['name' => Role::BRAND]);
-        $role->givePermissionTo(Permission::all());
 
 
         $user1 = new User;
