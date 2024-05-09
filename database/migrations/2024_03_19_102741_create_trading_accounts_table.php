@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('trading_group_id')->nullable();
             $table->string('brand_id');
+            $table->string('brand_customer_id')->nullable();
             $table->string('public_key')->nullable();
             $table->string('login_id')->nullable();
             $table->string('password')->nullable();

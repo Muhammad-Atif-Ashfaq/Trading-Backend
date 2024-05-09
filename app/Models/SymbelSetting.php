@@ -3,19 +3,22 @@
 namespace App\Models;
 
 use App\Enums\LeverageEnum;
+use App\Traits\Models\HasSearch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SymbelSetting extends Model
 {
-    use HasFactory;
+    use HasFactory,
+        HasSearch;
 
     protected $fillable = [
         'name',
         'symbel_group_id',
         'feed_name',
         'feed_fetch_name',
+        'feed_fetch_key',
         'speed_max',
         'leverage',
         'swap',
@@ -24,7 +27,8 @@ class SymbelSetting extends Model
         'vol_min',
         'vol_max',
         'commission',
-        'enabled'
+        'enabled',
+        'pip'
     ];
 
     protected $with = ['dataFeed'];

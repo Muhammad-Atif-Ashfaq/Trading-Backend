@@ -23,11 +23,8 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
     // TODO: Get all group trade orders.
     public function getAllGroupTradeOrders($request)
     {
-        $groupTradeOrders = $this->model
-            ->when($request->has('brand_id'), function ($query) use ($request) {
-                return $query->whereIn('brand_id', $request->input('brand_id'));
-            })
-            ->allGroupUniqueId();
+
+        $groupTradeOrders = $this->model->whereSearch($request)->allGroupUniqueId();
         $groupTradeOrders = PaginationHelper::paginate(
             $groupTradeOrders,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -39,11 +36,12 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
     // TODO: Create a group trade order.
     public function createGroupTradeOrder(array $data)
     {
-        $trading_group_trade_order_id = uniqid($this->model::$PREFIX);
-        $trading_account_ids = $this->trading_account->where('trading_group_id', $data['trading_group_id'])->pluck('id');
-        foreach ($trading_account_ids as $trading_account_id) {
-            $data['trading_account_id'] = $trading_account_id;
-            $data['trading_group_trade_order_id'] = $trading_group_trade_order_id;
+        $trading_group__id = uniqid($this->model::$PREFIX);
+        $trading_accounts = $this->trading_account->where('trading_group_id', $data['trading_group_id'])->get();
+        foreach ($trading_accounts as $trading_account) {
+            $data['trading_account_id'] = $trading_account->id;
+            $data['brand_id'] = $trading_account->brand_id;
+            $data['group_unique_id'] = $trading_group__id;
             $this->model->createTradeOrder($data);
         }
         return true;

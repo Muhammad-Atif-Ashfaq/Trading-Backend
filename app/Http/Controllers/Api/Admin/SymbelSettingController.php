@@ -29,10 +29,10 @@ class SymbelSettingController extends Controller
     }
 
     // TODO: Retrieves all trading SymbelSettings list.
-    public function getAllSymbelGroupList()
+    public function getAllSymbelSettingList()
     {
         return ExceptionHandlerHelper::tryCatch(function () {
-            $symbelSettings = $this->symbelSettingRepository->getAllSymbelGroupList();
+            $symbelSettings = $this->symbelSettingRepository->getAllSymbelSettingList();
             return $this->sendResponse($symbelSettings, 'All SymbelSettings list');
         });
     }

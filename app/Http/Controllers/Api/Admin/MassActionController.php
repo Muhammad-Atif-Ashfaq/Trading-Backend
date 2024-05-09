@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Api\Admin\MassActionRepository;
 use App\Http\Requests\Api\Admin\MassAction\MassEdit;
 use App\Http\Requests\Api\Admin\MassAction\MassDelete;
+use App\Http\Requests\Api\Admin\MassAction\MassCloseOrders;
 use App\Helpers\ExceptionHandlerHelper;
 
 class MassActionController extends Controller
@@ -40,6 +41,14 @@ class MassActionController extends Controller
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $action = $this->massActionRepository->massDelete($request->validated());
             return $this->sendResponse($action, 'Deleted successfully');
+        });
+    }
+
+    public function massCloseOrders(MassCloseOrders $request)
+    {
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
+            $action = $this->massActionRepository->massCloseOrders($request->input('ids'));
+            return $this->sendResponse($action, 'Closed successfully');
         });
     }
 }

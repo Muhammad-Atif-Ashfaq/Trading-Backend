@@ -3,6 +3,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\TradingAccountInterface;
 use App\Models\TradingAccount;
 use App\Services\GenerateRandomService;
@@ -20,17 +21,13 @@ class TradingAccountRepository implements TradingAccountInterface
     // TODO: Get all trading accounts.
     public function getAllTradingAccounts($request)
     {
-        $tradingAccounts = $this->model
-            ->when(isset($request['brand_id']), function ($query) use ($request) {
-                return $query->where('brand_id', $request['brand_id']);
-            })
-            ->when(isset($request['status']), function ($query) use ($request) {
-                return $query->where('status', $request['status']);
-            });
+
+        $tradingAccounts = $this->model->whereSearch($request);
+
         $tradingAccounts = PaginationHelper::paginate(
             $tradingAccounts,
-            isset($request['per_page']) ? $request['per_page'] : config('systemSetting.system_per_page_count'),
-            isset($request['page']) ? $request['page'] : config('systemSetting.system_current_page')
+            $request->input('per_page', config('systemSetting.system_per_page_count')),
+            $request->input('page', config('systemSetting.system_current_page'))
         );
         return $tradingAccounts;
     }
@@ -43,7 +40,7 @@ class TradingAccountRepository implements TradingAccountInterface
                 return $query->where('brand_id', $request->input('brand_id'));
             })
             ->select('login_id', 'id')
-            ->get();
+            ->get()->makeHidden(['brand','brandCustomer']);
         return $tradingAccounts;
     }
 
@@ -56,7 +53,7 @@ class TradingAccountRepository implements TradingAccountInterface
             })
             ->whereNull('trading_group_id')
             ->select('login_id', 'id')
-            ->get();
+            ->get()->makeHidden(['brand','brandCustomer']);
         return $tradingAccounts;
     }
 
@@ -67,6 +64,7 @@ class TradingAccountRepository implements TradingAccountInterface
         $loginId = GenerateRandomService::RandomBrand();
         $tradingAccount = $this->model->create([
             'trading_group_id' => $data['trading_group_id'] ?? null,
+            'brand_customer_id' => $data['brand_customer_id'] ?? null,
             'public_key' => GenerateRandomService::getCustomerPublicKey($data['brand_id']),
             'login_id' => $loginId,
             'password' => $loginId,
@@ -74,7 +72,7 @@ class TradingAccountRepository implements TradingAccountInterface
             'phone' => $data['phone'] ?? null,
             'name' => $data['name'] ?? null,
             'email' => $data['email']  ?? null,
-            'leverage' => $data['leverage'] ?? null,
+            'leverage' => $data['leverage'] ?? 25,
             'balance' => $data['balance'] ?? 0,
             'credit' => $data['credit'] ?? 0,
             'equity' => $data['equity'] ?? null,
@@ -108,6 +106,7 @@ class TradingAccountRepository implements TradingAccountInterface
         $tradingAccount = $this->model->findOrFail($id);
         $tradingAccount->update([
             'trading_group_id' => $data['trading_group_id'] ?? $tradingAccount->trading_group_id,
+            'brand_customer_id' => $data['brand_customer_id'] ?? $tradingAccount->brand_customer_id,
             'name' => $data['name'] ?? $tradingAccount->name,
             'country' => $data['country'] ?? $tradingAccount->country,
             'phone' => $data['phone'] ?? $tradingAccount->phone,

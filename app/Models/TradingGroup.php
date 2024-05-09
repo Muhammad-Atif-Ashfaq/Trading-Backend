@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Enums\LeverageEnum;
+use App\Traits\Models\HasSearch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TradingGroup extends Model
 {
-    use HasFactory;
+    use HasFactory,
+        HasSearch;
 
     protected $fillable = [
         'name',

@@ -3,6 +3,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\TransactionOrderInterface;
 use App\Models\TransactionOrder;
 
@@ -18,17 +19,13 @@ class TransactionOrderRepository implements TransactionOrderInterface
     // TODO: Get all transaction orders.
     public function getAllTransactionOrders($request)
     {
-        $transactionOrders = $this->model
-            ->when(isset($request['brand_id']), function ($query) use ($request) {
-                return $query->whereIn('brand_id', $request['brand_id']);
-            })
-            ->when(isset($request['trading_account_id']), function ($query) use ($request) {
-                return $query->where('trading_account_id', $request['trading_account_id']);
-            });
+
+        $transactionOrders =  $this->model->whereSearch($request);
+
         $transactionOrders = PaginationHelper::paginate(
             $transactionOrders,
-            isset($request['per_page']) ? $request['per_page'] : config('systemSetting.system_per_page_count'),
-            isset($request['page']) ? $request['page'] : config('systemSetting.system_current_page')
+            $request->input('per_page', config('systemSetting.system_per_page_count')),
+            $request->input('page', config('systemSetting.system_current_page'))
         );
         return $transactionOrders;
     }

@@ -24,7 +24,7 @@ class TradeOrderController extends Controller
     public function index(TradeOrderIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $tradeOrders = $this->tradeOrderRepository->getAllTradeOrders($request->validated());
+            $tradeOrders = $this->tradeOrderRepository->getAllTradeOrders($request);
             return $this->sendResponse($tradeOrders, 'All TradeOrders');
         });
     }

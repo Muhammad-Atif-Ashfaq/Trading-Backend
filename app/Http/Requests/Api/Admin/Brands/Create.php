@@ -14,7 +14,8 @@ class Create extends FormRequest
         return [
             'name' => ['required','string','max:255', 'unique:brands,name','unique:users,name'],
             'domain' => ['required', 'string', 'max:255', 'unique:brands,domain'],
-            'margin_call' => ['required','string','max:255']
+            'margin_call' => ['required'],
+            'leverage' => ['required']
         ];
     }
 }

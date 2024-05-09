@@ -2,6 +2,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\TradingGroupInterface;
 use App\Models\{TradingAccount, TradingGroupSymbol, TradingGroup};
 
@@ -21,7 +22,9 @@ class TradingGroupRepository implements TradingGroupInterface
     // TODO: Get all trading groups.
     public function getAllTradingGroups($request)
     {
-        $tradingGroups = $this->model->query();
+
+        $tradingGroups = $this->model->whereSearch($request);
+
         $tradingGroups = PaginationHelper::paginate(
             $tradingGroups,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -35,7 +38,7 @@ class TradingGroupRepository implements TradingGroupInterface
     {
         $tradingGroups = $this->model
             ->select('name', 'id')
-            ->get();
+            ->get()->makeHidden(['symbelGroups','tradingAccounts']);
         return $tradingGroups;
     }
 

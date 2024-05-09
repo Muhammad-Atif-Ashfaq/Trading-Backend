@@ -3,6 +3,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\BrandInterface;
 use App\Models\Role;
 use App\Models\User;
@@ -24,7 +25,8 @@ class BrandRepository implements BrandInterface
     // TODO: Get all brands.
     public function getAllBrands($request)
     {
-        $brands = $this->model->query();
+
+        $brands = $this->model->whereSearch($request);
         $brands = PaginationHelper::paginate(
             $brands,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -37,7 +39,7 @@ class BrandRepository implements BrandInterface
     public function getAllBrandList()
     {
         $brands = $this->model
-            ->select('name', 'id','public_key')
+            ->select('name', 'id','public_key','leverage','margin_call')
             ->get();
         return $brands;
     }
@@ -59,6 +61,7 @@ class BrandRepository implements BrandInterface
             'public_key' => GenerateRandomService::getBrandPublicKey(),
             'domain' => $data['domain'],
             'margin_call' => $data['margin_call'],
+            'leverage' => $data['leverage'] ?? 25,
         ]);
 
         $user->assignRole(Role::BRAND);
@@ -79,7 +82,8 @@ class BrandRepository implements BrandInterface
         $brand->update([
             'name' => $data['name'] ?? $brand->name,
             'domain' => $data['domain'] ?? $brand->domain,
-            'margin_call' => $data['margin_call'] ?? $brand->margin_call
+            'margin_call' => $data['margin_call'] ?? $brand->margin_call,
+            'leverage' => $data['leverage'] ?? $brand->leverage
         ]);
         return $brand;
     }

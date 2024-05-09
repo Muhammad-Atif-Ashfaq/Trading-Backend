@@ -2,6 +2,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\SymbelGroupInterface;
 use App\Models\SymbelGroup;
 
@@ -18,7 +19,8 @@ class SymbelGroupRepository implements SymbelGroupInterface
     //  TODO: Get all symbel groups.
     public function getAllSymbelGroups($request)
     {
-        $symbelGroups = $this->model->query();
+
+        $symbelGroups = $this->model->whereSearch($request);
         $symbelGroups = PaginationHelper::paginate(
             $symbelGroups,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -31,7 +33,7 @@ class SymbelGroupRepository implements SymbelGroupInterface
     public function getAllSymbelGroupList()
     {
         $symbelGroups = $this->model
-            ->select('name', 'id')
+            ->select('name', 'id','swap')
             ->get();
         return $symbelGroups;
     }
@@ -47,7 +49,8 @@ class SymbelGroupRepository implements SymbelGroupInterface
             'lot_step' => $data['lot_step'],
             'vol_min'  => $data['vol_min'],
             'vol_max'  => $data['vol_max'],
-            'trading_interval' => $data['trading_interval'] ?? null,
+            'trading_interval_start_time' => $data['trading_interval_start_time'] ?? null,
+            'trading_interval_end_time' => $data['trading_interval_end_time'] ?? null,'',
             'swap'     => $data['swap']
         ]);
 
@@ -72,7 +75,8 @@ class SymbelGroupRepository implements SymbelGroupInterface
             'lot_step' => $data['lot_step'] ?? $symbelGroup->lot_step,
             'vol_min'  => $data['vol_min'] ?? $symbelGroup->vol_min,
             'vol_max'  => $data['vol_max'] ?? $symbelGroup->vol_max,
-            'trading_interval' => $data['trading_interval'] ?? $symbelGroup->trading_interval,
+            'trading_interval_start_time' => $data['trading_interval_start_time'] ?? $symbelGroup->trading_interval_start_time,
+            'trading_interval_end_time' => $data['trading_interval_end_time'] ?? $symbelGroup->trading_interval_end_time,
             'swap'  => $data['swap'] ?? $symbelGroup->swap,
         ]);
         return $symbelGroup;

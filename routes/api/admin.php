@@ -16,13 +16,16 @@ use  App\Http\Controllers\Api\Admin\{
     AdminController,
     DashboardController,
     MassActionController,
-    PermissionController
+    PermissionController,
+    BrandCustomerController
 };
 
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/brands', BrandController::class);
     Route::get('/getAllBrandList', [BrandController::class, 'getAllBrandList']);
+
+    Route::get('/getAllBrandCustomerList', [BrandCustomerController::class, 'getAllBrandCustomerList']);
 
     Route::apiResource('/transaction_order', TransactionOrderController::class);
 
@@ -39,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/getAllSymbelGroupList', [SymbelGroupController::class, 'getAllSymbelGroupList']);
 
     Route::apiResource('/symbel_setting', SymbelSettingController::class);
-    Route::get('/getAllSymbelGroupList', [SymbelSettingController::class, 'getAllSymbelGroupList']);
+    Route::get('/getAllSymbelSettingList', [SymbelSettingController::class, 'getAllSymbelSettingList']);
 
     Route::apiResource('/trade_orders', TradeOrderController::class);
 
@@ -56,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/massEdit',            [MassActionController::class, 'massEdit']);
     Route::delete('/massDelete',            [MassActionController::class, 'massDelete']);
+    Route::post('/massCloseOrders',            [MassActionController::class, 'massCloseOrders']);
 
     Route::post('/assign_permission',            [PermissionController::class, 'assign_permission']);
 });

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('public_key');
             $table->string('domain');
             $table->string('margin_call');
+            $table->string('leverage')->nullable();
             $table->timestamps();
         });
     }

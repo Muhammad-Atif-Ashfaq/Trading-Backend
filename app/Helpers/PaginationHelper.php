@@ -59,7 +59,7 @@ class PaginationHelper extends Helper
     public static function paginate(Builder $query, $perPage, $page)
     {
         // TODO: Paginate the query results
-        $paginatedResults = $query->paginate($perPage, ['*'], 'page', $page);
+            $paginatedResults = $query->orderBy('created_at','DESC')->paginate($perPage, ['*'], 'page', $page);
 
         // TODO: Create a LengthAwarePaginator instance for the paginated results
         $paginatedCollection = new LengthAwarePaginator(

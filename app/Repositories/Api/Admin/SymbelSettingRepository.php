@@ -2,6 +2,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\SymbelSettingInterface;
 use App\Models\SymbelSetting;
 
@@ -17,7 +18,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
     // TODO: Get all symbel settings.
     public function getAllSymbelSettings($request)
     {
-        $symbelSettings = $this->model->query();
+        $symbelSettings = $this->model->whereSearch($request);
         $symbelSettings = PaginationHelper::paginate(
             $symbelSettings,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -31,8 +32,8 @@ class SymbelSettingRepository implements SymbelSettingInterface
     public function getAllSymbelSettingList()
     {
         $symbelSettings = $this->model
-            ->select('name', 'feed_fetch_name')
-            ->get();
+            ->select('name', 'feed_name','feed_fetch_name','feed_fetch_key')
+            ->get()->makeHidden(['dataFeed']);
         return $symbelSettings;
     }
 
@@ -45,6 +46,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
             'symbel_group_id'  => $data['symbel_group_id'],
             'feed_name' => $data['feed_name'],
             'feed_fetch_name' => $data['feed_fetch_name'],
+            'feed_fetch_key' => $data['feed_fetch_key'] ?? null,
             'speed_max'  => $data['speed_max'],
             'leverage'=> $data['leverage'],
             'swap' => $data['swap'],
@@ -54,6 +56,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
             'vol_max'=> $data['vol_max'],
             'commission'=> $data['commission'],
             'enabled'   => $data['enabled'] ?? 0,
+            'pip'   => $data['pip'] ?? 5,
 
         ]);
 
@@ -76,6 +79,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
             'symbel_group_id'  => $data['symbel_group_id'] ?? $symbelSetting->symbel_group_id,
             'feed_name' => $data['feed_name'] ?? $symbelSetting->feed_name,
             'feed_fetch_name' => $data['feed_fetch_name'] ?? $symbelSetting->feed_fetch_name,
+            'feed_fetch_key' => $data['feed_fetch_key'] ?? $symbelSetting->feed_fetch_key,
             'speed_max'  => $data['speed_max'] ?? $symbelSetting->speed_max,
             'leverage'=> $data['leverage'] ?? $symbelSetting->leverage,
             'swap' => $data['swap'] ?? $symbelSetting->swap,
@@ -85,6 +89,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
             'vol_max'=> $data['vol_max'] ?? $symbelSetting->vol_max,
             'commission'=> $data['commission'] ?? $symbelSetting->commission,
             'enabled'   => $data['enabled'] ?? $symbelSetting->enabled,
+            'pip'   => $data['pip'] ?? $symbelSetting->pip,
 
         ]);
         return $symbelSetting;

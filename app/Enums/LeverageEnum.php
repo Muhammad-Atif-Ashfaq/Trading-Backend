@@ -69,5 +69,22 @@ final class LeverageEnum
         ];
     }
 
+    // TODO: Method to get the numerical values based on the text representation
+    public static function getValuesFromText($text)
+    {
+        $leverages = self::getAllLeverage();
+        $matchedValues = [];
+
+        foreach ($leverages as $value => $textValue) {
+            // Check if the given text is contained within the text representation
+            if (strpos($textValue, $text) !== false) {
+                $matchedValues[] = $value; // Add the numerical value to the array
+            }
+        }
+
+        return $matchedValues;
+    }
+
+
 
 }

@@ -24,7 +24,7 @@ class TransactionOrderController extends Controller
     public function index(TransactionOrderIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
-            $transactionOrders = $this->transactionOrderRepository->getAllTransactionOrders($request->validated());
+            $transactionOrders = $this->transactionOrderRepository->getAllTransactionOrders($request);
             return $this->sendResponse($transactionOrders, 'All TransactionOrders');
         });
     }

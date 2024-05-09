@@ -14,7 +14,9 @@ class Role extends SpatieRole
 
     const BRAND = 'brand';
 
-    const PERMINENT_ROLES = [self::ADMIN, self::BRAND];
+    const BRAND_CUSTOMER = 'brand Customer';
+
+    const PERMINENT_ROLES = [self::ADMIN, self::BRAND,self::BRAND_CUSTOMER];
 
     protected static function boot()
     {

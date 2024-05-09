@@ -3,6 +3,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\TradeOrderInterface;
 use App\Models\TradeOrder;
 use App\Models\TradingAccount;
@@ -19,19 +20,13 @@ class TradeOrderRepository implements TradeOrderInterface
     // TODO: Get all trade orders.
     public function getAllTradeOrders($request)
     {
-        $tradeOrders = $this->model
-            ->when(isset($request['brand_id']), function ($query) use ($request) {
-                return $query->whereIn('brand_id', $request['brand_id']);
-            })->when(isset($request['order_type']), function ($query) use ($request) {
-                return $query->whereIn('order_type', $request['order_type']);
-            })->when(isset($request['trading_account_id']), function ($query) use ($request) {
-                return $query->where('trading_account_id', $request['trading_account_id']);
-            });
+
+        $tradeOrders = $this->model->whereSearch($request);
 
         $tradeOrders = PaginationHelper::paginate(
             $tradeOrders,
-            isset($request['per_page']) ? $request['per_page'] : config('systemSetting.system_per_page_count'),
-            isset($request['page']) ? $request['page'] : config('systemSetting.system_current_page')
+            $request->input('per_page', config('systemSetting.system_per_page_count')),
+            $request->input('page', config('systemSetting.system_current_page'))
         );
         return $tradeOrders;
     }

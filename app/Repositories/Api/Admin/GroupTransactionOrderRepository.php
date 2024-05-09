@@ -3,6 +3,7 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
+use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\GroupTransactionOrderInterface;
 use App\Models\TransactionOrder;
 use App\Models\TradingAccount;
@@ -22,11 +23,8 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
 
     public function getAllGroupTransactionOrder($request)
     {
-        $groupTransactionOrder = $this->model
-            ->when($request->has('brand_id'), function ($query) use ($request) {
-                return $query->whereIn('brand_id', $request->input('brand_id'));
-            })
-            ->allGroupUniqueId();
+
+        $groupTransactionOrder = $this->model->whereSearch($request)->allGroupUniqueId();
         $groupTransactionOrder = PaginationHelper::paginate(
             $groupTransactionOrder,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -37,11 +35,12 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
 
     public function createGroupTransactionOrder(array $data)
     {
-        $trading_group_trade_order_id = uniqid($this->model::$PREFIX);
-        $trading_account_ids = $this->trading_account->where('trading_group_id', $data['trading_group_id'])->pluck('id');
-        foreach ($trading_account_ids as $trading_account_id) {
-            $data['trading_account_id'] = $trading_account_id;
-            $data['group_unique_id'] = $trading_group_trade_order_id;
+        $trading_group__id = uniqid($this->model::$PREFIX);
+        $trading_accounts = $this->trading_account->where('trading_group_id', $data['trading_group_id'])->get();
+        foreach ($trading_accounts as $trading_account) {
+            $data['trading_account_id'] = $trading_account->id;
+            $data['brand_id'] = $trading_account->brand_id;
+            $data['group_unique_id'] = $trading_group__id;
             $this->model->createTransactionOrder($data);
         }
     }

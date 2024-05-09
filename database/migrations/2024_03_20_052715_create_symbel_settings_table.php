@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('feed_name');
             $table->string('feed_server')->nullable();
             $table->string('feed_fetch_name');
+            $table->string('feed_fetch_key')->nullable();
             $table->string('speed_max');
             $table->string('leverage');
             $table->string('swap');
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->string('vol_min');
             $table->string('vol_max');
             $table->string('commission');
+            $table->integer('pip')->default(5);
             $table->string('enabled')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
