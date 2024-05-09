@@ -12,7 +12,7 @@ trait HasSearch
     // TODO: Create a new trade order.
     public function scopeWhereSearch($query, $request)
     {
-        $fillable = SystemHelper::skipValue0($request->only($this->fillable));
+        $fillable = skipValue0($request->only($this->fillable));
 
         if (count($fillable)) {
             $query->where(function ($query) use ($fillable) {

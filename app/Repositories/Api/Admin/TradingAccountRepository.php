@@ -44,6 +44,8 @@ class TradingAccountRepository implements TradingAccountInterface
         return $tradingAccounts;
     }
 
+
+
     // TODO: Get all trading accounts not in any group.
     public function getAllTradingAccountsNotInGroup($request)
     {
@@ -128,6 +130,8 @@ class TradingAccountRepository implements TradingAccountInterface
             'enable' => $data['enable'] ?? $tradingAccount->enable,
             'status' => $data['status'] ?? $tradingAccount->status,
         ]);
+
+        pushLiveDate('tradingAccount','update',$tradingAccount);
 
         return $tradingAccount;
     }

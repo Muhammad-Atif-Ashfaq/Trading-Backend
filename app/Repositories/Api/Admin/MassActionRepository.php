@@ -15,7 +15,7 @@ class MassActionRepository implements MassActionInterface
 
     public function massEdit(array $data,array $values)
     {
-        $tableName = new (SystemHelper::tableToModel($data['table_name']))();
+        $tableName = new (tableToModel($data['table_name']))();
         $tableIds = $data['table_ids'] ?? [];
 
         if (empty($tableIds)) {
@@ -30,7 +30,7 @@ class MassActionRepository implements MassActionInterface
 
     public function massDelete(array $data)
     {
-        $tableName =  new (SystemHelper::tableToModel($data['table_name']))();
+        $tableName =  new (tableToModel($data['table_name']))();
         $tableIds = $data['table_ids'] ?? [];
 
         if (empty($tableIds)) {

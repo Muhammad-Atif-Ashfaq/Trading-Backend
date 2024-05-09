@@ -24,12 +24,12 @@ class MassActionController extends Controller
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $tableName = $request->input('table_name');
             // Get the fillable attributes for the specified table
-            $fillableAttributes = app(SystemHelper::tableToModel($tableName))->getFillable();
+            $fillableAttributes = app(tableToModel($tableName))->getFillable();
             // Pass the fillable attributes along with the validated data to the repository
 
             $action = $this->massActionRepository->massEdit(
                 $request->validated(),
-                SystemHelper::skipValue0($request->only($fillableAttributes))
+                skipValue0($request->only($fillableAttributes))
             );
             return $this->sendResponse($action, 'Updated successfully');
         });
