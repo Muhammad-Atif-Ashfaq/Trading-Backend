@@ -55,7 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/charts',                         [TickAndChartController::class, 'charts']);
 
     Route::post('/change-password',                [AdminController::class, 'changePassword']);
-    Route::post('/tradingOrderNumbers',            [DashboardController::class, 'tradingOrderNumbers']);
+    Route::post('/getDashboardData',            [DashboardController::class, 'getDashboardData']);
 
     Route::put('/massEdit',            [MassActionController::class, 'massEdit']);
     Route::delete('/massDelete',            [MassActionController::class, 'massDelete']);

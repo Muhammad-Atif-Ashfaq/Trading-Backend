@@ -68,17 +68,7 @@ class SymbelGroupRepository implements SymbelGroupInterface
     public function updateSymbelGroup(array $data, $id)
     {
         $symbelGroup = $this->model->findOrFail($id);
-        $symbelGroup->update([
-            'name'   =>   $data['name'] ?? $symbelGroup->name,
-            'Leverage' => $data['leverage'] ?? $symbelGroup->leverage,
-            'lot_size' => $data['lot_size'] ?? $symbelGroup->lot_size,
-            'lot_step' => $data['lot_step'] ?? $symbelGroup->lot_step,
-            'vol_min'  => $data['vol_min'] ?? $symbelGroup->vol_min,
-            'vol_max'  => $data['vol_max'] ?? $symbelGroup->vol_max,
-            'trading_interval_start_time' => $data['trading_interval_start_time'] ?? $symbelGroup->trading_interval_start_time,
-            'trading_interval_end_time' => $data['trading_interval_end_time'] ?? $symbelGroup->trading_interval_end_time,
-            'swap'  => $data['swap'] ?? $symbelGroup->swap,
-        ]);
+        $symbelGroup->update(prepareUpdateCols($data, $this->model));
         return $symbelGroup;
     }
 

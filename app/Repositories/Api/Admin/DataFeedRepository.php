@@ -64,13 +64,7 @@ class DataFeedRepository implements DataFeedInterface
     public function updateDataFeed(array $data, $id)
     {
         $dataFeed = $this->model->findOrFail($id);
-        $dataFeed->update([
-            'name' => $data['name'] ?? $dataFeed->name,
-            'module' => $data['module'] ?? $dataFeed->module,
-            'feed_server' => $data['feed_server'] ?? $dataFeed->feed_server,
-            'feed_login' => $data['feed_login'] ?? $dataFeed->feed_login,
-            'feed_password' => $data['feed_password'] ?? $dataFeed->feed_password
-        ]);
+        $dataFeed->update(prepareUpdateCols($data, $this->model));
         return $dataFeed;
     }
 

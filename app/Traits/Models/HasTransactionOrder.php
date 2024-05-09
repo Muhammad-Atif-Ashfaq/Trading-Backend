@@ -46,23 +46,7 @@ trait HasTransactionOrder
     public function updateTransactionOrder(array $data, $id)
     {
         $transactionOrder = TransactionOrder::findOrFail($id);
-        $transactionOrder->update([
-            'amount' => $data['amount'] ?? $transactionOrder->amount,
-            'currency' => $data['currency'] ?? $transactionOrder->currency,
-            'trading_account_id' => $data['trading_account_id'] ?? $transactionOrder->trading_account_id,
-            'brand_id' => $data['brand_id'] ?? $transactionOrder->brand_id,
-            'trading_group_id' => $data['trading_group_id'] ?? $transactionOrder->trading_group_id,
-            'group_unique_id' => $data['group_unique_id'] ?? $transactionOrder->group_unique_id,
-            'name' => $data['name'] ?? $transactionOrder->name,
-            'group' => $data['group'] ?? $transactionOrder->group,
-            'country' => $data['country'] ?? $transactionOrder->country,
-            'phone' => $data['phone'] ?? $transactionOrder->phone,
-            'email' => $data['email'] ?? $transactionOrder->email,
-            'type' => $data['type'] ?? $transactionOrder->type,
-            'method' => $data['method'] ?? $transactionOrder->method,
-            'status' => $data['status'] ?? $transactionOrder->status,
-            'comment' => $data['comment'] ?? $transactionOrder->comment
-        ]);
+        $transactionOrder->update(prepareUpdateCols($data, $this->model));
         return $transactionOrder;
     }
 

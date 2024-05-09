@@ -39,29 +39,7 @@ trait HasTradeOrder
     public function updateTradeOrder(array $data, $id)
     {
         $tradeOrder = static::findOrFail($id);
-        $tradeOrder->update([
-
-            'order_type' => $data['order_type'] ?? $tradeOrder->order_type,
-            'symbol'     => $data['symbol'] ?? $tradeOrder->order_type,
-            'feed_name'     => $data['feed_name'] ?? $tradeOrder->feed_name,
-            'trading_account_id' => $data['trading_account_id'] ?? $tradeOrder->trading_account_id,
-            'brand_id' => $data['brand_id'] ?? $tradeOrder->brand_id,
-            'trading_group_id' => $data['trading_group_id'] ?? $tradeOrder->trading_group_id,
-            'group_unique_id' => $data['group_unique_id'] ?? $tradeOrder->group_unique_id,
-            'type'       => $data['type'] ?? $tradeOrder->type,
-            'volume'     => $data['volume'] ?? $tradeOrder->volume,
-            'stopLoss'   => $data['stopLoss'] ?? $tradeOrder->stopLoss,
-            'takeProfit' => $data['takeProfit'] ?? $tradeOrder->takeProfit,
-            'open_time'  => $data['open_time'] ?? $tradeOrder->open_time,
-            'open_price' => $data['open_price'] ?? $tradeOrder->open_price,
-            'close_time' => $data['close_time'] ?? $tradeOrder->close_time,
-            'close_price'=> $data['close_price'] ?? $tradeOrder->close_price,
-            'reason'     => $data['reason'] ?? $tradeOrder->reason,
-            'swap'       => $data['swap'] ?? $tradeOrder->swap,
-            'profit'     => $data['profit'] ?? $tradeOrder->profit,
-            'comment'    => $data['comment'] ?? $tradeOrder->comment,
-            'stop_limit_price' => $data['stop_limit_price'] ?? $tradeOrder->stop_limit_price
-        ]);
+        $tradeOrder->update(prepareUpdateCols($data, $this->model));
 
         // Update trading account balance based on transaction type
         $trading_account = TradingAccount::find($data['trading_account_id']);

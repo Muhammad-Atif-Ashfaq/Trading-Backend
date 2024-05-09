@@ -10,7 +10,7 @@ interface DashboardInterface
      * @param  mixed  $request
      * @return mixed
      */
-    public function tradingOrderNumbers($request);
+    public function getDashboardData($request);
 
 
 }

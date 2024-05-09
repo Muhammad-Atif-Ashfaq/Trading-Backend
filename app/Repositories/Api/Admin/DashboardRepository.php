@@ -2,9 +2,11 @@
 
 namespace App\Repositories\Api\Admin;
 
+use App\Enums\TransactionOrderTypeEnum;
 use App\Helpers\PaginationHelper;
 use App\Interfaces\Api\Admin\DashboardInterface;
 use App\Models\TradeOrder;
+use App\Models\TransactionOrder;
 use Carbon\Carbon;
 
 class DashboardRepository implements DashboardInterface
@@ -13,30 +15,77 @@ class DashboardRepository implements DashboardInterface
 
     public function __construct()
     {
-        $this->model = new TradeOrder();
+        $this->trade_order = new TradeOrder();
+        $this->transaction_order = new TransactionOrder();
     }
 
-    public function tradingOrderNumbers($request)
+    public function getDashboardData($request)
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $types = $request->input('types');
+        $data = [];
 
-        $query = $this->model::selectRaw('COUNT(*) as order_count, DATE_FORMAT(created_at, "%Y-%m") as month')
-            ->groupBy('month');
+        // TODO :: Trading Order By Numbers
+        if (in_array('trading_order_by_numbers', $types)){
+            $query = $this->trade_order->selectRaw('COUNT(*) as order_count, DATE_FORMAT(created_at, "%Y-%m") as month')
+                ->groupBy('month');
 
-        if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
+            if ($startDate && $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }
+
+            $orders = $query->get();
+
+            $data['trading_order_by_numbers'] = $orders->map(function ($item) {
+                return [
+                    'month' => Carbon::parse($item->month)->format('F Y'),
+                    'order_count' => $item->order_count
+                ];
+            });
         }
 
-        $orders = $query->get();
+        // TODO :: Trading Volume By Lots
+        if (in_array('trading_volume_by_lots', $types)){
+            $query = $this->trade_order->selectRaw('COUNT(*) as order_count, DATE_FORMAT(created_at, "%Y-%m") as month')
+                ->groupBy('month')->groupBy('volume');
 
-        $chartData = $orders->map(function ($item) {
-            return [
-                'month' => Carbon::parse($item->month)->format('F Y'),
-                'order_count' => $item->order_count
-            ];
-        });
+            if ($startDate && $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }
 
-        return $chartData;
+            $orders = $query->get();
+
+            $data['trading_volume_by_lots'] = $orders->map(function ($item) {
+                return [
+                    'month' => Carbon::parse($item->month)->format('F Y'),
+                    'volume' => $item->volume,
+                    'order_count' => $item->order_count
+                ];
+            });
+        }
+
+        // TODO :: Deposits
+        if (in_array('deposits', $types)){
+            $query = $this->transaction_order
+                ->where('type', TransactionOrderTypeEnum::DEPOSIT)
+                ->selectRaw('SUM(amount) as total_amount, DATE_FORMAT(created_at, "%Y-%m") as month')
+                ->groupBy('month');
+
+            if ($startDate && $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }
+
+            $orders = $query->get();
+
+            $data['deposits'] = $orders->map(function ($item) {
+                return [
+                    'month' => Carbon::parse($item->month)->format('F Y'),
+                    'total_amount' => $item->total_amount
+                ];
+            });
+        }
+
+        return $data;
     }
 }

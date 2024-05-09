@@ -74,24 +74,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
     public function updateSymbelSetting(array $data, $id)
     {
         $symbelSetting = $this->model->findOrFail($id);
-        $symbelSetting->update([
-            'name' => $data['name'] ?? $symbelSetting->name,
-            'symbel_group_id'  => $data['symbel_group_id'] ?? $symbelSetting->symbel_group_id,
-            'feed_name' => $data['feed_name'] ?? $symbelSetting->feed_name,
-            'feed_fetch_name' => $data['feed_fetch_name'] ?? $symbelSetting->feed_fetch_name,
-            'feed_fetch_key' => $data['feed_fetch_key'] ?? $symbelSetting->feed_fetch_key,
-            'speed_max'  => $data['speed_max'] ?? $symbelSetting->speed_max,
-            'leverage'=> $data['leverage'] ?? $symbelSetting->leverage,
-            'swap' => $data['swap'] ?? $symbelSetting->swap,
-            'lot_size'=> $data['lot_size'] ?? $symbelSetting->lot_size,
-            'lot_step'=> $data['lot_step'] ?? $symbelSetting->lot_step,
-            'vol_min'=> $data['vol_min'] ?? $symbelSetting->vol_min,
-            'vol_max'=> $data['vol_max'] ?? $symbelSetting->vol_max,
-            'commission'=> $data['commission'] ?? $symbelSetting->commission,
-            'enabled'   => $data['enabled'] ?? $symbelSetting->enabled,
-            'pip'   => $data['pip'] ?? $symbelSetting->pip,
-
-        ]);
+        $symbelSetting->update(prepareUpdateCols($data, $this->model));
         return $symbelSetting;
     }
 

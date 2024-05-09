@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api\Admin\Dashboard;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\ResponseTrait;
 
-class tradingOrderNumbers extends FormRequest
+class GetDashboardData extends FormRequest
 {
     use ResponseTrait; // TODO: Using the ResponseTrait for sending responses
 
@@ -13,7 +13,8 @@ class tradingOrderNumbers extends FormRequest
     {
         return [
             'start_date' => 'nullable',
-            'start_date' => 'nullable'
+            'end_date' => 'nullable',
+            'types' => 'required|array'
         ];
     }
 }

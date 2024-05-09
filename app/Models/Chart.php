@@ -9,7 +9,7 @@ class Chart extends Model
 {
     use HasFactory;
     protected $table = '1_minute_charts';
-    protected $fillable = [ 'name', 'open', 'high', 'low', 'close'];
+    protected $fillable = [ 'name','time', 'open', 'high', 'low', 'close','volume'];
 
 
 }

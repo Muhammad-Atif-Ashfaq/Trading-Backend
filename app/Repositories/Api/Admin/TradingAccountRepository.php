@@ -106,32 +106,9 @@ class TradingAccountRepository implements TradingAccountInterface
     public function updateTradingAccount(array $data, $id)
     {
         $tradingAccount = $this->model->findOrFail($id);
-        $tradingAccount->update([
-            'trading_group_id' => $data['trading_group_id'] ?? $tradingAccount->trading_group_id,
-            'brand_customer_id' => $data['brand_customer_id'] ?? $tradingAccount->brand_customer_id,
-            'name' => $data['name'] ?? $tradingAccount->name,
-            'country' => $data['country'] ?? $tradingAccount->country,
-            'phone' => $data['phone'] ?? $tradingAccount->phone,
-            'email' => $data['email'] ?? $tradingAccount->email,
-            'password' => $data['password'] ?? $tradingAccount->password,
-            'leverage' => $data['leverage'] ?? $tradingAccount->leverage,
-            'balance' => $data['balance'] ?? $tradingAccount->balance,
-            'credit' => $data['credit'] ?? $tradingAccount->credit,
-            'equity' => $data['equity'] ?? $tradingAccount->equity,
-            'profit' => $data['profit'] ?? $tradingAccount->profit,
-            'swap' => $data['swap'] ?? $tradingAccount->swap,
-            'currency' => $data['currency'] ?? $tradingAccount->currency,
-            'margin_level_percentage' => $data['margin_level_percentage'] ?? $tradingAccount->margin_level_percentage,
-            'trading_account_group_id' => $data['trading_account_group_id '] ?? $tradingAccount->trading_account_group_id,
-            'brand_id' => $data['brand_id'] ?? $tradingAccount->brand_id,
-            'enable_password_change' => $data['enable_password_change'] ?? $tradingAccount->enable_password_change,
-            'enable_investor_trading' => $data['enable_investor_trading'] ?? $tradingAccount->enable_investor_trading,
-            'change_password_at_next_login' => $data['change_password_at_next_login'] ?? $tradingAccount->change_password_at_next_login,
-            'enable' => $data['enable'] ?? $tradingAccount->enable,
-            'status' => $data['status'] ?? $tradingAccount->status,
-        ]);
+        $tradingAccount->update(prepareUpdateCols($data, $this->model));
 
-        pushLiveDate('tradingAccount','update',$tradingAccount);
+        pushLiveDate('trading_accounts','update',$this->model->findOrFail($id));
 
         return $tradingAccount;
     }

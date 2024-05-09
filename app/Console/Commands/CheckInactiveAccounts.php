@@ -21,6 +21,7 @@ class CheckInactiveAccounts extends Command
         // Update their status to offline
         foreach ($inactiveAccounts as $account) {
             $account->update(['status' => 'active']);
+            pushLiveDate('trading_accounts','update',$this->model->findOrFail($account->id));
         }
 
         $this->info('Inactive trading accounts checked and updated successfully.');

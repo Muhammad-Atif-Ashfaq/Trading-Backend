@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckMarginLevels;
+use App\Console\Commands\SaveBinanceHistory;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\CheckInactiveAccounts;
@@ -10,6 +12,8 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         Commands\CheckInactiveAccounts::class,
+        Commands\CheckMarginLevels::class,
+        Commands\SaveBinanceHistory::class,
     ];
 
     /**
@@ -19,6 +23,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command(CheckInactiveAccounts::class)->everyMinute();
+        $schedule->command(CheckMarginLevels::class)->everyMinute();
+        $schedule->command(SaveBinanceHistory::class)->everyMinute();
     }
 
     /**

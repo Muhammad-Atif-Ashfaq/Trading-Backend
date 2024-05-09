@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('1_minute_charts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('time');
             $table->string('open');
             $table->string('high');
             $table->string('low');
             $table->string('close');
+            $table->string('volume');
             $table->timestamps();
         });
     }
