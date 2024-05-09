@@ -74,7 +74,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
     public function updateSymbelSetting(array $data, $id)
     {
         $symbelSetting = $this->model->findOrFail($id);
-        $symbelSetting->update(prepareUpdateCols($data, $this->model));
+        $symbelSetting->update(prepareUpdateCols($data, 'symbel_settings'));
         return $symbelSetting;
     }
 

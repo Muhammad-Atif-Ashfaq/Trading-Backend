@@ -81,7 +81,7 @@ class TradingGroupRepository implements TradingGroupInterface
     public function updateTradingGroup(array $data, $id)
     {
         $tradingGroup = $this->model->findOrFail($id);
-        $tradingGroup->update(prepareUpdateCols($data, $this->model));
+        $tradingGroup->update(prepareUpdateCols($data, 'trading_groups'));
         if(count($data['symbel_group_ids'])){
             foreach ($data['symbel_group_ids'] as  $value) {
                 $trading_group_symbel = $this->trading_group_symbol->where('trading_group_id', $tradingGroup->id);

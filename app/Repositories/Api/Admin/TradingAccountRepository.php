@@ -106,7 +106,7 @@ class TradingAccountRepository implements TradingAccountInterface
     public function updateTradingAccount(array $data, $id)
     {
         $tradingAccount = $this->model->findOrFail($id);
-        $tradingAccount->update(prepareUpdateCols($data, $this->model));
+        $tradingAccount->update(prepareUpdateCols($data,'trading_accounts'));
 
         pushLiveDate('trading_accounts','update',$this->model->findOrFail($id));
 

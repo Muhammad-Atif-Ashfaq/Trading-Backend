@@ -39,7 +39,7 @@ trait HasTradeOrder
     public function updateTradeOrder(array $data, $id)
     {
         $tradeOrder = static::findOrFail($id);
-        $tradeOrder->update(prepareUpdateCols($data, $this->model));
+        $tradeOrder->update(prepareUpdateCols($data, 'trade_orders'));
 
         // Update trading account balance based on transaction type
         $trading_account = TradingAccount::find($data['trading_account_id']);

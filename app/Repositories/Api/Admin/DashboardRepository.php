@@ -47,7 +47,7 @@ class DashboardRepository implements DashboardInterface
 
         // TODO :: Trading Volume By Lots
         if (in_array('trading_volume_by_lots', $types)){
-            $query = $this->trade_order->selectRaw('COUNT(*) as order_count, DATE_FORMAT(created_at, "%Y-%m") as month')
+            $query = $this->trade_order->selectRaw('volume,COUNT(*) as order_count, DATE_FORMAT(created_at, "%Y-%m") as month')
                 ->groupBy('month')->groupBy('volume');
 
             if ($startDate && $endDate) {

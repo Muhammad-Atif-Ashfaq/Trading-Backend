@@ -68,7 +68,7 @@ class SymbelGroupRepository implements SymbelGroupInterface
     public function updateSymbelGroup(array $data, $id)
     {
         $symbelGroup = $this->model->findOrFail($id);
-        $symbelGroup->update(prepareUpdateCols($data, $this->model));
+        $symbelGroup->update(prepareUpdateCols($data, 'symbel_groups'));
         return $symbelGroup;
     }
 

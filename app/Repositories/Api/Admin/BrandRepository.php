@@ -79,7 +79,7 @@ class BrandRepository implements BrandInterface
     public function updateBrand(array $data, $id)
     {
         $brand = $this->model->findOrFail($id);
-        $brand->update(prepareUpdateCols($data, $this->model));
+        $brand->update(prepareUpdateCols($data, 'brands'));
         return $brand;
     }
 

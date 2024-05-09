@@ -46,7 +46,7 @@ trait HasTransactionOrder
     public function updateTransactionOrder(array $data, $id)
     {
         $transactionOrder = TransactionOrder::findOrFail($id);
-        $transactionOrder->update(prepareUpdateCols($data, $this->model));
+        $transactionOrder->update(prepareUpdateCols($data, 'transaction_orders'));
         return $transactionOrder;
     }
 
