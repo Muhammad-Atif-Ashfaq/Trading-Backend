@@ -40,50 +40,93 @@ class Create extends FormRequest
         ];
     }
 
-    protected function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            $trading_account_id = $this->input('trading_account_id');
-            $symbol = $this->input('symbol');
-            $lotSize = $this->input('volume');
-
-            $trading_account = TradingAccount::find($trading_account_id);
-            $symbol_setting = SymbelSetting::where('feed_fetch_name',$symbol)->first();
-            $symbol_group = $symbol_setting->group();
-
-
-            $commission = $symbol_setting->commission;
-
-            $balance = $trading_account->balance;
-            $leverage = $trading_account->leverage;
-            $openOrdersVolume = $trading_account->getOpenOrdersVolume();
-
-            $maxPositionSize = ($balance * $leverage) / $lotSize;
-
-            if ($balance < $commission) {
-                $validator->errors()->add('commission', 'Insufficient balance for commission');
-            }
-
-            if ($lotSize > $maxPositionSize) {
-                $validator->errors()->add('lot_size', 'Position size exceeds maximum allowable size');
-            }
-
-            if (($openOrdersVolume + $lotSize) > $maxPositionSize) {
-                $validator->errors()->add('lot_size', 'Total open orders volume exceeds maximum allowable size');
-            }
-
-            // Calculate used margin
-            $usedMargin = $lotSize / $leverage; // Assuming a simple calculation for used margin
-            // Calculate equity
-            $equity = $balance + $trading_account->getOpenPositionsProfit($symbol_setting); // Assuming you have a method to get open positions profit
-            // Calculate free margin
-            $freeMargin = $equity - $usedMargin;
-            // Calculate margin level
-            $marginLevel = ($equity / $usedMargin) * 100;
-
-        });
-
-    }
+//    protected function withValidator($validator)
+//    {
+//        $validator->after(function ($validator) {
+//            $trading_account_id = $this->input('trading_account_id');
+//            $symbol = $this->input('symbol');
+//            $lotSize = $this->input('volume');
+//
+//            $trading_account = TradingAccount::find($trading_account_id);
+//            $symbol_setting = SymbelSetting::where('feed_fetch_name',$symbol)->first();
+//            $symbol_group = $symbol_setting->group();
+//
+//
+//            $commission = $symbol_setting->commission;
+//
+//            $balance = $trading_account->balance;
+//            $leverage = $trading_account->leverage;
+//            $openOrdersVolume = $trading_account->getOpenOrdersVolume();
+//
+//            $maxPositionSize = ($balance * $leverage) / $lotSize;
+//
+//            if ($balance < $commission) {
+//                $validator->errors()->add('commission', 'Insufficient balance for commission');
+//            }
+//
+//            if ($lotSize > $maxPositionSize) {
+//                $validator->errors()->add('lot_size', 'Position size exceeds maximum allowable size');
+//            }
+//
+//            if (($openOrdersVolume + $lotSize) > $maxPositionSize) {
+//                $validator->errors()->add('lot_size', 'Total open orders volume exceeds maximum allowable size');
+//            }
+//
+//            // Calculate used margin
+//            $usedMargin = $lotSize / $leverage; // Assuming a simple calculation for used margin
+//            // Calculate equity
+//            $equity = $balance + $trading_account->getOpenPositionsProfit($symbol_setting); // Assuming you have a method to get open positions profit
+//            // Calculate free margin
+//            $freeMargin = $equity - $usedMargin;
+//            // Calculate margin level
+//            $marginLevel = ($equity / $usedMargin) * 100;
+//
+//        });
+//
+//    } protected function withValidator($validator)
+//    {
+//        $validator->after(function ($validator) {
+//            $trading_account_id = $this->input('trading_account_id');
+//            $symbol = $this->input('symbol');
+//            $lotSize = $this->input('volume');
+//
+//            $trading_account = TradingAccount::find($trading_account_id);
+//            $symbol_setting = SymbelSetting::where('feed_fetch_name',$symbol)->first();
+//            $symbol_group = $symbol_setting->group();
+//
+//
+//            $commission = $symbol_setting->commission;
+//
+//            $balance = $trading_account->balance;
+//            $leverage = $trading_account->leverage;
+//            $openOrdersVolume = $trading_account->getOpenOrdersVolume();
+//
+//            $maxPositionSize = ($balance * $leverage) / $lotSize;
+//
+//            if ($balance < $commission) {
+//                $validator->errors()->add('commission', 'Insufficient balance for commission');
+//            }
+//
+//            if ($lotSize > $maxPositionSize) {
+//                $validator->errors()->add('lot_size', 'Position size exceeds maximum allowable size');
+//            }
+//
+//            if (($openOrdersVolume + $lotSize) > $maxPositionSize) {
+//                $validator->errors()->add('lot_size', 'Total open orders volume exceeds maximum allowable size');
+//            }
+//
+//            // Calculate used margin
+//            $usedMargin = $lotSize / $leverage; // Assuming a simple calculation for used margin
+//            // Calculate equity
+//            $equity = $balance + $trading_account->getOpenPositionsProfit($symbol_setting); // Assuming you have a method to get open positions profit
+//            // Calculate free margin
+//            $freeMargin = $equity - $usedMargin;
+//            // Calculate margin level
+//            $marginLevel = ($equity / $usedMargin) * 100;
+//
+//        });
+//
+//    }
 
 
 }

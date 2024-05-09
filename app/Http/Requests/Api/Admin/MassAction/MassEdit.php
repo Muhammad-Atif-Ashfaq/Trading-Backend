@@ -15,6 +15,7 @@ class MassEdit extends FormRequest
         return [
             'table_name' => ['required', 'string', new TableNameExists()],
             'table_ids' => ['nullable', 'array'],
+            'column_name' => ['required','string']
         ];
     }
 }

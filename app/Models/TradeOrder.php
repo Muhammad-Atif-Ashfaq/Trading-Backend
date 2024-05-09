@@ -16,7 +16,7 @@ class TradeOrder extends Model
         HasGroupUniqueId,
         HasSearch;
 
-    public static $PREFIX = '0xXX'.'new_order';
+    public static $PREFIX = '0xXX' . 'new_order';
 
     protected $fillable = [
         'order_type',
@@ -45,7 +45,7 @@ class TradeOrder extends Model
 
     public function symbolSetting()
     {
-        return $this->belongsTo(SymbelSetting::class, 'symbol','feed_fetch_name');
+        return $this->belongsTo(SymbelSetting::class, 'symbol', 'feed_fetch_name');
     }
 
     public function user()
@@ -58,21 +58,32 @@ class TradeOrder extends Model
         return $this->belongsTo(TradingAccount::class);
     }
 
-    public function calculateProfitLoss($currentPrice,$entryPrice)
+    public function calculateProfitLoss($currentPrice, $entryPrice)
     {
-        $pip = !empty($this->symbolSetting()) ? $this->symbolSetting()->pip : 5;
-        // Calculate profit/loss based on direction of the trade
-        $profit  = 0;
-        if ($this->type == 'buy') {
+        $symbolSetting = $this->symbolSetting; // Access the related symbolSetting model
 
-            $profit  = ($currentPrice - $entryPrice) ;
+        // Ensure symbolSetting exists and has the 'pip' property
+        if ($symbolSetting && isset($symbolSetting->pip)) {
+            $pip = $symbolSetting->pip;
         } else {
-
-            $profit  =  ($entryPrice - $currentPrice) * $this->volume;
+            $pip = 5;
         }
-        return (number_format($profit, $pip) * $this->addZeroAfterOne($pip)) * $this->volume;
+        // Calculate profit/loss based on direction of the trade
+        if ($this->type == 'buy') {
+            $profit = ($currentPrice - $entryPrice);
+        } else {
+            $profit = ($entryPrice - $currentPrice) * $this->volume;
+        }
+
+        // Calculate total profit/loss
+        $totalProfit = (number_format($profit, $pip) * $this->addZeroAfterOne($pip)) * $this->volume;
+
+        return $totalProfit;
+
     }
-    function addZeroAfterOne($num) {
+
+    function addZeroAfterOne($num)
+    {
         $resultStr = '1';
         for ($i = 0; $i < $num; $i++) {
             $resultStr .= '0';
@@ -84,17 +95,17 @@ class TradeOrder extends Model
     // Method to get current price (replace this with your actual implementation)
     public function getCurrentPrice($symbol_setting)
     {
-        $data_feed = DataFeed::where('module',$symbol_setting->feed_name)->first();
+        $data_feed = DataFeed::where('module', $symbol_setting->feed_name)->first();
         $current_price = null;
 
         switch ($data_feed->module) {
             case 'binance':
                 // Logic to fetch current price from Binance data feed
-                $current_price = $this->getCurrentPriceFromBinance($data_feed,$symbol_setting);
+                $current_price = $this->getCurrentPriceFromBinance($data_feed, $symbol_setting);
                 break;
             case 'fcsapi':
                 // Logic to fetch current price from FCSAPI data feed
-                $current_price = $this->getCurrentPriceFromFcsapi($data_feed,$symbol_setting);
+                $current_price = $this->getCurrentPriceFromFcsapi($data_feed, $symbol_setting);
                 break;
             case 'tradermade':
                 // Logic to fetch current price from Tradermade data feed
@@ -193,7 +204,6 @@ class TradeOrder extends Model
     {
         return null;
     }
-
 
 
 }
