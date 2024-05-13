@@ -5,12 +5,16 @@ namespace App\Http\Requests\Api\Admin\TransactionOrders;
 use App\Enums\TransactionOrderMethodEnum;
 use App\Enums\TransactionOrderStatusEnum;
 use App\Enums\TransactionOrderTypeEnum;
+use App\Models\TradingAccount;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class Create extends FormRequest
 {
-    use ResponseTrait; // TODO: Using the ResponseTrait for sending responses
+    use ResponseTrait;
+
+    // TODO: Using the ResponseTrait for sending responses
 
     public function rules(): array
     {
@@ -19,7 +23,7 @@ class Create extends FormRequest
             'currency' => 'nullable|string',
             'trading_account_id' => 'required|exists:trading_accounts,id',
             'brand_id' => 'required|exists:brands,public_key',
-            'group_unique_id'    => 'nullable|string',
+            'group_unique_id' => 'nullable|string',
             'name' => 'nullable|string',
             'group' => 'nullable|string',
             'country' => 'nullable|string',
@@ -31,4 +35,32 @@ class Create extends FormRequest
             'comment' => 'nullable|string',
         ];
     }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                $data = $validator->validated();
+
+                // Check if method is "balance", type is "withdraw", and trading_account_id is provided
+                if ($data['method'] === TransactionOrderMethodEnum::BALANCE && $data['type'] === TransactionOrderTypeEnum::WITHDRAW && isset($data['trading_account_id'])) {
+                    // Get the trading account
+                    $tradingAccount = TradingAccount::find($data['trading_account_id']);
+
+                    // Check if trading account exists
+                    if ($tradingAccount) {
+                        // Get the account balance
+                        $accountBalance = $tradingAccount->balance;
+
+                        // Check if account balance is greater than or equal to the withdrawal amount
+                        if ($accountBalance < $data['amount']) {
+                            // Add an error to the validator
+                            $validator->errors()->add('amount', 'Insufficient balance for withdrawal');
+                        }
+                    }
+                }
+            }
+        ];
+    }
+
 }

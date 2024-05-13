@@ -17,6 +17,16 @@ class RegisterRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'brand_id' => ['required', 'string', 'exists:brands,public_key'],
             'password' => ['required', 'string', 'min:6'],
+            'country' => ['required', 'string' ],
+            'phone' => ['required', 'string' ],
+            'currency' => ['required', 'string' ,'in:$,€,£'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'currency.in' => 'The currency must be one of $, €, £.',
         ];
     }
 }

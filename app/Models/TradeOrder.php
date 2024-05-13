@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\TradeOrderTypeEnum;
+use App\Enums\TransactionOrderTypeEnum;
 use App\Traits\Models\HasGroupUniqueId;
 use App\Traits\Models\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -68,17 +70,20 @@ class TradeOrder extends Model
         } else {
             $pip = 5;
         }
-        // Calculate profit/loss based on direction of the trade
-        if ($this->type == 'buy') {
-            $profit = ($currentPrice - $entryPrice);
-        } else {
-            $profit = ($entryPrice - $currentPrice) * $this->volume;
+        if(!empty($currentPrice)){
+            // Calculate profit/loss based on direction of the trade
+            if ($this->type == 'buy') {
+                $profit = ((double)$currentPrice - (double)$entryPrice);
+            } else {
+                $profit = ((double)$entryPrice - (double)$currentPrice);
+            }
+
+            // Calculate total profit/loss
+            $totalProfit = ((double)number_format($profit, $pip) * $this->addZeroAfterOne($pip)) * $this->volume;
+
+            return $totalProfit;
         }
-
-        // Calculate total profit/loss
-        $totalProfit = (number_format($profit, $pip) * $this->addZeroAfterOne($pip)) * $this->volume;
-
-        return $totalProfit;
+        return 0;
 
     }
 
@@ -137,7 +142,7 @@ class TradeOrder extends Model
     private function getCurrentPriceFromBinance($data_feed, $symbol_setting)
     {
         // Binance API endpoint for getting current price
-        $url = $data_feed->feed_server . '/ticker/price?symbol=' . $symbol_setting->feed_fetch_name;
+        $url = $data_feed->feed_server . '/ticker/24hr?symbol=' . $symbol_setting->feed_fetch_name;
 
         // Fetch data from Binance API
         $response = Http::get($url);
@@ -147,11 +152,11 @@ class TradeOrder extends Model
             $ticker = $response->json();
 
             // Extract current price from the response
-            if (isset($ticker['price'])) {
-                return $ticker['price'];
+            if ($this->type == TradeOrderTypeEnum::BUY) {
+                return $ticker['bidPrice'];
             } else {
                 // Handle invalid response
-                return null;
+                return $ticker['askPrice'];
             }
         } else {
             // Handle request failure

@@ -74,7 +74,7 @@ class TradingAccountRepository implements TradingAccountInterface
             'phone' => $data['phone'] ?? null,
             'name' => $data['name'] ?? null,
             'email' => $data['email']  ?? null,
-            'leverage' => $data['leverage'] ?? 25,
+            'leverage' => $data['leverage'] ?? 1,
             'balance' => $data['balance'] ?? 0,
             'credit' => $data['credit'] ?? 0,
             'equity' => $data['equity'] ?? null,

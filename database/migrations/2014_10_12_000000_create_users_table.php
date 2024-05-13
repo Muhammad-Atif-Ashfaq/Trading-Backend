@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('original_password')->nullable();
             $table->string('brand_id')->nullable();
+            $table->string('country')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('currency')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

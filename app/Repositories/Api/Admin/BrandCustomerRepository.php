@@ -41,7 +41,7 @@ class BrandCustomerRepository implements BrandCustomerInterface
     {
         $brands = $this->model
             ->where('brand_id',$brand_id)
-            ->select('name', 'id')
+            ->select('name', 'id','currency','phone','email','country')
 
             ->get();
         return $brands;

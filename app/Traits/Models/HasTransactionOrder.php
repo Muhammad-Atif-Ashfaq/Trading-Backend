@@ -2,6 +2,7 @@
 
 namespace App\Traits\Models;
 
+use App\Enums\TransactionOrderMethodEnum;
 use App\Enums\TransactionOrderTypeEnum;
 use App\Models\TradingAccount;
 use App\Models\TransactionOrder;
@@ -32,12 +33,17 @@ trait HasTransactionOrder
 
         // Update trading account balance based on transaction type
         $trading_account = TradingAccount::find($data['trading_account_id']);
-        if ($data['type'] == TransactionOrderTypeEnum::DEPOSIT) {
-            $trading_account->balance = (string)( (double)$trading_account->balance + (double)$data['amount']);
-        } elseif ($data['type'] == TransactionOrderTypeEnum::WITHDRAW) {
-            $trading_account->balance = (string)( (double)$trading_account->balance - (double)$data['amount']);
+        if($transactionOrder->method = TransactionOrderMethodEnum::BALANCE){
+            if ($transactionOrder->type == TransactionOrderTypeEnum::DEPOSIT) {
+                $trading_account->balance = (string)( (double)$trading_account->balance + (double)$transactionOrder->amount);
+                $trading_account->equity = (string)( (double)$trading_account->balance + (double)$transactionOrder->amount);
+            } elseif ($transactionOrder->type == TransactionOrderTypeEnum::WITHDRAW) {
+                $trading_account->balance = (string)( (double)$trading_account->balance - (double)$transactionOrder->amount);
+                $trading_account->equity = (string)( (double)$trading_account->balance - (double)$transactionOrder->amount);
+            }
+            $trading_account->save();
         }
-        $trading_account->save();
+
 
         return $transactionOrder;
     }

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Admin\TransactionOrderRepository;
 use App\Http\Requests\Api\Admin\TransactionOrders\Create as TransactionOrderCreate;
-use App\Http\Requests\Api\Admin\TransactionOrders\index as TransactionOrderIndex;
+use App\Http\Requests\Api\Admin\TransactionOrders\Index as TransactionOrderIndex;
 use Illuminate\Http\Request;
 
 

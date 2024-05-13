@@ -4,12 +4,16 @@ namespace App\Http\Requests\Api\Admin\GroupTradeOrders;
 
 use App\Enums\OrderTypeEnum;
 use App\Enums\TradeOrderTypeEnum;
+use App\Models\TradingAccount;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class Create extends FormRequest
 {
-    use ResponseTrait; // TODO: Using the ResponseTrait for sending responses
+    use ResponseTrait;
+
+    // TODO: Using the ResponseTrait for sending responses
 
     public function rules(): array
     {
@@ -30,6 +34,29 @@ class Create extends FormRequest
             'swap' => 'nullable|string',
             'profit' => 'nullable|string',
             'comment' => 'nullable|string',
+            'skip' => 'nullable|boolean'
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                $data = $validator->validated();
+                $skipAccounts = $data['skip'] ?? false;
+
+                $lowBalanceAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
+                    ->where('balance', '<', $data['amount'])
+                    ->pluck('login_id')
+                    ->toArray();
+
+                // Check if trading account exists
+                if (count($lowBalanceAccounts)) {
+                    if (!$skipAccounts) {
+                        $validator->errors()->add('balance', 'Insufficient balance for trade for accounts: ' . implode(', ', $lowBalanceAccounts));
+                    }
+                }
+            }
         ];
     }
 }

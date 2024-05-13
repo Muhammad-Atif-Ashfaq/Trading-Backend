@@ -34,7 +34,7 @@ class SettingController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $settings = $this->settingRepository->setSettings($request->validated());
-            return $this->sendResponse($settings, 'set Settings');
+            return $this->sendResponse($settings, 'Settings updated Successfully');
         });
     }
 

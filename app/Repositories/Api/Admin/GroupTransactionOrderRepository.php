@@ -36,7 +36,17 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
     public function createGroupTransactionOrder(array $data)
     {
         $trading_group__id = uniqid($this->model::$PREFIX);
-        $trading_accounts = $this->trading_account->where('trading_group_id', $data['trading_group_id'])->get();
+        $trading_accounts = $this->trading_account
+            ->where('trading_group_id', $data['trading_group_id'])
+            ->when(isset($data['skip_accounts']), function ($query) use ($data) {
+                return $query->whereNotIn('id', function ($subQuery) use ($data) {
+                    $subQuery->from('trading_accounts')
+                        ->where('trading_group_id', $data['trading_group_id'])
+                        ->where('balance', '<', $data['amount'])
+                        ->pluck('id');
+                });
+            })
+            ->get();
         foreach ($trading_accounts as $trading_account) {
             $data['trading_account_id'] = $trading_account->id;
             $data['brand_id'] = $trading_account->brand_id;

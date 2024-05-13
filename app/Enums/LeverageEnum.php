@@ -4,18 +4,18 @@ namespace App\Enums;
 
 final class LeverageEnum
 {
-     const LEVERAGE_1_TO_1 = '100';
-     const LEVERAGE_2_TO_1 = '50';
-     const LEVERAGE_3_TO_1 = '33';
-     const LEVERAGE_4_TO_1 = '25';
-     const LEVERAGE_5_TO_1 = '20';
+     const LEVERAGE_1_TO_1 = '1';
+     const LEVERAGE_2_TO_1 = '2';
+     const LEVERAGE_3_TO_1 = '3';
+     const LEVERAGE_4_TO_1 = '4';
+     const LEVERAGE_5_TO_1 = '5';
      const LEVERAGE_10_TO_1 = '10';
-     const LEVERAGE_20_TO_1 = '5';
-     const LEVERAGE_30_TO_1 = '3.33';
-     const LEVERAGE_50_TO_1 = '2';
-     const LEVERAGE_100_TO_1 = '1';
-     const LEVERAGE_400_TO_1 = '0.25';
-     const LEVERAGE_1000_TO_1 = '0.10';
+     const LEVERAGE_20_TO_1 = '20';
+     const LEVERAGE_30_TO_1 = '30';
+     const LEVERAGE_50_TO_1 = '50';
+     const LEVERAGE_100_TO_1 = '100';
+     const LEVERAGE_400_TO_1 = '400';
+     const LEVERAGE_1000_TO_1 = '1000';
 
 
     const LEVERAGE_1_TO_1_TEXT = '1:1';

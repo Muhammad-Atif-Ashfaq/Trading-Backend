@@ -45,3 +45,37 @@ if (!function_exists('prepareUpdateCols')) {
         return skipValue0($filteredData);
     }
 }
+if (!function_exists('calculateNights')) {
+    function calculateNights($startDate, $endDate)
+    {
+        // Convert dates to DateTime objects
+        $startDate = new DateTime($startDate);
+        $endDate = new DateTime($endDate);
+
+        // Set the start time for each day to 11 PM
+        $startDate->setTime(23, 0, 0);
+
+        // Calculate the number of nights
+        $nights = 0;
+
+        while ($startDate < $endDate) {
+            $nights++;
+
+            // Move to the next day (24 hours)
+            $startDate->add(new DateInterval('P1D'));
+
+            // Set the time to 11 PM for the next day
+            $startDate->setTime(23, 0, 0);
+        }
+
+        return $nights;
+    }
+}
+if (!function_exists('calculateCalswap')) {
+    function calculateCalswap($volume, $totalNights, $symbolSetting)
+    {
+        return $volume * $totalNights * ($symbolSetting ? (double)$symbolSetting->swap : 0);
+    }
+}
+
+

@@ -49,21 +49,27 @@ class MassActionRepository implements MassActionInterface
 
         // Iterate through each trade order and update it
         foreach ($tradeOrders as $tradeOrder) {
-                $currentPrice = $tradeOrder->getCurrentPrice(SymbelSetting::where('feed_fetch_name',$tradeOrder->symbol)->first());
-                $profit = $tradeOrder->calculateProfitLoss($currentPrice,$tradeOrder->open_price);
-                $tradeOrder->profit = $profit;
-                $tradeOrder->order_type = OrderTypeEnum::CLOSE;
-                $tradeOrder->close_price = $currentPrice;
-                $tradeOrder->close_time = now();
-                $tradeOrder->save();
+            $symbol_setting = SymbelSetting::where('feed_fetch_name',$tradeOrder->symbol)->first();
+            $currentPrice = $tradeOrder->getCurrentPrice($symbol_setting);
+            $profit = $tradeOrder->calculateProfitLoss($currentPrice,$tradeOrder->open_price);
+            $tradeOrder->profit = $profit;
+            $tradeOrder->order_type = OrderTypeEnum::CLOSE;
+            $tradeOrder->close_price = $currentPrice;
+            $tradeOrder->close_time = now();
+            $tradeOrder->save();
 
-                // Update trading account balance based on profit
-                $trading_account = TradingAccount::find($tradeOrder->trading_account_id);
-                $trading_account->balance = (string)((double)$trading_account->balance + (double)$profit);
-                $trading_account->save();
+            // Update trading account balance based on profit
+            $trading_account = TradingAccount::find($tradeOrder->trading_account_id);
+            $returnBalance = (double)$trading_account->balance + (double)$profit ?? 0;
+            $returnBalance -= ((double)$symbol_setting->commission * (double)$tradeOrder->valume);
+            $calswap = calculateCalswap((double)$tradeOrder->valume, calculateNights($tradeOrder->created_at, now()), $symbol_setting);
+            $newBalance = max($returnBalance - (double)$calswap, 0);
+            $trading_account->balance = (string)$newBalance;
+            $trading_account->save();
+
         }
-
         return $tradeOrders;
+
     }
 
 }

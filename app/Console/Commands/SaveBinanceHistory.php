@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Chart;
 use App\Models\SymbelSetting;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class SaveBinanceHistory extends Command
 {
@@ -26,37 +26,64 @@ class SaveBinanceHistory extends Command
     /**
      * Execute the console command.
      */
+
     public function handle()
     {
-
-        $symbols = SymbelSetting::where('feed_name', 'binance')
-            ->pluck('feed_fetch_name')
-            ->toArray();
+        $symbols = SymbelSetting::where('feed_name', 'fcsapi')
+            ->select('feed_fetch_name', 'feed_fetch_key')
+            ->get();
 
         foreach ($symbols as $symbol) {
-            // Make a request to the Binance API for historical data of the current symbol
-            $response = Http::get('https://api.binance.com/api/v1/klines', [
-                'symbol' => $symbol,
-                'interval' => '1m', // 1-minute interval
-                'limit' => 1, // Adjust limit as per your requirement
+            $url = "https://fcsapi.com/api-v3/{$symbol->feed_fetch_key}/latest?id={$symbol->feed_fetch_name}&access_key=nlHesxOiUsI4KyCUulyq";
+
+            // Initialize cURL session
+            $curl = curl_init();
+
+            // Set cURL options
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                ],
             ]);
 
-            // Parse the response and save historical data to the database
-            $data = $response->json();
+            // Execute cURL request
+            $response = curl_exec($curl);
 
-            foreach ($data as $item) {
+            // Check for cURL errors
+            if (curl_errno($curl)) {
+                $this->error('cURL error: ' . curl_error($curl));
+                continue; // Skip to the next symbol
+            }
+
+            // Close cURL session
+            curl_close($curl);
+            Log::info('Response for symbol1 ' . $symbol->feed_fetch_name . ': ' . json_encode($response));
+            // Parse the response and save historical data to the database
+            $data = json_decode($response, true);
+
+            // Log the response for debugging purposes
+            Log::info('Response for symbol2 ' . $symbol->feed_fetch_name . ': ' . json_encode($data));
+
+            if (isset($data['response'][0])) {
+                $item = $data['response'][0];
                 Chart::create([
-                    'symbol' => $symbol,
-                    'time' => $item[0],
-                    'open' => $item[1],
-                    'high' => $item[2],
-                    'low' => $item[3],
-                    'close' => $item[4],
-                    'volume' => $item[5],
+                    'name' => $item['s'], // Using 's' for symbol
+                    'time' => $item['tm'], // Using 'tm' for time
+                    'open' => $item['o'],  // Using 'o' for open
+                    'high' => $item['h'],  // Using 'h' for high
+                    'low' => $item['l'],   // Using 'l' for low
+                    'close' => $item['c'], // Using 'c' for close
                 ]);
+            } else {
+                $this->error("Invalid data structure received for symbol: {$symbol->feed_fetch_name}");
             }
         }
-
-        $this->info('Historical data saved successfully for all symbols.');
     }
+
+
 }
