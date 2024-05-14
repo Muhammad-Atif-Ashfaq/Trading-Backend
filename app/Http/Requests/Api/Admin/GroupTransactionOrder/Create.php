@@ -37,22 +37,22 @@ class Create extends FormRequest
     {
         return [
             function (Validator $validator) {
-
                 $data = $validator->validated();
-
+                $method = $data['method'];
                 $skipAccounts = $data['skip'] ?? false;
-                // Check if method is "balance", type is "withdraw", and trading_account_id is provided
-                if ($data['method'] === TransactionOrderMethodEnum::BALANCE && $data['type'] === TransactionOrderTypeEnum::WITHDRAW) {
+
+                // type is "withdraw", and trading_account_id is provided
+                if ( $data['type'] === TransactionOrderTypeEnum::WITHDRAW) {
                     // Get the trading account
-                    $lowBalanceAccounts = TradingAccount::where('trading_group_id',$data['trading_group_id'])
-                        ->where('balance' ,'<',$data['amount'])
+                    $lowAccounts = TradingAccount::where('trading_group_id',$data['trading_group_id'])
+                        ->where($method ,'<',$data['amount'])
                         ->pluck('login_id')
                         ->toArray();
 
                     // Check if trading account exists
-                    if (count($lowBalanceAccounts)) {
+                    if (count($lowAccounts)) {
                         if (!$skipAccounts) {
-                            $validator->errors()->add('balance', 'Insufficient balance for withdrawal for accounts: ' . implode(', ', $lowBalanceAccounts));
+                            $validator->errors()->add('balance', 'Insufficient '.ucfirst($method).' for withdrawal for accounts: ' . implode(', ', $lowAccounts));
                         }
                     }
                 }

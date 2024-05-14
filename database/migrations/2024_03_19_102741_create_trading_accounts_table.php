@@ -26,6 +26,9 @@ return new class extends Migration
             $table->string('leverage')->nullable();
             $table->string('balance')->default('0');
             $table->string('credit')->default('0');
+            $table->string('bonus')->default('0');
+            $table->string('commission')->default('0');
+            $table->string('tax')->default('0');
             $table->string('equity')->nullable();
             $table->string('margin_level_percentage')->default('0');
             $table->string('profit')->default('0');

@@ -167,7 +167,7 @@ class TradeOrder extends Model
     private function getCurrentPriceFromFcsapi($data_feed, $symbol_setting)
     {
         // FCSAPI API endpoint for getting current price
-        $url = $data_feed->feed_server . '/' . $symbol_setting->feed_fetch_key . '/latest?id=' . $symbol_setting->feed_fetch_name;
+        $url = $data_feed->feed_server . '/' . $symbol_setting->feed_fetch_key . '/latest?id=' . $symbol_setting->feed_fetch_name.'&access_key='.$data_feed->feed_login;
 
         // Fetch data from FCSAPI
         $response = Http::get($url);

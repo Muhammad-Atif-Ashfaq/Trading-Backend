@@ -13,6 +13,7 @@ trait HasTransactionOrder
     // TODO: Create a new transaction order.
     public function createTransactionOrder(array $data)
     {
+        $method = $data['method'];
         $transactionOrder = TransactionOrder::create([
             'amount' => $data['amount'],
             'currency' => $data['currency'],
@@ -26,23 +27,19 @@ trait HasTransactionOrder
             'phone' => $data['phone'] ?? null,
             'email' => $data['email'] ?? null,
             'type' => $data['type'],
-            'method' => $data['method'],
+            'method' => $method,
             'status' => $data['status'],
             'comment' => $data['comment'] ?? null
         ]);
 
         // Update trading account balance based on transaction type
         $trading_account = TradingAccount::find($data['trading_account_id']);
-        if($transactionOrder->method = TransactionOrderMethodEnum::BALANCE){
-            if ($transactionOrder->type == TransactionOrderTypeEnum::DEPOSIT) {
-                $trading_account->balance = (string)( (double)$trading_account->balance + (double)$transactionOrder->amount);
-                $trading_account->equity = (string)( (double)$trading_account->balance + (double)$transactionOrder->amount);
-            } elseif ($transactionOrder->type == TransactionOrderTypeEnum::WITHDRAW) {
-                $trading_account->balance = (string)( (double)$trading_account->balance - (double)$transactionOrder->amount);
-                $trading_account->equity = (string)( (double)$trading_account->balance - (double)$transactionOrder->amount);
-            }
-            $trading_account->save();
+        if ($transactionOrder->type == TransactionOrderTypeEnum::DEPOSIT) {
+            $trading_account->$method = (string)((double)$trading_account->$method + (double)$transactionOrder->amount);
+        } elseif ($transactionOrder->type == TransactionOrderTypeEnum::WITHDRAW) {
+            $trading_account->$method = (string)((double)$trading_account->$method - (double)$transactionOrder->amount);
         }
+        $trading_account->save();
 
 
         return $transactionOrder;

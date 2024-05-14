@@ -41,21 +41,22 @@ class Create extends FormRequest
         return [
             function (Validator $validator) {
                 $data = $validator->validated();
+                $method = $data['method'];
 
-                // Check if method is "balance", type is "withdraw", and trading_account_id is provided
-                if ($data['method'] === TransactionOrderMethodEnum::BALANCE && $data['type'] === TransactionOrderTypeEnum::WITHDRAW && isset($data['trading_account_id'])) {
+                //  type is "withdraw", and trading_account_id is provided
+                if ($data['type'] === TransactionOrderTypeEnum::WITHDRAW && isset($data['trading_account_id'])) {
                     // Get the trading account
                     $tradingAccount = TradingAccount::find($data['trading_account_id']);
 
                     // Check if trading account exists
                     if ($tradingAccount) {
                         // Get the account balance
-                        $accountBalance = $tradingAccount->balance;
+                        $account = $tradingAccount->$method;
 
                         // Check if account balance is greater than or equal to the withdrawal amount
-                        if ($accountBalance < $data['amount']) {
+                        if ($account < $data['amount']) {
                             // Add an error to the validator
-                            $validator->errors()->add('amount', 'Insufficient balance for withdrawal');
+                            $validator->errors()->add('amount', 'Insufficient '.ucfirst($method).' for withdrawal');
                         }
                     }
                 }

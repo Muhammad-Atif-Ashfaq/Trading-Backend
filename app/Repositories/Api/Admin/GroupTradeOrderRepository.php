@@ -39,9 +39,11 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
         $trading_group__id = uniqid($this->model::$PREFIX);
         $tradingAccounts = $this->trading_account
             ->where('trading_group_id', $data['trading_group_id'])
-            ->when(isset($data['skip_accounts']), function ($query) use ($data) {
+            ->when(isset($data['skip']), function ($query) use ($data) {
                 return $query->whereNotIn('id', function ($subQuery) use ($data) {
-                    $subQuery->from('trading_accounts')
+                    $subQuery
+                        ->select('id')
+                        ->from('trading_accounts')
                         ->where('trading_group_id', $data['trading_group_id'])
                         ->where('balance', '<', $data['amount'])
                         ->pluck('id');
