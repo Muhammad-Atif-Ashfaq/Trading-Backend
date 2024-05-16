@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckLiveOrders;
 use App\Console\Commands\CheckMarginLevels;
+use App\Console\Commands\CheckPaddingOrders;
 use App\Console\Commands\SaveBinanceHistory;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -14,6 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\CheckInactiveAccounts::class,
         Commands\CheckMarginLevels::class,
         Commands\SaveBinanceHistory::class,
+        Commands\CheckPaddingOrders::class,
+        Commands\CheckLiveOrders::class,
     ];
 
     /**
@@ -25,6 +29,8 @@ class Kernel extends ConsoleKernel
         $schedule->command(CheckInactiveAccounts::class)->everyMinute();
         $schedule->command(CheckMarginLevels::class)->everyMinute();
         $schedule->command(SaveBinanceHistory::class)->everyMinute();
+        $schedule->command(CheckPaddingOrders::class)->everySecond();
+        $schedule->command(CheckLiveOrders::class)->everySecond();
     }
 
     /**

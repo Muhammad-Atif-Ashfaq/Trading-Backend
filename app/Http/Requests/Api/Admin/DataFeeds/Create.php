@@ -14,6 +14,7 @@ class Create extends FormRequest
         return [
             'name' => 'required|unique:data_feeds,name|string|max:255',
             'module' => 'required|string|max:255',
+            'enabled' => 'required',
             'feed_server' => 'required|string|max:255',
             'feed_login' => 'nullable|string|max:255',
             'feed_password' => 'nullable|string|max:255',

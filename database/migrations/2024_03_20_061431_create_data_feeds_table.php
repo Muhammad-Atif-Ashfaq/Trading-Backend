@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('module');
+            $table->string('enabled')->default(0);
             $table->string('feed_server');
             $table->string('feed_login')->nullable();
             $table->string('feed_password')->nullable();

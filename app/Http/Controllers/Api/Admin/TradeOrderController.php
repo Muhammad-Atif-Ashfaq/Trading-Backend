@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
+use App\Http\Requests\Api\Admin\TradeOrders\MultiTradeOrderUpdate;
 use App\Repositories\Api\Admin\TradeOrderRepository;
 use App\Http\Requests\Api\Admin\TradeOrders\Create as TradeOrderCreate;
 use App\Http\Requests\Api\Admin\TradeOrders\Index as TradeOrderIndex;
@@ -55,6 +56,15 @@ class TradeOrderController extends Controller
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
             $tradeOrder = $this->tradeOrderRepository->updateTradeOrder($request->all(), $id);
             return $this->sendResponse($tradeOrder, 'TradeOrder updated successfully');
+        });
+    }
+
+    // TODO: Update multi a trade order.
+    public function multiUpdate(MultiTradeOrderUpdate $request)
+    {
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
+            $tradeOrder = $this->tradeOrderRepository->updateMultiTradeOrder($request->orders);
+            return $this->sendResponse($tradeOrder, 'TradeOrders updated successfully');
         });
     }
 

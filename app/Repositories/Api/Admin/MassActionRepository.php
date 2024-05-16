@@ -52,9 +52,10 @@ class MassActionRepository implements MassActionInterface
             $symbol_setting = SymbelSetting::where('feed_fetch_name',$tradeOrder->symbol)->first();
             $currentPrice = $tradeOrder->getCurrentPrice($symbol_setting);
             $profit = $tradeOrder->calculateProfitLoss($currentPrice,$tradeOrder->open_price);
+
             $tradeOrder->profit = $profit;
-            $tradeOrder->order_type = OrderTypeEnum::CLOSE;
             $tradeOrder->close_price = $currentPrice;
+            $tradeOrder->order_type = OrderTypeEnum::CLOSE;
             $tradeOrder->close_time = now();
             $tradeOrder->save();
 
@@ -68,6 +69,7 @@ class MassActionRepository implements MassActionInterface
             $trading_account->save();
 
         }
+
         return $tradeOrders;
 
     }

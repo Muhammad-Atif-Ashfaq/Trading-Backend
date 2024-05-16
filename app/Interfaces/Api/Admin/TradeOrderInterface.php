@@ -38,6 +38,14 @@ interface TradeOrderInterface
     public function updateTradeOrder(array $data, $id);
 
     /**
+     * TODO: Update a trade order.
+     *
+     * @param  array  $data
+     * @return mixed
+     */
+    public function updateMultiTradeOrder(array $data);
+
+    /**
      * TODO: Delete a trade order by ID.
      *
      * @param  int  $id

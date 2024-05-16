@@ -7,6 +7,7 @@ final class TradeOrderTypeEnum
     const BUY = 'buy';
     const SELL = 'sell';
     const SELL_LIMIT = 'Sell Limit'; // Corrected constant declaration
+    const BUY_LIMIT = 'Buy Limit'; // Corrected constant declaration
     const BUY_STOP = 'Buy Stop';
     const SELL_STOP = 'Sell Stop'; // Corrected constant name
     const BUY_SELL_LIMIT = 'Buy Sell Limit';
@@ -19,6 +20,7 @@ final class TradeOrderTypeEnum
             self::BUY,
             self::SELL,
             self::SELL_LIMIT,
+            self::BUY_LIMIT,
             self::BUY_STOP,
             self::SELL_STOP,
             self::BUY_SELL_LIMIT,

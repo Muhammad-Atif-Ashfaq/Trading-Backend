@@ -34,6 +34,7 @@ class DataFeedRepository implements DataFeedInterface
     {
         $dataFeeds = $this->model
             ->select('name', 'module')
+            ->where( 'enabled',1)
             ->get();
         return $dataFeeds;
     }
@@ -45,6 +46,7 @@ class DataFeedRepository implements DataFeedInterface
         $dataFeed = $this->model->create([
             'name' => $data['name'],
             'module' => $data['module'],
+            'enabled' => $data['enabled'],
             'feed_server' => $data['feed_server'],
             'feed_login' => $data['feed_login'] ?? null,
             'feed_password' => $data['feed_password'] ?? null
@@ -64,7 +66,7 @@ class DataFeedRepository implements DataFeedInterface
     public function updateDataFeed(array $data, $id)
     {
         $dataFeed = $this->model->findOrFail($id);
-        $dataFeed->update(prepareUpdateCols($data, $this->model));
+        $dataFeed->update(prepareUpdateCols($data, 'data_feeds'));
         return $dataFeed;
     }
 

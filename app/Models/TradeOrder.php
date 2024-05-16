@@ -40,7 +40,8 @@ class TradeOrder extends Model
         'swap',
         'profit',
         'comment',
-        'stop_limit_price'
+        'stop_limit_price',
+        'is_tech_price'
     ];
 
     protected $with = ['symbolSetting'];

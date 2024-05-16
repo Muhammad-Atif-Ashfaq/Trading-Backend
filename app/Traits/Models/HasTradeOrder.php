@@ -35,6 +35,7 @@ trait HasTradeOrder
         ]);
         return $tradeOrder;
     }
+
     // TODO:Update an existing trade order.
     public function updateTradeOrder(array $data, $id)
     {
@@ -44,12 +45,27 @@ trait HasTradeOrder
         // Update trading account balance based on transaction type
         $trading_account = TradingAccount::find($data['trading_account_id']);
         if ($data['order_type'] == OrderTypeEnum::CLOSE) {
-            $returnBalance = (double)$trading_account->balance + (double)$data['profit'];
-            $trading_account->balance = (string)( $returnBalance - (double)$data['swap']);
+            $returnBalance = (double) $trading_account->balance + (double)$data['profit'];
+            $trading_account->balance = (string) ($returnBalance - (double)$data['swap']);
         }
         $trading_account->save();
 
         return $tradeOrder;
+    }
+
+    // TODO:Update multi an existing trade order.
+    public function updateMultiTradeOrder(array $orders)
+    {
+        foreach ($orders as $order){
+            $tradeOrder = static::findOrFail($order['id']);
+            unset($order['id']);
+            unset($order['created_at']);
+            unset($order['updated_at']);
+            unset($order['data_feed']);
+            unset($order['order_type']);
+            $tradeOrder->update(prepareUpdateCols($order, 'trade_orders'));
+        }
+        return $orders;
     }
 
 }

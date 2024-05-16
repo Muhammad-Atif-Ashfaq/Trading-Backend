@@ -46,7 +46,7 @@ class Create extends FormRequest
                 $skipAccounts = $data['skip'] ?? false;
 
                 $lowBalanceAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
-                    ->where('balance', '<', $data['amount'])
+                    ->where('balance', '<', $data['open_price'])
                     ->pluck('login_id')
                     ->toArray();
 

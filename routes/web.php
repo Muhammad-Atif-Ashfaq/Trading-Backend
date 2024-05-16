@@ -14,5 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
+//    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
     return view('welcome');
 });

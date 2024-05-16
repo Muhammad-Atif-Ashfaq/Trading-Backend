@@ -12,6 +12,7 @@ class DataFeed extends Model
     protected $fillable = [
         'name',
         'module',
+        'enabled',
         'feed_server',
         'feed_login',
         'feed_password',

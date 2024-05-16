@@ -49,6 +49,12 @@ class TradeOrderRepository implements TradeOrderInterface
         return $this->model->updateTradeOrder($data, $id);
     }
 
+    // TODO: Update a trade order.
+    public function updateMultiTradeOrder(array $data)
+    {
+        return $this->model->updateMultiTradeOrder($data);
+    }
+
     // TODO: Delete a trade order.
     public function deleteTradeOrder($id)
     {

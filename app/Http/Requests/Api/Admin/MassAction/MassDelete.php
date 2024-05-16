@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests\Api\Admin\MassAction;
 
-use App\Models\SymbelSetting;
-use App\Models\TradeOrder;
-use App\Models\TradingAccount;
 use App\Rules\TableNameExists;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,8 +10,6 @@ use Illuminate\Validation\Validator;
 class MassDelete extends FormRequest
 {
     use ResponseTrait;
-
-    // TODO: Using the ResponseTrait for sending responses
 
     public function rules(): array
     {
@@ -31,31 +26,51 @@ class MassDelete extends FormRequest
         return [
             function (Validator $validator) {
                 $data = $validator->validated();
-
                 $table_name = $data['table_name'];
-                $skipAccounts = $data['skip'] ?? false;
+                $skip = $data['skip'] ?? false;
+                $table_ids = $data['table_ids'] ?? [];
 
-                if ($table_name == 'symbel_settings') {
+                [$hasChildDataIds, $childModels] = $this->getChildDataIds($table_name, $table_ids);
 
-                    $symbols = SymbelSetting::when(isset($data['table_ids']),function ($q) use ($data){
-                        $q->whereIn('id', $data['table_ids']);
-                    })->get();
-
-                    // Find symbols with associated orders
-                    $hasOrderSymbols = $symbols->filter(function ($symbol) {
-                        return TradeOrder::whereIn('symbol', [$symbol->feed_fetch_name])->exists();
-                    })->pluck('feed_fetch_name')->toArray();
-
-                    // // If associated orders found and skipping is not enabled, add an error
-                    if (!empty($hasOrderSymbols) && !$skipAccounts) {
-                        $validator->errors()->add('table_ids', 'Associated orders found. Do you want to skip these entries?: ' . implode(', ', $hasOrderSymbols));
+                if (!empty($hasChildDataIds)) {
+                    if ($skip) {
+                        $data['table_ids'] = array_diff($table_ids, $hasChildDataIds);
+                    } else {
+                        $childModelList = implode(', ', $childModels);
+                        $validator->errors()->add('table_ids', "Associated data found in: $childModelList. Do you want to skip these entries?: " . implode(', ', $hasChildDataIds));
                     }
                 }
-
-
-
             }
-
         ];
+    }
+
+
+
+    private function getChildDataIds(string $table_name, array $ids): array
+    {
+        $relatedModels = config('massdelete');
+        $hasChildDataIds = [];
+        $childModels = [];
+
+        if (isset($relatedModels[$table_name])) {
+            $primaryModelClass = tableToModel($table_name);
+            $items = $primaryModelClass::whereIn('id', $ids)->get();
+
+            foreach ($items as $item) {
+                foreach ($relatedModels[$table_name] as $relation) {
+                    $relatedModelClass = $relation['model']::query();
+                    foreach ($relation['keys'] as $primaryKey => $relatedKey) {
+                        $relatedModelClass = $relatedModelClass->where($relatedKey, $item->$primaryKey);
+                    }
+                    if ($relatedModelClass->exists()) {
+                        $hasChildDataIds[] = $item->id;
+                        $childModels[] = str_replace('App\\Models\\','',$relation['model']);
+                        break 2; // Break both loops as we already found a relation
+                    }
+                }
+            }
+        }
+
+        return [array_unique($hasChildDataIds), array_unique($childModels)];
     }
 }

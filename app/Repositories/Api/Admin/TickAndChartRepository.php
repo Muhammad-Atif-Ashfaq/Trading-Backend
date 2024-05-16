@@ -21,7 +21,7 @@ class TickAndChartRepository implements TickAndChartInterface
     // TODO: Get all ticks.
     public function getAllTicks($request)
     {
-        $ticks = $this->tick->query();
+        $ticks = $this->tick->whereSearch($request);
         $ticks = PaginationHelper::paginate(
             $ticks,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -33,11 +33,11 @@ class TickAndChartRepository implements TickAndChartInterface
     // TODO: Get all charts.
     public function getAllCharts($request)
     {
-        $charts = $this->chart->query();
+        $charts = $this->chart->whereSearch($request);
         $charts = PaginationHelper::paginate(
             $charts,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
-            $request->input('page', config('systemSetting.system_per_page_count'))
+            $request->input('page', config('systemSetting.system_current_page'))
         );
         return $charts;
     }
