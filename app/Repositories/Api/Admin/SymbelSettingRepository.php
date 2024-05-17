@@ -18,13 +18,23 @@ class SymbelSettingRepository implements SymbelSettingInterface
     // TODO: Get all symbel settings.
     public function getAllSymbelSettings($request)
     {
-        $symbelSettings = $this->model->whereSearch($request);
-        $symbelSettings = PaginationHelper::paginate(
-            $symbelSettings,
-            $request->input('per_page', config('systemSetting.system_per_page_count')),
-            $request->input('page', config('systemSetting.system_current_page'))
-        );
-        return $symbelSettings;
+        $symbelSettingsQuery = $this->model->whereSearch($request);
+        $symbelSettings = $symbelSettingsQuery->paginate(10); 
+        
+        foreach($symbelSettings as $symbelSetting)
+        {
+            $symbelSetting['data_feed_name'] = $symbelSetting->dataFeed->name;
+            $symbelSetting['symbel_group_name'] = $symbelSetting->group->name;
+            unset($symbelSetting->dataFeed);
+            unset($symbelSetting->group);
+        }
+        
+        $perPage = $request->input('per_page', config('systemSetting.system_per_page_count'));
+        $currentPage = $request->input('page', config('systemSetting.system_current_page'));
+        
+        $symbelSettingsPaginated = $symbelSettings;
+        
+        return $symbelSettingsPaginated;
     }
 
 

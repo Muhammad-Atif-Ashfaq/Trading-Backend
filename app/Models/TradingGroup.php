@@ -20,7 +20,12 @@ class TradingGroup extends Model
         'brand_id',
     ];
 
-    protected $with = ['symbelGroups','tradingAccounts'];
+    protected $with = ['symbelGroups','tradingAccounts', 'brands'];
+
+    public function brands()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id','public_key');
+    }
 
     public function tradingAccounts()
     {

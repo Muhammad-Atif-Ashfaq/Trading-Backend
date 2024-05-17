@@ -31,7 +31,7 @@ class SymbelSetting extends Model
         'pip'
     ];
 
-    protected $with = ['dataFeed'];
+    protected $with = ['dataFeed', 'group'];
 
 
     public function dataFeed()
