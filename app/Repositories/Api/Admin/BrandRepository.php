@@ -61,7 +61,8 @@ class BrandRepository implements BrandInterface
             'public_key' => GenerateRandomService::getBrandPublicKey(),
             'domain' => $data['domain'],
             'margin_call' => $data['margin_call'],
-            'leverage' => $data['leverage'] ?? 25,
+            'leverage' => $data['leverage'] ?? 1,
+            'stop_out' => $data['stop_out'] ?? 0,
         ]);
 
         $user->assignRole(Role::BRAND);

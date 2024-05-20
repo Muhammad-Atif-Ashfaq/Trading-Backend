@@ -33,7 +33,6 @@ class CheckMarginLevels extends Command
         $accounts = TradingAccount::all();
         foreach ($accounts as $account) {
             if ($account->margin_level_percentage < $account->brand->margin_call) {
-                $this->closePositions($account);
                 $account->status = TradingAccountStatusEnum::MARGIN_CALL;
                 $account->save();
                 pushLiveDate('trading_accounts','update',$account);
@@ -41,20 +40,4 @@ class CheckMarginLevels extends Command
         }
     }
 
-    protected function closePositions($account)
-    {
-        $unprofitableorder = TradeOrder::where('trading_account_id', $account->id)
-            ->orderBy('profit', 'desc') // Order by profit in descending order
-            ->first();
-
-        if ($unprofitableorder) {
-            $unprofitableorder->order_type = OrderTypeEnum::CLOSE;
-            $unprofitableorder->save();
-
-            pushLiveDate('trade_orders','update',$unprofitableorder);
-            $this->info("Closing positions for account: {$account->id}\n");
-        } else {
-            $this->info("No unprofitable positions found for account: {$account->id}\n");
-        }
-    }
 }

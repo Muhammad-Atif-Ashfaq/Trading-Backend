@@ -19,8 +19,7 @@ class Create extends FormRequest
             'lot_step' => 'required|string|max:255',
             'vol_min' => 'required|string|max:255',
             'vol_max' => 'required|string|max:255',
-            'trading_interval_start_time' => 'nullable|string|max:255',
-            'trading_interval_end_time' => 'nullable|string|max:255',
+            'trading_interval' => 'nullable',
             'swap'    =>  'required'
         ];
     }

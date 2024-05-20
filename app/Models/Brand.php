@@ -15,7 +15,7 @@ class Brand extends Model
     public static $PREFIX = '0xX'.'AR345WTSQ2567';
     public static $BRAND = '0xX';
 
-    protected $fillable=['user_id', 'name','public_key','domain','margin_call','leverage'];
+    protected $fillable=['user_id', 'name','public_key','domain','margin_call','leverage',  'stop_out',];
 
     protected $with = ['user'];
 

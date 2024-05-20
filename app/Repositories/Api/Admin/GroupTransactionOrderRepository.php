@@ -44,7 +44,7 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
                         ->select('id')
                         ->from('trading_accounts')
                         ->where('trading_group_id', $data['trading_group_id'])
-                        ->where($data['method'], '<', $data['amount'])
+                        ->where($data['method'], '<', (int)$data['amount'])
                         ->pluck('id');
                 });
             })

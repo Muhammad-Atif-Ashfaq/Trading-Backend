@@ -35,6 +35,7 @@ class TradingAccount extends Model
         'tax',
         'equity',
         'margin_level_percentage',
+        'groups_leverage',
         'profit',
         'swap',
         'currency',

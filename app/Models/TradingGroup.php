@@ -27,6 +27,19 @@ class TradingGroup extends Model
         return $this->belongsTo(Brand::class, 'brand_id','public_key');
     }
 
+    protected $appends = ['brands_name'];
+
+    // Accessor for brands_name
+    public function getBrandsNameAttribute()
+    {
+        return isset($this->brands)  ? $this->brands->name : '';
+    }
+
+    public function brands()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id','public_key');
+    }
+
     public function tradingAccounts()
     {
         return $this->hasMany(TradingAccount::class, 'trading_group_id');

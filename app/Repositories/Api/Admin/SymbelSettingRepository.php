@@ -47,7 +47,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
                 'lot_step',
                 'vol_min',
                 'vol_max',
-                'pip')
+                'pip','swap','leverage')
             ->get()->makeHidden(['dataFeed']);
         return $symbelSettings;
     }

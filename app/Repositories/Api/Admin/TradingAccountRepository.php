@@ -82,6 +82,8 @@ class TradingAccountRepository implements TradingAccountInterface
             'swap' => $data['swap'] ?? null,
             'currency' => $data['currency'] ?? null,
             'margin_level_percentage' => $data['margin_level_percentage'] ?? 0,
+
+            'groups_leverage' => $data['groups_leverage'] ?? null,
             'registration_time' => Carbon::now(),
             'trading_account_group_id' => $data['trading_account_group_id'] ?? null,
             'brand_id' => $data['brand_id'],

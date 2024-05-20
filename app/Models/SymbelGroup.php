@@ -20,8 +20,7 @@ class SymbelGroup extends Model
         'lot_step',
         'vol_min',
         'vol_max',
-        'trading_interval_start_time',
-        'trading_interval_end_time',
+        'trading_interval',
         'swap'
     ];
 

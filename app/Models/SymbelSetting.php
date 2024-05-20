@@ -31,9 +31,9 @@ class SymbelSetting extends Model
         'pip'
     ];
 
-    protected $with = ['dataFeed', 'group'];
 
-
+    protected $appends = ['data_feed_name','group_name'];
+    
     public function dataFeed()
     {
         return $this->belongsTo(DataFeed::class, 'feed_name','module');
@@ -42,6 +42,18 @@ class SymbelSetting extends Model
     public function group()
     {
         return $this->belongsTo(SymbelGroup::class, 'symbel_group_id');
+    }
+
+    // Accessor for data_feed_name
+    public function getDataFeedNameAttribute()
+    {
+        return isset($this->dataFeed)  ? $this->dataFeed->name : '';
+    }
+
+    // Accessor for symbel_group_name
+    public function getGroupNameAttribute()
+    {
+        return isset($this->group)  ? $this->group->name : '';
     }
 
     public function tradingGroupSymbol()

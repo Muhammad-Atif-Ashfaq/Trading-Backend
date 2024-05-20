@@ -28,6 +28,8 @@ class Create extends FormRequest
             'credit' => 'nullable|string',
             'equity' => 'nullable|string',
             'margin_level_percentage' => 'nullable|string',
+
+            'groups_leverage' => 'nullable',
             'profit' => 'nullable|string',
             'swap' => 'nullable|string',
             'currency' => 'nullable|string',

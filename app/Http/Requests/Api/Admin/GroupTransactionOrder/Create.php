@@ -45,7 +45,7 @@ class Create extends FormRequest
                 if ( $data['type'] === TransactionOrderTypeEnum::WITHDRAW) {
                     // Get the trading account
                     $lowAccounts = TradingAccount::where('trading_group_id',$data['trading_group_id'])
-                        ->where($method ,'<',$data['amount'])
+                        ->where($method ,'<',(int)$data['amount'])
                         ->pluck('login_id')
                         ->toArray();
 

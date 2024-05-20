@@ -33,7 +33,12 @@ class SymbelGroupRepository implements SymbelGroupInterface
     public function getAllSymbelGroupList()
     {
         $symbelGroups = $this->model
-            ->select('name', 'id','swap')
+            ->select('name', 'id','swap','leverage',
+                'lot_size',
+                'lot_step',
+                'vol_min',
+                'vol_max'
+                )
             ->get();
         return $symbelGroups;
     }
@@ -49,8 +54,7 @@ class SymbelGroupRepository implements SymbelGroupInterface
             'lot_step' => $data['lot_step'],
             'vol_min'  => $data['vol_min'],
             'vol_max'  => $data['vol_max'],
-            'trading_interval_start_time' => $data['trading_interval_start_time'] ?? null,
-            'trading_interval_end_time' => $data['trading_interval_end_time'] ?? null,'',
+            'trading_interval' => $data['trading_interval'] ?? null,
             'swap'     => $data['swap']
         ]);
 
