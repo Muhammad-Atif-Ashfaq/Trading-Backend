@@ -3,6 +3,7 @@ namespace App\Traits\Models;
 
 use App\Enums\LeverageEnum;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 trait HasSearch
 {
@@ -30,8 +31,8 @@ trait HasSearch
                 foreach ($appends as $accessor) {
                     if (isset($appendRequest[$accessor])) {
                         $parts = explode('_', $accessor);
-                        $column = array_pop($parts); // Last part is the column name
-                        $relation = \Illuminate\Support\Str::studly(implode('_', $parts)); // Remaining parts form the relation path
+                        $column = Str::snake(array_pop($parts)); // Last part is the column name
+                        $relation = Str::studly(implode('_', $parts)); // Remaining parts form the relation path
 
                         $query->orWhereHas($relation, function ($q) use ($appendRequest, $accessor, $column) {
                             $q->where($column, 'like', '%' . $appendRequest[$accessor] . '%');
@@ -39,6 +40,9 @@ trait HasSearch
                     }
                 }
             });
+        }
+        if($request->has('id')){
+            $query->where('id', 'like', '%' . $request->input('id') . '%');
         }
 
         return $query;

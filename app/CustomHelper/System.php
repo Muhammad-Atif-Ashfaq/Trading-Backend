@@ -1,25 +1,20 @@
 <?php
 
+use Illuminate\Support\Str;
+
 if (!function_exists('tableToModel')) {
     function tableToModel($tableName)
     {
-        // Remove "s" from the end of the table name if it's plural
-        if (substr($tableName, -1) === 's') {
-            $tableName = substr($tableName, 0, -1);
-        }
+        // Singularize the table name
+        $singularTableName = Str::singular($tableName);
 
-        // Remove underscores and capitalize each word
-        $modelName = str_replace('_', ' ', $tableName);
-        $modelName = ucwords($modelName);
-        $modelName = str_replace(' ', '', $modelName);
-
-        // Convert the first character to uppercase
-        $modelName = ucfirst($modelName);
-
+        // Convert to StudlyCase
+        $modelName = Str::studly($singularTableName);
 
         return 'App\\Models\\' . $modelName;
     }
 }
+
 
 if (!function_exists('skipValue0')) {
     function skipValue0(array $data)
@@ -45,6 +40,7 @@ if (!function_exists('prepareUpdateCols')) {
         return skipValue0($filteredData);
     }
 }
+
 if (!function_exists('calculateNights')) {
     function calculateNights($startDate, $endDate)
     {
@@ -71,10 +67,27 @@ if (!function_exists('calculateNights')) {
         return $nights;
     }
 }
+
 if (!function_exists('calculateCalswap')) {
     function calculateCalswap($volume, $totalNights, $symbolSetting)
     {
         return $volume * $totalNights * ($symbolSetting ? (double)$symbolSetting->swap : 0);
+    }
+}
+
+if (!function_exists('getMacAddress')) {
+    function getMacAddress($ipAddress)
+    {
+        $arp = `arp -a $ipAddress`;
+        $lines = explode("\n", $arp);
+
+        foreach ($lines as $line) {
+            if (strpos($line, $ipAddress) !== false) {
+                $parts = preg_split('/\s+/', trim($line));
+                return isset($parts[1]) ? $parts[1] : null;
+            }
+        }
+        return null;
     }
 }
 

@@ -39,6 +39,7 @@ class TradingAccountRepository implements TradingAccountInterface
             ->when($request->has('brand_id'), function ($query) use ($request) {
                 return $query->where('brand_id', $request->input('brand_id'));
             })
+            ->whereSearch($request)
             ->select('login_id', 'id')
             ->get()->makeHidden(['brand','brandCustomer']);
         return $tradingAccounts;
@@ -84,7 +85,7 @@ class TradingAccountRepository implements TradingAccountInterface
             'margin_level_percentage' => $data['margin_level_percentage'] ?? 0,
 
             'groups_leverage' => $data['groups_leverage'] ?? null,
-            'registration_time' => Carbon::now(),
+            'registration_time' => $data['registration_time'] ??  Carbon::now(),
             'trading_account_group_id' => $data['trading_account_group_id'] ?? null,
             'brand_id' => $data['brand_id'],
             'status' => $data['status'] ?? 'active',

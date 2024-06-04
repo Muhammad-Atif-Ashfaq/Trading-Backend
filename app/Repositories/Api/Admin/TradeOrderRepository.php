@@ -28,7 +28,7 @@ class TradeOrderRepository implements TradeOrderInterface
             $request->input('per_page', config('systemSetting.system_per_page_count')),
             $request->input('page', config('systemSetting.system_current_page'))
         );
-        return $tradeOrders;
+        return $tradeOrders->makeHidden(['symbolSetting','tradingAccount']);
     }
 
     //  TODO: Create a trade order.

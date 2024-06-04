@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderTypeEnum;
 use App\Enums\TradeOrderTypeEnum;
 use App\Enums\TransactionOrderTypeEnum;
 use App\Traits\Models\HasGroupUniqueId;
@@ -38,6 +39,7 @@ class TradeOrder extends Model
         'close_price',
         'reason',
         'swap',
+        'commission',
         'profit',
         'comment',
         'stop_limit_price',
@@ -45,6 +47,49 @@ class TradeOrder extends Model
     ];
 
     protected $with = ['symbolSetting'];
+
+    protected $appends = ['user_name','symbol_setting_name','trading_account_loginId','symbol_setting_commission'];
+
+
+    // TODO::Boot method to add model event listeners
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($tradeOrder) {
+            if ($tradeOrder->order_type == OrderTypeEnum::CLOSE && $tradeOrder->tradingAccount) {
+                $tradingAccount  = TradingAccount::find($tradeOrder->trading_account_id);
+                if($tradingAccount){
+                    $tradingAccount->balance -= $tradeOrder->profit;
+                    $tradingAccount->save();
+                }
+            }
+        });
+    }
+
+    // Accessor for user_name
+    public function getUserNameAttribute()
+    {
+        return isset($this->user)  ? $this->user->name : '';
+    }
+
+    // Accessor for trading_account_loginId
+    public function getTradingAccountLoginIdAttribute()
+    {
+        return isset($this->tradingAccount)  ? $this->tradingAccount->login_id : '';
+    }
+
+    // Accessor for symbol_setting_name
+    public function getSymbolSettingNameAttribute()
+    {
+        return isset($this->symbolSetting)  ? $this->symbolSetting->name : '';
+    }
+
+    // Accessor for symbol_setting_commission
+    public function getSymbolSettingCommissionAttribute()
+    {
+        return isset($this->symbolSetting)  ? $this->symbolSetting->commission : '';
+    }
 
     public function symbolSetting()
     {

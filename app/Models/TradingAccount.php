@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Request;
 
 class TradingAccount extends Model
 {
     use HasFactory,HasApiTokens,
         HasSearch;
+
     public static $PREFIX = '0xXX'.'AR345WTSQ2567';
     public static $CUSTOMER = '0xXX';
     protected $fillable = [
@@ -35,7 +37,7 @@ class TradingAccount extends Model
         'tax',
         'equity',
         'margin_level_percentage',
-        'groups_leverage',
+        'symbols_leverage',
         'profit',
         'swap',
         'currency',
@@ -49,7 +51,29 @@ class TradingAccount extends Model
         'enable',
     ];
 
-    protected $with = ['brand','brandCustomer'];
+    protected $with = ['brand','brandCustomer','group'];
+
+    protected $appends = ['brand_customer_name','brand_name','group_name'];
+
+
+
+    // Accessor for brand_customer_name
+    public function getBrandCustomerNameAttribute()
+    {
+        return isset($this->brandCustomer)  ? $this->brandCustomer->name : '';
+    }
+
+    // Accessor for brand_name
+    public function getBrandNameAttribute()
+    {
+        return isset($this->brand)  ? $this->brand->name : '';
+    }
+
+    // Accessor for group_name
+    public function getGroupNameAttribute()
+    {
+        return isset($this->group)  ? $this->group->name : '';
+    }
 
     public function brand()
     {
@@ -61,9 +85,9 @@ class TradingAccount extends Model
         return $this->belongsTo(User::class,'brand_customer_id','id');
     }
 
-    public function tradingGroup()
+    public function group()
     {
-        return $this->hasOne(TradingGroup::class, 'trading_group_id' , 'id');
+        return $this->belongsTo(TradingGroup::class, 'trading_group_id', 'id');
     }
 
     public function tradeOrders()
@@ -77,6 +101,29 @@ class TradingAccount extends Model
             get: fn (string $value) => LeverageEnum::getAllLeverage()[$value],
         );
     }
+
+    protected function symbolsLeverage(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => json_encode($value),
+            get: fn (string|null $value) => (!empty($value) && $value != null) ? json_decode($value, true) : []
+        );
+    }
+
+    // Method to log login activity
+    public function logLoginActivity()
+    {
+        $ip = Request::ip();
+        TradingAccountLoginActivity::add($ip,$this->id,'trading_account_id');
+    }
+
+    // Relationship method for login activities
+    public function loginActivities()
+    {
+        return $this->hasMany(TradingAccountLoginActivity::class);
+    }
+
+
 
 
     public function getOpenOrdersVolume()
@@ -107,9 +154,5 @@ class TradingAccount extends Model
 
         return $totalProfit;
     }
-
-
-
-
 
 }

@@ -19,7 +19,6 @@ class SymbelGroupRepository implements SymbelGroupInterface
     //  TODO: Get all symbel groups.
     public function getAllSymbelGroups($request)
     {
-
         $symbelGroups = $this->model->whereSearch($request);
         $symbelGroups = PaginationHelper::paginate(
             $symbelGroups,

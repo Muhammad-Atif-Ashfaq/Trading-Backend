@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('close_price')->nullable();
             $table->string('reason')->nullable();
             $table->string('swap')->nullable();
+            $table->string('commission')->nullable();
             $table->string('profit')->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();

@@ -36,5 +36,17 @@ class TransactionOrder extends Model
 
     ];
 
+    protected $appends = ['trading_account_loginId'];
+
+    // Accessor for trading_account_loginId
+    public function getTradingAccountLoginIdAttribute()
+    {
+        return isset($this->tradingAccount)  ? $this->tradingAccount->login_id : '';
+    }
+
+    public function tradingAccount()
+    {
+        return $this->belongsTo(TradingAccount::class,'trading_account_id','id');
+    }
 
 }

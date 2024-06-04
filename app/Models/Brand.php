@@ -19,10 +19,26 @@ class Brand extends Model
 
     protected $with = ['user'];
 
+    protected $appends = ['user_name','user_password'];
+
+    // Accessor for user_name
+    public function getUserPasswordAttribute()
+    {
+        return isset($this->user)  ? $this->user->original_password : '';
+    }
+
+    // Accessor for user_name
+    public function getUserNameAttribute()
+    {
+        return isset($this->user)  ? $this->user->name : '';
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+
 
     protected function leverage(): Attribute
     {

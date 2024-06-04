@@ -23,28 +23,20 @@ class TradingGroupRepository implements TradingGroupInterface
     public function getAllTradingGroups($request)
     {
 
-        $tradingGroupsQuerry = $this->model->whereSearch($request);
-        $tradingGroups = $tradingGroupsQuerry->get();
-        foreach($tradingGroups as $tradingGroup)
-        {
-            $tradingGroup['brand_name'] = $tradingGroup->brands->name;
-            unset($tradingGroup->brands);
-        }
-        // $tradingGroups = PaginationHelper::paginate(
-        //     $tradingGroups,
-        //     $request->input('per_page', config('systemSetting.system_per_page_count')),
-        //     $request->input('page', config('systemSetting.system_current_page'))
-        // );
-        $tradingGroups = $tradingGroups;
-        return [
-            'data' => $tradingGroups
-        ];
+        $tradingGroups = $this->model->whereSearch($request);
+
+        $tradingGroups = PaginationHelper::paginate(
+            $tradingGroups,
+            $request->input('per_page', config('systemSetting.system_per_page_count')),
+            $request->input('page', config('systemSetting.system_current_page'))
+        );
+        return $tradingGroups;
     }
 
     // TODO: Get all trading groups list.
-    public function getAllTradingGroupList()
+    public function getAllTradingGroupList($request)
     {
-        $tradingGroups = $this->model
+        $tradingGroups = $this->model->whereSearch($request)
             ->select('name', 'id')
             ->get()->makeHidden(['symbelGroups','tradingAccounts']);
         return $tradingGroups;

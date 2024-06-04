@@ -4,6 +4,7 @@ namespace App\Enums;
 
 final class LeverageEnum
 {
+     const LEVERAGE_0_TO_0 = '0';
      const LEVERAGE_1_TO_1 = '1';
      const LEVERAGE_2_TO_1 = '2';
      const LEVERAGE_3_TO_1 = '3';
@@ -18,6 +19,7 @@ final class LeverageEnum
      const LEVERAGE_1000_TO_1 = '1000';
 
 
+    const LEVERAGE_0_TO_0_TEXT = '0:0';
     const LEVERAGE_1_TO_1_TEXT = '1:1';
     const LEVERAGE_2_TO_1_TEXT = '2:1';
     const LEVERAGE_3_TO_1_TEXT = '3:1';
@@ -35,6 +37,7 @@ final class LeverageEnum
     public static function getLeverages()
     {
         return [
+            self::LEVERAGE_0_TO_0,
             self::LEVERAGE_1_TO_1,
             self::LEVERAGE_2_TO_1,
             self::LEVERAGE_3_TO_1,
@@ -54,6 +57,7 @@ final class LeverageEnum
     public static function getAllLeverage()
     {
         return [
+            self::LEVERAGE_0_TO_0 => self::LEVERAGE_0_TO_0_TEXT,
             self::LEVERAGE_1_TO_1 => self::LEVERAGE_1_TO_1_TEXT,
             self::LEVERAGE_2_TO_1 => self::LEVERAGE_2_TO_1_TEXT,
             self::LEVERAGE_3_TO_1 => self::LEVERAGE_3_TO_1_TEXT,

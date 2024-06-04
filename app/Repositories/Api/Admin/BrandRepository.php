@@ -67,7 +67,7 @@ class BrandRepository implements BrandInterface
 
         $user->assignRole(Role::BRAND);
 
-        return $user;
+        return $brand;
     }
 
     // TODO: Find a brand by ID.

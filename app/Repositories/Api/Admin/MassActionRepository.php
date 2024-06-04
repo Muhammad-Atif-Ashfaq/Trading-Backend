@@ -13,32 +13,46 @@ use Illuminate\Support\Facades\DB;
 class MassActionRepository implements MassActionInterface
 {
 
-    public function massEdit(array $data,array $values)
+    public function massEdit(array $data, array $values)
     {
-        $tableName = new (tableToModel($data['table_name']))();
+        // Instantiate the model based on the table name provided in the data array
+        $model = new (tableToModel($data['table_name']))();
+
+        // Get the table IDs from the data array, default to an empty array if not provided
         $tableIds = $data['table_ids'] ?? [];
 
+        // Determine the column name to filter by, defaulting to 'id' if not provided
+        $columnName = $data['column_name'] ?? 'id';
+
         if (empty($tableIds)) {
-            // If table_ids is empty, update all rows from the table
-            return $tableName->update($values);
+            // If no specific IDs are provided, update all rows in the table
+            $model->whereNoNull($columnName)->update($values);
+
+            // Return all rows after update
+            return $model->get();
         } else {
-            // If table_ids is not empty, update rows with the specified ids
-            return $tableName->whereIn($data['column_name'] ?? 'id', $tableIds)->update($values);
+            // If specific IDs are provided, update only the rows with those IDs
+            $model->whereNoNull($columnName)->whereIn($columnName, $tableIds)->update($values);
+
+            // Return the updated rows
+            return $model->whereIn($columnName, $tableIds)->get();
         }
     }
+
 
 
     public function massDelete(array $data)
     {
         $tableName =  new (tableToModel($data['table_name']))();
         $tableIds = $data['table_ids'] ?? [];
+        $columnName = $data['column_name'] ?? 'id';
 
         if (empty($tableIds)) {
             // If table_ids is empty, delete all rows from the table
-            return $tableName->delete();
+            return $tableName->whereNoNull($columnName)->delete();
         } else {
             // If table_ids is not empty, delete rows with the specified ids
-            return $tableName->whereIn($data['column_name'] ?? 'id', $tableIds)->delete();
+            return $tableName->whereNoNull($columnName)->whereIn($columnName, $tableIds)->delete();
         }
     }
 

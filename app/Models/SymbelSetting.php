@@ -33,7 +33,7 @@ class SymbelSetting extends Model
 
 
     protected $appends = ['data_feed_name','group_name'];
-    
+
     public function dataFeed()
     {
         return $this->belongsTo(DataFeed::class, 'feed_name','module');

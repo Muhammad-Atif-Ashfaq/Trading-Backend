@@ -20,12 +20,8 @@ class TradingGroup extends Model
         'brand_id',
     ];
 
-    protected $with = ['symbelGroups','tradingAccounts', 'brands'];
 
-    public function brands()
-    {
-        return $this->belongsTo(Brand::class, 'brand_id','public_key');
-    }
+    protected $with = ['symbelGroups'];
 
     protected $appends = ['brands_name'];
 
@@ -35,15 +31,21 @@ class TradingGroup extends Model
         return isset($this->brands)  ? $this->brands->name : '';
     }
 
+    // Accessor for trading_accounts
+    public function getTradingAccountsAttribute()
+    {
+        return TradingAccount::where('trading_group_id', $this->id)->get();
+    }
+
     public function brands()
     {
         return $this->belongsTo(Brand::class, 'brand_id','public_key');
     }
 
-    public function tradingAccounts()
-    {
-        return $this->hasMany(TradingAccount::class, 'trading_group_id');
-    }
+    // public function tradingAccounts()
+    // {
+    //     return $this->hasMany(TradingAccount::class, 'trading_group_id');
+    // }
 
     public function symbelGroups()
     {

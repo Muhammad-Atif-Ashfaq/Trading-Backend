@@ -19,6 +19,8 @@ class LoginController extends Controller
                $trading_account = TradingAccount::where('login_id',$request->login_id)->first();
                $success['token'] = $trading_account->createToken('MyApp')->plainTextToken;
                $success['trading_account'] = $trading_account;
+
+               $trading_account->logLoginActivity();
                return $this->sendResponse($success, 'User login successfully.');
            }
            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);

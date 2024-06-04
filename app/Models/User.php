@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Request;
 
 class User extends Authenticatable
 {
@@ -97,6 +98,19 @@ class User extends Authenticatable
     public function getAllPermissions()
     {
 
+    }
+
+    // Add this method to log login activity
+    public function logLoginActivity()
+    {
+        $ip = Request::ip();
+        UserLoginActivity::add($ip,$this->id ,'user_id');
+    }
+
+    // Add this relationship to retrieve login activities
+    public function loginActivities()
+    {
+        return $this->hasMany(UserLoginActivity::class);
     }
 
 }

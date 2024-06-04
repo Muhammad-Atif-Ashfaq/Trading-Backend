@@ -17,7 +17,8 @@ use  App\Http\Controllers\Api\Admin\{
     DashboardController,
     MassActionController,
     PermissionController,
-    BrandCustomerController
+    BrandCustomerController,
+    FireWallController
 };
 
 
@@ -54,6 +55,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/ticks',                          [TickAndChartController::class, 'ticks']);
     Route::get('/charts',                         [TickAndChartController::class, 'charts']);
+
+    Route::get('/get_ip_list',                          [FireWallController::class, 'getAllIpLists']);
+    Route::get('/get_block_list',                       [FireWallController::class, 'getAllBlockLists']);
+    Route::post('/add_to_ip_list',                    [FireWallController::class, 'addToIpList']);
 
     Route::post('/change-password',                [AdminController::class, 'changePassword']);
     Route::post('/getDashboardData',            [DashboardController::class, 'getDashboardData']);

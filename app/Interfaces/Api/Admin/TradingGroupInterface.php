@@ -17,7 +17,7 @@ interface TradingGroupInterface
      *
      * @return mixed
      */
-    public function getAllTradingGroupList();
+    public function getAllTradingGroupList($request);
 
     /**
      * TODO: Create a trading group.
