@@ -38,6 +38,7 @@ class SymbelGroupRepository implements SymbelGroupInterface
                 'vol_min',
                 'vol_max'
                 )
+            ->with('settings')
             ->get();
         return $symbelGroups;
     }

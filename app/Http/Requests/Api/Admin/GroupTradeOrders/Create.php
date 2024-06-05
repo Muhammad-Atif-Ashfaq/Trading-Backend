@@ -45,15 +45,34 @@ class Create extends FormRequest
                 $data = $validator->validated();
                 $skipAccounts = $data['skip'] ?? false;
 
+                // Get accounts with low balance
                 $lowBalanceAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
-                    ->where('balance', '<', $data['open_price'])
+                    ->where('balance', '<=', 0)
                     ->pluck('login_id')
                     ->toArray();
 
-                // Check if trading account exists
-                if (count($lowBalanceAccounts)) {
+                // Get accounts with low margin level percentage
+                $lowMarginAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
+                    ->whereHas('brand', function ($q) {
+                        $q->whereColumn('stop_out', '>', 'margin_level_percentage');
+                    })
+                    ->pluck('login_id')
+                    ->toArray();
+
+                // Check if there are any accounts with low balance or low margin level percentage
+                if (count($lowBalanceAccounts) || count($lowMarginAccounts)) {
                     if (!$skipAccounts) {
-                        $validator->errors()->add('balance', 'Insufficient balance for trade for accounts: ' . implode(', ', $lowBalanceAccounts));
+                        $errorMessage = '';
+
+                        if (count($lowBalanceAccounts)) {
+                            $errorMessage .= '<strong>Low Balance Accounts:</strong> ' . implode(', ', $lowBalanceAccounts) . '<br>';
+                        }
+
+                        if (count($lowMarginAccounts)) {
+                            $errorMessage .= '<strong>Low Margin Level Percentage Accounts:</strong> ' . implode(', ', $lowMarginAccounts) . '<br>';
+                        }
+
+                        $validator->errors()->add('balance', $errorMessage);
                     }
                 }
             }

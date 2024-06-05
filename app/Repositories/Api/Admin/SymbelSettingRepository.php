@@ -31,9 +31,9 @@ class SymbelSettingRepository implements SymbelSettingInterface
 
 
     // TODO: Get all symbel settings list.
-    public function getAllSymbelSettingList()
+    public function getAllSymbelSettingList($request)
     {
-        $symbelSettings = $this->model
+        $symbelSettings = $this->model->whereSearch($request)
             ->select(
                 'name',
                 'feed_name',

@@ -17,7 +17,7 @@ interface SymbelSettingInterface
      *
      * @return mixed
      */
-    public function getAllSymbelSettingList();
+    public function getAllSymbelSettingList($request);
 
     /**
      * TODO: Create a new symbol setting.

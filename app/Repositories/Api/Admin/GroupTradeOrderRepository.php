@@ -37,7 +37,7 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
     public function createGroupTradeOrder(array $data)
     {
         $trading_group__id = uniqid($this->model::$PREFIX);
-        $tradingAccounts = $this->trading_account
+        $trading_accounts = $this->trading_account
             ->where('trading_group_id', $data['trading_group_id'])
             ->when(isset($data['skip']) && $data['skip'] == true, function ($query) use ($data) {
                 return $query->whereNotIn('id', function ($subQuery) use ($data) {
@@ -45,7 +45,10 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
                         ->select('id')
                         ->from('trading_accounts')
                         ->where('trading_group_id', $data['trading_group_id'])
-                        ->where('balance', '<', $data['amount'])
+                        ->where('balance', '>', 0)
+                        ->whereHas('brand', function ($q) {
+                            $q->whereColumn('stop_out', '>', 'margin');
+                        })
                         ->pluck('id');
                 });
             })
