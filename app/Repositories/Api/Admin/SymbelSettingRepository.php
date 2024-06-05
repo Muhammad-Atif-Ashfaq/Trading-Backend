@@ -34,12 +34,23 @@ class SymbelSettingRepository implements SymbelSettingInterface
     public function getAllSymbelSettingList()
     {
         $symbelSettings = $this->model
-            ->select('name', 'feed_name','feed_fetch_name','feed_fetch_key',
+            ->select(
+                'name',
+                'feed_name',
+                'feed_fetch_name',
+                'feed_fetch_key',
                 'lot_size',
                 'lot_step',
                 'vol_min',
                 'vol_max',
-                'pip','swap','leverage','id','commission')
+                'pip',
+                'swap',
+                'leverage',
+                'id',
+                'commission',
+                'symbel_group_id'
+            )
+            ->with('group')
             ->get()->makeHidden(['dataFeed']);
         return $symbelSettings;
     }

@@ -34,6 +34,7 @@ class Create extends FormRequest
             'close_price' => 'nullable|string',
             'reason' => 'nullable|string',
             'swap' => 'nullable|string',
+            'commission' => 'nullable|string',
             'profit' => 'nullable|string',
             'comment' => 'nullable|string',
             'stop_limit_price' => 'nullable|string',

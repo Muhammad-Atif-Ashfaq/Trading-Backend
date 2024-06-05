@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 if (!function_exists('tableToModel')) {
     function tableToModel($tableName)
@@ -76,18 +78,26 @@ if (!function_exists('calculateCalswap')) {
 }
 
 if (!function_exists('getMacAddress')) {
-    function getMacAddress($ipAddress)
+    function getMacAddress()
     {
-        $arp = `arp -a $ipAddress`;
-        $lines = explode("\n", $arp);
+        $process = new Process(['ifconfig', '-a']);
+        $process->run();
 
-        foreach ($lines as $line) {
-            if (strpos($line, $ipAddress) !== false) {
-                $parts = preg_split('/\s+/', trim($line));
-                return isset($parts[1]) ? $parts[1] : null;
-            }
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
         }
-        return null;
+
+        $output = $process->getOutput();
+
+        // Extract MAC address from the output
+        preg_match('/([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2}/', $output, $matches);
+
+        if (count($matches) > 0) {
+            return $matches[0];
+        } else {
+            return 'MAC Address not found';
+        }
+
     }
 }
 
