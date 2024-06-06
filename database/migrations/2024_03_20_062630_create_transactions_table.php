@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('trading_group_id')->nullable();
             $table->string('group_unique_id')->nullable();
             $table->string('name')->nullable();
-            $table->string('group')->nullable();
+
             $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();

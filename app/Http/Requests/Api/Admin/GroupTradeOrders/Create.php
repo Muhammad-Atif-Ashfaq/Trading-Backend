@@ -65,11 +65,11 @@ class Create extends FormRequest
                         $errorMessage = '';
 
                         if (count($lowBalanceAccounts)) {
-                            $errorMessage .= '<strong>Low Balance Accounts:</strong> ' . implode(', ', $lowBalanceAccounts) . '<br>';
+                            $errorMessage .= '<strong>Low Balance Accounts:</strong> <br/>' . implode(', ', $lowBalanceAccounts) . '<br>';
                         }
 
                         if (count($lowMarginAccounts)) {
-                            $errorMessage .= '<strong>Low Margin Level Percentage Accounts:</strong> ' . implode(', ', $lowMarginAccounts) . '<br>';
+                            $errorMessage .= '<strong>Low Margin Level Percentage Accounts:</strong> <br/>' . implode(', ', $lowMarginAccounts) . '<br>';
                         }
 
                         $validator->errors()->add('balance', $errorMessage);

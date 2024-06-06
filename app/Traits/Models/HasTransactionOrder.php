@@ -22,7 +22,6 @@ trait HasTransactionOrder
             'trading_group_id' => $data['trading_group_id'] ?? null,
             'group_unique_id' => $data['group_unique_id'] ?? null,
             'name' => $data['name'],
-            'group' => $data['group'],
             'country' => $data['country'] ?? null,
             'phone' => $data['phone'] ?? null,
             'email' => $data['email'] ?? null,

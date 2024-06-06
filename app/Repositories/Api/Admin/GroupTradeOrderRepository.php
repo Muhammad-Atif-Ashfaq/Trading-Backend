@@ -40,19 +40,22 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
         $trading_accounts = $this->trading_account
             ->where('trading_group_id', $data['trading_group_id'])
             ->when(isset($data['skip']) && $data['skip'] == true, function ($query) use ($data) {
-                return $query->whereNotIn('id', function ($subQuery) use ($data) {
-                    $subQuery
-                        ->select('id')
+                $query->whereNotIn('id', function ($subQuery) use ($data) {
+                    $subQuery->select('id')
                         ->from('trading_accounts')
                         ->where('trading_group_id', $data['trading_group_id'])
                         ->where('balance', '>', 0)
-                        ->whereHas('brand', function ($q) {
-                            $q->whereColumn('stop_out', '>', 'margin');
-                        })
-                        ->pluck('id');
+                        ->whereIn('id', function ($innerSubQuery) use ($data) {
+                            $innerSubQuery->select('trading_accounts.id')
+                                ->from('trading_accounts')
+                                ->where('trading_group_id', $data['trading_group_id'])
+                                ->join('brands', 'brands.public_key', '=', 'trading_accounts.brand_id')
+                                ->whereColumn('brands.stop_out', '>', 'trading_accounts.margin_level_percentage');
+                        });
                 });
             })
             ->get();
+
         foreach ($trading_accounts as $trading_account) {
             $data['trading_account_id'] = $trading_account->id;
             $data['brand_id'] = $trading_account->brand_id;

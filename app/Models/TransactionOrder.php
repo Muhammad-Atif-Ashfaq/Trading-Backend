@@ -25,7 +25,6 @@ class TransactionOrder extends Model
         'trading_group_id',
         'group_unique_id',
         'name',
-        'group',
         'country',
         'phone',
         'email',
@@ -33,20 +32,29 @@ class TransactionOrder extends Model
         'method',
         'status',
         'comment',
-
     ];
 
-    protected $appends = ['trading_account_loginId'];
+    protected $appends = ['trading_account_loginId', 'trading_group_name'];
 
     // Accessor for trading_account_loginId
     public function getTradingAccountLoginIdAttribute()
     {
-        return isset($this->tradingAccount)  ? $this->tradingAccount->login_id : '';
+        return isset($this->tradingAccount) ? $this->tradingAccount->login_id : '';
+    }
+
+    // Accessor for trading_group_name
+    public function getTradingGroupNameAttribute()
+    {
+        return isset($this->tradingGroup) ? $this->tradingGroup->name : '';
     }
 
     public function tradingAccount()
     {
-        return $this->belongsTo(TradingAccount::class,'trading_account_id','id');
+        return $this->belongsTo(TradingAccount::class, 'trading_account_id', 'id');
     }
 
+    public function tradingGroup()
+    {
+        return $this->belongsTo(TradingGroup::class, 'trading_group_id', 'id');
+    }
 }

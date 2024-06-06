@@ -20,7 +20,6 @@ class Create extends FormRequest
             'currency' => 'nullable|string',
             'trading_group_id' => 'required|exists:trading_groups,id',
             'name' => 'nullable|string',
-            'group' => 'required|string',
             'country' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
