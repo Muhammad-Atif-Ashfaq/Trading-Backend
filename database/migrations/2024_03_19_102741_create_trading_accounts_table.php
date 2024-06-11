@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('tax')->default('0');
             $table->string('equity')->nullable();
             $table->string('margin_level_percentage')->default('0');
+            $table->string('free_margin')->default('0');
             $table->json('symbols_leverage')->nullable();
             $table->string('profit')->default('0');
             $table->string('swap')->nullable();

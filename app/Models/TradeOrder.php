@@ -55,7 +55,7 @@ class TradeOrder extends Model
         foreach ($items->get() as $item) {
             if ($item->order_type == OrderTypeEnum::CLOSE) {
                 $tradingAccount  = TradingAccount::find($item->trading_account_id);
-                if($tradingAccount){
+                if(!empty($tradingAccount)){
                     $balance = $tradingAccount->balance - $item->profit;
                     $tradingAccount->update([
                         'balance' => $balance

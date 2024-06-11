@@ -70,9 +70,11 @@ trait HasTradeOrder
 
             if (isset($order['order_type']) && $order['order_type'] == OrderTypeEnum::CLOSE) {
                 $trading_account = TradingAccount::find($order['trading_account_id']);
-                $returnBalance = (double) $trading_account->balance + (double)$order['profit'];
-                $trading_account->balance = (string) ($returnBalance - (double)$order['swap']);
-                $trading_account->save();
+                if(!empty($trading_account)){
+                    $returnBalance = (double) $trading_account->balance + (double)$order['profit'];
+                    $trading_account->balance = (string) ($returnBalance - (double)$order['swap']);
+                    $trading_account->save();
+                }
             }
 
 
