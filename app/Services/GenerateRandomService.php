@@ -32,6 +32,17 @@ class GenerateRandomService extends Service
         return $key;
     }
 
+    // TODO: Generate a  customer id key.
+    public static function CustomerId()
+    {
+        $maxLoginId = TradingAccount::max('login_id');
+        $newLoginId = $maxLoginId + 1;
+        $formattedLoginId = str_pad($newLoginId, 6, '0', STR_PAD_LEFT);
+
+        return $formattedLoginId;
+    }
+
+
     // TODO: Generate a random brand key.
     public static function RandomBrand()
     {

@@ -43,17 +43,22 @@ class MassActionRepository implements MassActionInterface
 
     public function massDelete(array $data)
     {
-        $tableName =  new (tableToModel($data['table_name']))();
+        $modelName = tableToModel($data['table_name']);
+        $model = new $modelName();
         $tableIds = $data['table_ids'] ?? [];
         $columnName = $data['column_name'] ?? 'id';
 
         if (empty($tableIds)) {
-            // If table_ids is empty, delete all rows from the table
-            return $tableName->whereNoNull($columnName)->delete();
+            $items = $model->whereNotNull($columnName);
         } else {
-            // If table_ids is not empty, delete rows with the specified ids
-            return $tableName->whereNoNull($columnName)->whereIn($columnName, $tableIds)->delete();
+            $items = $model->whereNotNull($columnName)->whereIn($columnName, $tableIds);
         }
+
+        if (method_exists($modelName, 'onDelete')) {
+            $modelName::onDelete($items);
+        }
+
+        return $items->delete();
     }
 
     public function massCloseOrders(array $ids)

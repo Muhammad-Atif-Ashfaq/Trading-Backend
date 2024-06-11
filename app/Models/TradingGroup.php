@@ -25,10 +25,17 @@ class TradingGroup extends Model
 
     protected $appends = ['brands_name'];
 
+    public static function onDelete($items)
+    {
+        TradingAccount::where('trading_group_id', $items->pluck('id')->toArray())->update([
+            'trading_group_id' => null
+        ]);
+    }
+
     // Accessor for brands_name
     public function getBrandsNameAttribute()
     {
-        return isset($this->brands)  ? $this->brands->name : '';
+        return isset($this->brands) ? $this->brands->name : '';
     }
 
     // Accessor for trading_accounts
@@ -39,7 +46,7 @@ class TradingGroup extends Model
 
     public function brands()
     {
-        return $this->belongsTo(Brand::class, 'brand_id','public_key');
+        return $this->belongsTo(Brand::class, 'brand_id', 'public_key');
     }
 
     // public function tradingAccounts()
@@ -55,7 +62,7 @@ class TradingGroup extends Model
     protected function massLeverage(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => LeverageEnum::getAllLeverage()[$value],
+            get: fn(string $value) => LeverageEnum::getAllLeverage()[$value],
         );
     }
 }

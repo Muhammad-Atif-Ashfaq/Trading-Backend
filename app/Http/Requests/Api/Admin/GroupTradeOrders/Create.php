@@ -19,7 +19,7 @@ class Create extends FormRequest
     {
         return [
             'order_type' => ['required', 'in:' . implode(',', OrderTypeEnum::getOrderTypes())],
-            'symbol' => 'required|exists:symbel_settings,name',
+            'symbol' => 'required|exists:symbel_settings,feed_fetch_name',
             'feed_name' => 'string|exists:data_feeds,module',
             'trading_group_id' => 'required|exists:trading_groups,id',
             'type' => 'required|in:' . implode(',', TradeOrderTypeEnum::getTypes()),

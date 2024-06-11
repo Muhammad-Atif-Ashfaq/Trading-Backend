@@ -64,13 +64,14 @@ class TradingAccountRepository implements TradingAccountInterface
     public function createTradingAccount(array $data)
     {
 
-        $loginId = GenerateRandomService::RandomBrand();
+        $loginId = GenerateRandomService::CustomerId();
+        $password = GenerateRandomService::RandomStr(6);
         $tradingAccount = $this->model->create([
             'trading_group_id' => $data['trading_group_id'] ?? null,
             'brand_customer_id' => $data['brand_customer_id'] ?? null,
             'public_key' => GenerateRandomService::getCustomerPublicKey($data['brand_id']),
             'login_id' => $loginId,
-            'password' => $loginId,
+            'password' => $password,
             'country' => $data['country'] ?? null,
             'phone' => $data['phone'] ?? null,
             'name' => $data['name'] ?? null,
@@ -111,7 +112,7 @@ class TradingAccountRepository implements TradingAccountInterface
         $tradingAccount = $this->model->findOrFail($id);
         $tradingAccount->update(prepareUpdateCols($data,'trading_accounts'));
 
-        pushLiveDate('trading_accounts','update',$this->model->findOrFail($id));
+//        pushLiveDate('trading_accounts','update',$this->model->findOrFail($id));
 
         return $tradingAccount;
     }

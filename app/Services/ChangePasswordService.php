@@ -20,7 +20,7 @@ class ChangePasswordService extends Service
 
     public static function adminChangePassword($request)
     {
-        $admin = User::find(auth()->user()->id);
+        $admin = User::find($request['user_id']);
         $update = $admin->update([
             'password' => Hash::make($request['new_password']),
             'original_password' => $request['new_password']

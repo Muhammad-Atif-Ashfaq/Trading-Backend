@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\OrderTypeEnum;
 use App\Enums\TradeOrderTypeEnum;
-use App\Enums\TransactionOrderTypeEnum;
 use App\Traits\Models\HasGroupUniqueId;
 use App\Traits\Models\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,20 +50,19 @@ class TradeOrder extends Model
     protected $appends = ['user_name','symbol_setting_name','trading_account_loginId','symbol_setting_commission'];
 
 
-    // TODO::Boot method to add model event listeners
-    public static function boot()
+    public static function onDelete($items)
     {
-        parent::boot();
-
-        static::deleting(function ($tradeOrder) {
-            if ($tradeOrder->order_type == OrderTypeEnum::CLOSE && $tradeOrder->tradingAccount) {
-                $tradingAccount  = TradingAccount::find($tradeOrder->trading_account_id);
+        foreach ($items->get() as $item) {
+            if ($item->order_type == OrderTypeEnum::CLOSE) {
+                $tradingAccount  = TradingAccount::find($item->trading_account_id);
                 if($tradingAccount){
-                    $tradingAccount->balance -= $tradeOrder->profit;
-                    $tradingAccount->save();
+                    $balance = $tradingAccount->balance - $item->profit;
+                    $tradingAccount->update([
+                        'balance' => $balance
+                    ]);
                 }
             }
-        });
+        }
     }
 
     // Accessor for user_name

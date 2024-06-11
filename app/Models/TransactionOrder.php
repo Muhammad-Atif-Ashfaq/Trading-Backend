@@ -34,7 +34,7 @@ class TransactionOrder extends Model
         'comment',
     ];
 
-    protected $appends = ['trading_account_loginId', 'trading_group_name'];
+    protected $appends = ['trading_account_loginId', 'trading_group_name','brand_name'];
 
     // Accessor for trading_account_loginId
     public function getTradingAccountLoginIdAttribute()
@@ -47,6 +47,11 @@ class TransactionOrder extends Model
     {
         return isset($this->tradingGroup) ? $this->tradingGroup->name : '';
     }
+    // Accessor for brand_name
+    public function getBrandNameAttribute()
+    {
+        return isset($this->brand) ? $this->brand->name : '';
+    }
 
     public function tradingAccount()
     {
@@ -56,5 +61,10 @@ class TransactionOrder extends Model
     public function tradingGroup()
     {
         return $this->belongsTo(TradingGroup::class, 'trading_group_id', 'id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class,'brand_id','public_key');
     }
 }
