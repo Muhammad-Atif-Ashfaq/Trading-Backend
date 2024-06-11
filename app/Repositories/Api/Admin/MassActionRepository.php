@@ -26,13 +26,13 @@ class MassActionRepository implements MassActionInterface
 
         if (empty($tableIds)) {
             // If no specific IDs are provided, update all rows in the table
-            $model->whereNoNull($columnName)->update($values);
+            $model->whereNotNull($columnName)->update($values);
 
             // Return all rows after update
             return $model->get();
         } else {
             // If specific IDs are provided, update only the rows with those IDs
-            $model->whereNoNull($columnName)->whereIn($columnName, $tableIds)->update($values);
+            $model->whereNotNull($columnName)->whereIn($columnName, $tableIds)->update($values);
 
             // Return the updated rows
             return $model->whereIn($columnName, $tableIds)->get();

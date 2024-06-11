@@ -106,7 +106,8 @@ class TradeOrder extends Model
 
     public function calculateProfitLoss($currentPrice, $entryPrice)
     {
-        $symbolSetting = $this->symbolSetting; // Access the related symbolSetting model
+        $symbolSetting = $this->symbolSetting;
+        // Access the related symbolSetting model
 
         // Ensure symbolSetting exists and has the 'pip' property
         if ($symbolSetting && isset($symbolSetting->pip)) {
