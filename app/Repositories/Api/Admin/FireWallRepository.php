@@ -30,6 +30,6 @@ class FireWallRepository implements FireWallInterface
     // TODO: Get add to ip_list.
     public function addToIpList($request)
     {
-        return $this->ip->add($request['ip_address']);
+        return $this->ip->add($request);
     }
 }

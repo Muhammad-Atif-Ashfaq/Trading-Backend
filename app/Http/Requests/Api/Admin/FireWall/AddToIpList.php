@@ -13,6 +13,8 @@ class AddToIpList extends FormRequest
     {
         return [
             'ip_address' => ['required','string','max:255', 'unique:ip_list,ip_address'],
+            'brand_id'  => ['required'],
+            'status' => ['required','in:No,Yes'],
         ];
     }
 }

@@ -21,12 +21,13 @@ class AuthController extends Controller
             $type = filter_var($login , FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
             if (Auth::attempt([$type => $request->email, 'password' => $request->password])) {
                 $user = Auth::user();
+                $brand = Brand::where('user_id', $user->id)->first();
                 // TODO::Check if user is an admin or if the IP address is in the allowed list
-                $ipAllowed = IpList::where('ip_address', SupportRequest::ip())->exists();
+                $ipAllowed = $this->isIpAllowed(SupportRequest::ip(), $brand);
                 if ($user->hasRole('admin') || $ipAllowed) {
                     $success['token'] = $user->createToken('MyApp')->plainTextToken;
                     $success['user'] = $user;
-                    $success['brand'] = Brand::where('user_id', $user->id)->first();
+                    $success['brand'] = $brand;
                     return $this->sendResponse($success, 'User login successfully.');
                 } else {
                     return $this->sendError('You are not allowed to login from this IP address.', ['error' => 'Unauthorized']);
@@ -56,5 +57,12 @@ class AuthController extends Controller
             $lastLoginActivity->logout_time = now();
             $lastLoginActivity->save();
         }
+    }
+    protected function isIpAllowed($ip, $brand)
+    {
+        return !empty($brand) ? IpList::where('ip_address', $ip)
+            ->where('brand_id', $brand->public_key)
+            ->where('status', 'Yes')
+            ->exists(): false;
     }
 }

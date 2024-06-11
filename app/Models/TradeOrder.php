@@ -47,7 +47,7 @@ class TradeOrder extends Model
 
     protected $with = ['symbolSetting'];
 
-    protected $appends = ['user_name','symbol_setting_name','trading_account_loginId','symbol_setting_commission'];
+    protected $appends = ['user_name','symbol_setting_name','trading_account_loginId','symbol_setting_commission','brand_name'];
 
 
     public static function onDelete($items)
@@ -89,6 +89,12 @@ class TradeOrder extends Model
         return isset($this->symbolSetting)  ? $this->symbolSetting->commission : '';
     }
 
+    // Accessor for brand_name
+    public function getBrandNameAttribute()
+    {
+        return isset($this->brand) ? $this->brand->name : '';
+    }
+
     public function symbolSetting()
     {
         return $this->belongsTo(SymbelSetting::class, 'symbol', 'feed_fetch_name');
@@ -102,6 +108,11 @@ class TradeOrder extends Model
     public function tradingAccount()
     {
         return $this->belongsTo(TradingAccount::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class,'brand_id','public_key');
     }
 
     public function calculateProfitLoss($currentPrice, $entryPrice)
