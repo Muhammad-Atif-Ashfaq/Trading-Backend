@@ -20,41 +20,42 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
 
     /**
-     * Define your route model bindings, pattern filters, and other route configuration.
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api/auth')
-                ->group(base_path('routes/api/auth.php'));
+            // Load route configurations
+            $routeConfigs = config('routes');
 
-            Route::middleware('api')
-                ->prefix('api/admin')
-                ->group(base_path('routes/api/admin.php'));
+            // Loop through API routes
+            foreach ($routeConfigs['api'] as $route) {
+                Route::middleware($route['middleware'])
+                    ->prefix($route['prefix'] ?? '')
+                    ->group(base_path($route['path']));
+            }
 
-            Route::middleware('api')
-                ->prefix('api/terminal')
-                ->group(base_path('routes/api/terminal.php'));
+            // Loop through Web routes
+            foreach ($routeConfigs['web'] as $route) {
+                Route::middleware($route['middleware'])
+                    ->group(base_path($route['path']));
+            }
+        });
+    }
 
-            Route::middleware('api')
-                ->prefix('api/trading_account')
-                ->group(base_path('routes/api/trading_account.php'));
-
-            Route::middleware('api')
-                ->prefix('api/config')
-                ->group(base_path('routes/api/config.php'));
-
-            Route::middleware('api')
-                ->prefix('api/setting')
-                ->group(base_path('routes/api/setting.php'));
-
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * @return void
+     */
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
 }

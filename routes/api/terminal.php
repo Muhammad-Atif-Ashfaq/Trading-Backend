@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\Terminal\{
 Route::post('/login',           [LoginController::class,'login']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::apiResource('/orders',OrderController::class);
+    Route::post('/update_multi_trade_order', [OrderController::class,'multiUpdate']);
+
     Route::get('/symbels',      [SymbelController::class,'index']);
 
     Route::apiResource('/trading_account_login_activities', TradingAccountLoginActivityController::class);

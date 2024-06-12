@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api\Terminal;
 
 use App\Helpers\ExceptionHandlerHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Terminal\Order\MultiTradeOrderUpdate;
 use App\Http\Requests\Api\Terminal\Order\Create as OrderCreate;
-use App\Repositories\Api\Terminal\OrderInterface;
+use App\Repositories\Api\Terminal\OrderRepository;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -13,7 +14,7 @@ class OrderController extends Controller
 
     protected $orderRepository;
 
-    public function __construct(OrderInterface $orderRepository)
+    public function __construct(OrderRepository $orderRepository)
     {
         $this->orderRepository = $orderRepository;
     }
@@ -51,6 +52,14 @@ class OrderController extends Controller
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
             $order = $this->orderRepository->updateOrder($request->validated(), $id);
             return $this->sendResponse($order, 'TradeOrder updated successfully');
+        });
+    }
+    // TODO: Update multi a trade order.
+    public function multiUpdate(MultiTradeOrderUpdate $request)
+    {
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
+            $tradeOrder = $this->tradeOrderRepository->updateMultiTradeOrder($request->orders);
+            return $this->sendResponse($tradeOrder, 'TradeOrders updated successfully');
         });
     }
 

@@ -19,9 +19,8 @@ class OrderRepository implements OrderInterface
     //  TODO: Get all orders.
     public function getAllOrders($request)
     {
-        $tradeOrders = $this->model->where('', auth()->id())->when($request->has('order_type'), function ($query) use ($request) {
-            return $query->where('order_type', $request->order_type);
-        });
+        $tradeOrders = $this->model->whereSearch($request);
+
         $tradeOrders = PaginationHelper::paginate(
             $tradeOrders,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -46,6 +45,12 @@ class OrderRepository implements OrderInterface
     public function updateOrder(array $data, $id)
     {
         return $this->model->updateTradeOrder($data, $id);
+    }
+
+    // TODO: Update a trade order.
+    public function updateMultiTradeOrder(array $data)
+    {
+        return $this->model->updateMultiTradeOrder($data);
     }
 
     // TODO: Delete an order.
