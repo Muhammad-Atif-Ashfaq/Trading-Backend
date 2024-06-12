@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ip_list', function (Blueprint $table) {
             $table->id();
             $table->string('ip_address');
-            $table->unsignedBigInteger('brand_id');
+            $table->string('brand_id');
             $table->enum('status',['No','Yes']);
             $table->timestamps();
         });
