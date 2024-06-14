@@ -22,7 +22,7 @@ if (!function_exists('skipValue0')) {
     function skipValue0(array $data)
     {
         return array_filter($data, function ($value) {
-            return !empty($value);
+            return $value != '';
         });
     }
 }

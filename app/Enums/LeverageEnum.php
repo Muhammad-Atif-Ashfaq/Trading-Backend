@@ -19,7 +19,7 @@ final class LeverageEnum
      const LEVERAGE_1000_TO_1 = '1000';
 
 
-    const LEVERAGE_0_TO_0_TEXT = '0:0';
+    const LEVERAGE_0_TO_0_TEXT = '';
     const LEVERAGE_1_TO_1_TEXT = '1:1';
     const LEVERAGE_2_TO_1_TEXT = '2:1';
     const LEVERAGE_3_TO_1_TEXT = '3:1';

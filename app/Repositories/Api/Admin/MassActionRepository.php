@@ -48,17 +48,28 @@ class MassActionRepository implements MassActionInterface
         $tableIds = $data['table_ids'] ?? [];
         $columnName = $data['column_name'] ?? 'id';
 
+
+
+
+
         if (empty($tableIds)) {
             $items = $model->whereNotNull($columnName);
         } else {
             $items = $model->whereNotNull($columnName)->whereIn($columnName, $tableIds);
+        }
+        if ($data['table_name'] == 'symbel_groups') {
+            $items = $model->where('id','!=',1);
         }
 
         if (method_exists($modelName, 'onDelete')) {
             $modelName::onDelete($items);
         }
 
-        return $items->delete();
+        if ($data['table_name'] != 'symbel_groups') {
+            return $items->delete();
+        }
+        return 0;
+
     }
 
     public function massCloseOrders(array $ids)

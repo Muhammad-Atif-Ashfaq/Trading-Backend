@@ -38,8 +38,8 @@ class SymbelGroupRepository implements SymbelGroupInterface
                 'vol_min',
                 'vol_max'
                 )
-            ->when($request->has('skipRow'),function ($q) use ($request){
-                $q->whereNotIn('id',$request->input('skipRow',[]));
+            ->when($request->has('skipRow'),function ($query) use ($request){
+                $query->where('id','!=',$request->input('skipRow'));
             })
             ->with('settings')
             ->get();
