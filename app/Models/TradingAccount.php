@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\LeverageEnum;
 use App\Enums\OrderTypeEnum;
+use App\Enums\TransactionOrderTypeEnum;
 use App\Traits\Models\HasSearch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,7 +55,7 @@ class TradingAccount extends Model
 
     protected $with = ['brand','brandCustomer','group'];
 
-    protected $appends = ['brand_customer_name','brand_name','group_name'];
+    protected $appends = ['brand_customer_name','brand_name','group_name','total_withdraw'];
 
 
 
@@ -62,6 +63,12 @@ class TradingAccount extends Model
     public function getBrandCustomerNameAttribute()
     {
         return isset($this->brandCustomer)  ? $this->brandCustomer->name : '';
+    }
+
+    // Accessor for total_withdraw
+    public function getTotalWithdrawAttribute()
+    {
+        return TransactionOrder::where('trading_account_id',$this->id)->where('type',TransactionOrderTypeEnum::WITHDRAW)->sum('amount');
     }
 
     // Accessor for brand_name

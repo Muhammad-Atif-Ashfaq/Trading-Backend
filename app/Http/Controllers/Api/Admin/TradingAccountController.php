@@ -38,8 +38,6 @@ class TradingAccountController extends Controller
         });
     }
 
-
-
     // TODO: Retrieves all trading accounts not in any group.
     public function getAllTradingAccountsNotInGroup(Request $request)
     {

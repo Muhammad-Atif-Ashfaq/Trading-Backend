@@ -29,10 +29,10 @@ class SymbelGroupController extends Controller
     }
 
     // TODO: Retrieves all trading SymbelGroups list.
-    public function getAllSymbelGroupList()
+    public function getAllSymbelGroupList(Request $request)
     {
-        return ExceptionHandlerHelper::tryCatch(function () {
-            $symbelGroups = $this->symbelGroupRepository->getAllSymbelGroupList();
+        return ExceptionHandlerHelper::tryCatch(function () use ($request){
+            $symbelGroups = $this->symbelGroupRepository->getAllSymbelGroupList($request);
             return $this->sendResponse($symbelGroups, 'All SymbelGroups list');
         });
     }

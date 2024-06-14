@@ -17,7 +17,7 @@ interface SymbelGroupInterface
      *
      * @return mixed
      */
-    public function getAllSymbelGroupList();
+    public function getAllSymbelGroupList($request);
 
     /**
      * TODO: Create a new symbol group.

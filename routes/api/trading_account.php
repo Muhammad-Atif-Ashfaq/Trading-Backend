@@ -19,7 +19,9 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/add/trading_account', [TradingAccountController::class, 'store']);
+    Route::apiResource('/trading_accounts', TradingAccountController::class);
+    Route::get('/getAllTradingAccountList', [TradingAccountController::class, 'getAllTradingAccountList']);
+
     Route::post('/change/trading_account/password', [TradingAccountController::class, 'changePassword']);
 
     Route::apiResource('/transaction_order', TransactionOrderController::class);

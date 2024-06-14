@@ -45,8 +45,6 @@ class TradingAccountRepository implements TradingAccountInterface
         return $tradingAccounts;
     }
 
-
-
     // TODO: Get all trading accounts not in any group.
     public function getAllTradingAccountsNotInGroup($request)
     {
