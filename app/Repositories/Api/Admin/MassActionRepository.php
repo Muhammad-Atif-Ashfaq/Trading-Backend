@@ -43,14 +43,9 @@ class MassActionRepository implements MassActionInterface
 
     public function massDelete(array $data)
     {
-        $modelName = tableToModel($data['table_name']);
-        $model = new $modelName();
+        $model = new (tableToModel($data['table_name']))();
         $tableIds = $data['table_ids'] ?? [];
         $columnName = $data['column_name'] ?? 'id';
-
-
-
-
 
         if (empty($tableIds)) {
             $items = $model->whereNotNull($columnName);
@@ -71,6 +66,28 @@ class MassActionRepository implements MassActionInterface
         return 0;
 
     }
+
+    public function massImport(array $data)
+    {
+        $model = new (tableToModel($data['table_name']))();
+        $rows = $data['rows'];
+        $mergeColumns = $data['marge_col']; // Assuming this is an array of column names
+        $skipOrMerge = $data['skip'];
+
+        DB::transaction(function () use ($model, $rows, $mergeColumns, $skipOrMerge) {
+            foreach ($rows as $row) {
+                if ($skipOrMerge === 'skip') {
+                    $model->create($row);
+                } elseif ($skipOrMerge === 'marge') {
+                    $criteria = array_intersect_key($row, array_flip($mergeColumns));
+                    $model->updateOrCreate($criteria, $row);
+                }
+            }
+        });
+
+        return response()->json(['message' => 'Data imported successfully.']);
+    }
+
 
     public function massCloseOrders(array $ids)
     {

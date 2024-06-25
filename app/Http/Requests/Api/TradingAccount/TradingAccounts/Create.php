@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\Admin\TradingAccounts;
+namespace App\Http\Requests\Api\TradingAccount\TradingAccounts;
 
 use App\Enums\LeverageEnum;
 use App\Enums\TradingAccountStatusEnum;

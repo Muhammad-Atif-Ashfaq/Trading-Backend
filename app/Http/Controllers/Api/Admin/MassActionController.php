@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Helpers\SystemHelper;
 use App\Http\Controllers\Controller;
 use App\Repositories\Api\Admin\MassActionRepository;
 use App\Http\Requests\Api\Admin\MassAction\MassEdit;
 use App\Http\Requests\Api\Admin\MassAction\MassDelete;
+use App\Http\Requests\Api\Admin\MassAction\MassImport;
 use App\Http\Requests\Api\Admin\MassAction\MassCloseOrders;
 use App\Helpers\ExceptionHandlerHelper;
 
@@ -41,6 +41,14 @@ class MassActionController extends Controller
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $action = $this->massActionRepository->massDelete($request->validated());
             return $this->sendResponse($action, 'Deleted successfully');
+        });
+    }
+
+    public function massImport(MassImport $request)
+    {
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
+            $action = $this->massActionRepository->massImport($request->validated());
+            return $this->sendResponse($action, 'Imported successfully');
         });
     }
 

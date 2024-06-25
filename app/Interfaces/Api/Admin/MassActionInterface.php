@@ -10,6 +10,8 @@ interface MassActionInterface
 
     public function massDelete(array $data);
 
+    public function massImport(array $data);
+
     public function massCloseOrders(array $ids);
 
 }

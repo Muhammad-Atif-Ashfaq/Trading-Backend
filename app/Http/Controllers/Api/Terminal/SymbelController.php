@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Terminal;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Repositories\Api\Terminal\SymbelRepository;
 use App\Helpers\ExceptionHandlerHelper;
 

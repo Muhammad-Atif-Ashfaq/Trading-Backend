@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/massEdit',            [MassActionController::class, 'massEdit']);
     Route::delete('/massDelete',            [MassActionController::class, 'massDelete']);
+    Route::post('/massImport',            [MassActionController::class, 'massImport']);
     Route::post('/massCloseOrders',            [MassActionController::class, 'massCloseOrders']);
 
     Route::post('/assign_permission',            [PermissionController::class, 'assign_permission']);
