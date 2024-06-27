@@ -21,7 +21,7 @@ class TradingGroup extends Model
     ];
 
 
-    protected $with = ['symbelGroups'];
+    protected $with = ['symbelGroups','brands'];
 
     protected $appends = ['brands_name'];
 

@@ -12,6 +12,8 @@ interface MassActionInterface
 
     public function massImport(array $data);
 
+    public function massExport(array $data);
+
     public function massCloseOrders(array $ids);
 
 }

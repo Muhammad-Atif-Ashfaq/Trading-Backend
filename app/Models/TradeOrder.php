@@ -45,7 +45,7 @@ class TradeOrder extends Model
         'is_tech_price'
     ];
 
-    protected $with = ['symbolSetting'];
+    protected $with = ['symbolSetting','user','brand'];
 
     protected $appends = ['user_name','symbol_setting_name','trading_account_loginId','symbol_setting_commission','brand_name'];
 
@@ -56,7 +56,7 @@ class TradeOrder extends Model
             if ($item->order_type == OrderTypeEnum::CLOSE) {
                 $tradingAccount  = TradingAccount::find($item->trading_account_id);
                 if(!empty($tradingAccount)){
-                    $balance = $tradingAccount->balance - $item->profit;
+                    $balance = (double)$tradingAccount->balance - (double)$item->profit;
                     $tradingAccount->update([
                         'balance' => $balance
                     ]);

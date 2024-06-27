@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use ReflectionClass;
 
 if (!function_exists('tableToModel')) {
     function tableToModel($tableName)
@@ -76,6 +77,46 @@ if (!function_exists('calculateCalswap')) {
         return $volume * $totalNights * ($symbolSetting ? (double)$symbolSetting->swap : 0);
     }
 }
+
+if (!function_exists('arrayToQuotedString')) {
+    function arrayToQuotedString($array) {
+        $quotedArray = array_map(function($item) {
+            return "'" . $item . "'";
+        }, $array);
+        return trim(implode(',', $quotedArray), ",");
+    }
+}
+
+if (!function_exists('prepareExportData')) {
+    function prepareExportData($model, $results)
+    {
+        $rows = [];
+
+        $reflection = new ReflectionClass($model);
+        $property = $reflection->getProperty('with');
+        $property->setAccessible(true);
+        $withValue = $property->getValue($model);
+
+        $appendedAttributes = $model->getAppends();
+
+        $mergedAttributes = array_merge($appendedAttributes, $withValue);
+
+        foreach ($results as $result) {
+
+            $formattedRow = $result->toArray();
+
+            foreach ($mergedAttributes as $attribute) {
+                unset($formattedRow[Str::snake($attribute,'_')]);
+            }
+
+            $rows[] = $formattedRow;
+        }
+
+        return $rows;
+    }
+
+}
+
 
 if (!function_exists('getMacAddress')) {
     function getMacAddress()

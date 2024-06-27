@@ -3,12 +3,13 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Enums\OrderTypeEnum;
-use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\MassActionInterface;
 use App\Models\SymbelSetting;
 use App\Models\TradeOrder;
 use App\Models\TradingAccount;
+use App\Services\GenerateFilesService;
 use Illuminate\Support\Facades\DB;
+
 
 class MassActionRepository implements MassActionInterface
 {
@@ -43,7 +44,8 @@ class MassActionRepository implements MassActionInterface
 
     public function massDelete(array $data)
     {
-        $model = new (tableToModel($data['table_name']))();
+        $modelName = (tableToModel($data['table_name']));
+        $model = new $modelName();
         $tableIds = $data['table_ids'] ?? [];
         $columnName = $data['column_name'] ?? 'id';
 
@@ -85,7 +87,32 @@ class MassActionRepository implements MassActionInterface
             }
         });
 
-        return response()->json(['message' => 'Data imported successfully.']);
+        return true;
+    }
+
+    public function massExport(array $data)
+    {
+        $modelName = (tableToModel($data['table_name']));
+        $model = new $modelName();
+        $delimiter = $data['delimiter'];
+        $tableIds = $data['table_ids'] ?? [];
+        $columnName = $data['column_name'] ?? 'id';
+        $exportColumns = $data['export_columns'] ?? 'id';
+
+        if (empty($tableIds)) {
+            $results = $model::select($exportColumns)
+                ->whereNotNull($columnName)
+                ->groupBy($columnName)->get();
+        }else{
+            $results = $model::select($exportColumns)
+                ->whereNotNull($columnName)
+                ->whereIn($columnName, $tableIds)
+                ->groupBy($columnName)->get();
+        }
+
+        $url = GenerateFilesService::exportToCsv(prepareExportData($model,$results),$delimiter,$data['table_name'].'.csv');
+
+        return ['url'=>$url];
     }
 
 
