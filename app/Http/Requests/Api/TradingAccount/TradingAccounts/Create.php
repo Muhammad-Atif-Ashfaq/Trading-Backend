@@ -15,6 +15,7 @@ class Create extends FormRequest
     {
         return [
             'trading_group_id' => 'nullable|exists:trading_groups,id',
+            'brand_customer_id' => 'nullable|exists:users,id',
             'brand_id' => 'required|exists:brands,public_key',
             'public_key' => 'nullable|string',
             'login_id' => 'nullable|string',
@@ -42,6 +43,7 @@ class Create extends FormRequest
             'enable_investor_trading' => 'nullable|boolean',
             'change_password_at_next_login' => 'nullable|boolean',
             'enable' => 'nullable|boolean',
+
 
         ];
     }

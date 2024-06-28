@@ -51,7 +51,7 @@ class SymbelSettingRepository implements SymbelSettingInterface
                 'symbel_group_id'
             )
             ->with('group')
-            ->get()->makeHidden(['dataFeed']);
+            ->get();
         return $symbelSettings;
     }
 

@@ -13,11 +13,11 @@ use App\Services\ChangePasswordService;
 
 class TradingAccountController extends Controller
 {
-    protected $TradingAccountRepository;
+    protected $tradingAccountRepository;
 
-    public function __construct(TradingAccountRepository $TradingAccountRepository)
+    public function __construct(TradingAccountRepository $tradingAccountRepository)
     {
-        $this->TradingAccountRepository = $TradingAccountRepository;
+        $this->tradingAccountRepository = $tradingAccountRepository;
     }
 
     // TODO: Retrieves all trading accounts.
