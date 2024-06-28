@@ -35,9 +35,6 @@ class TradingAccountRepository implements TradingAccountInterface
     public function getAllTradingAccountList($request)
     {
         $tradingAccounts = $this->model
-            ->when($request->has('brand_id'), function ($query) use ($request) {
-                return $query->where('brand_id', $request->input('brand_id'));
-            })
             ->whereSearch($request)
             ->select('login_id', 'id')
             ->get()->makeHidden(['brand','brandCustomer']);
