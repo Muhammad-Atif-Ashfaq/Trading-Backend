@@ -15,6 +15,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('profile', 'profile');
         Route::get('logout', 'logout');
+        Route::post('changePassword', 'changePassword');
     });
 });
 
@@ -23,6 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/getAllTradingAccountList', [TradingAccountController::class, 'getAllTradingAccountList']);
 
     Route::post('/change/trading_account/password', [TradingAccountController::class, 'changePassword']);
-
     Route::apiResource('/transaction_order', TransactionOrderController::class);
 });

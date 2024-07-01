@@ -8,6 +8,7 @@ use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\TradingAccount\TransactionOrderRepository;
 use App\Http\Requests\Api\TradingAccount\TransactionOrders\Create as TransactionOrderCreate;
 use App\Http\Requests\Api\TradingAccount\TransactionOrders\Index as TransactionOrderIndex;
+use App\Http\Requests\Api\TradingAccount\TransactionOrders\Update as TransactionOrderUpdate;
 use Illuminate\Http\Request;
 
 
@@ -48,10 +49,10 @@ class TransactionOrderController extends Controller
     }
 
     // TODO: Updates a transaction order.
-    public function update(Request $request, $id)
+    public function update(TransactionOrderUpdate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $transactionOrder = $this->transactionOrderRepository->updateTransactionOrder($request->all(), $id);
+            $transactionOrder = $this->transactionOrderRepository->updateTransactionOrder($request->validated(), $id);
             return $this->sendResponse($transactionOrder, 'TransactionOrder updated successfully');
         });
     }
@@ -65,4 +66,3 @@ class TransactionOrderController extends Controller
         });
     }
 }
-
