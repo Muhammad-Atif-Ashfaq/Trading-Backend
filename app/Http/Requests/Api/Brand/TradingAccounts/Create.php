@@ -15,10 +15,9 @@ class Create extends FormRequest
     {
         return [
             'trading_group_id' => 'nullable|exists:trading_groups,id',
+            'brand_customer_id' => 'required|exists:users,id',
             'brand_id' => 'required|exists:brands,public_key',
             'public_key' => 'nullable|string',
-            'login_id' => 'nullable|string',
-            'password' => 'nullable|string',
             'country' => 'nullable|string',
             'phone' => 'nullable|string',
             'name' => 'nullable|string',

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Brand\BrandCustomerRepository;
 use Illuminate\Http\Request;
+use App\Http\Requests\Api\Brand\BrandCustomer\BrandCustomersRequest;
 
 
 class BrandCustomerController extends Controller
@@ -19,7 +20,7 @@ class BrandCustomerController extends Controller
     }
 
     // TODO: Retrieves all trading brand Customer list.
-    public function getAllBrandCustomerList(Request $request)
+    public function getAllBrandCustomerList(BrandCustomersRequest $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $brand_customers = $this->brandCustomerRepository->getAllBrandCustomerList($request->brand_id);
@@ -27,4 +28,3 @@ class BrandCustomerController extends Controller
         });
     }
 }
-

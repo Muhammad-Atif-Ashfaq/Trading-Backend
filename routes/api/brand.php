@@ -30,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::apiResource('/trade_orders', TradeOrderController::class);
+
+
+
+
     Route::post('/update_multi_trade_order', [TradeOrderController::class, 'multiUpdate']);
 
     Route::apiResource('/group_trade_orders', GroupTradeOrderController::class);
@@ -38,4 +42,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/getDashboardData', [DashboardController::class, 'getDashboardData']);
 
 });
-

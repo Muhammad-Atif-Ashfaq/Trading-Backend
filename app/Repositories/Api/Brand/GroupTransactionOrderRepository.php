@@ -47,12 +47,14 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
                 });
             })
             ->get();
+            $response = [];
         foreach ($trading_accounts as $trading_account) {
             $data['trading_account_id'] = $trading_account->id;
             $data['brand_id'] = $trading_account->brand_id;
             $data['group_unique_id'] = $trading_group__id;
-            $this->model->createTransactionOrder($data);
+            $response[] = $this->model->createTransactionOrder($data);
         }
+        return $response;
     }
 
     public function findGroupTransactionOrderById($id)
