@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('trading_account_login_activities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trading_account_id')->constrained()->onDelete('cascade');
-            $table->string('ip_address');
+            $table->string('ip_address')->nullable();
             $table->string('mac_address')->nullable();
-            $table->timestamp('login_time');
+            $table->timestamp('login_time')->nullable();
             $table->timestamp('logout_time')->nullable();
             $table->timestamps();
         });

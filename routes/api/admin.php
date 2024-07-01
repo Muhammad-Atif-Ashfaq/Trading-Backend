@@ -13,7 +13,7 @@ use  App\Http\Controllers\Api\Admin\{
     DataFeedController,
     TickAndChartController,
     GroupTransactionOrderController,
-    AdminController,
+    BrandController,
     DashboardController,
     MassActionController,
     PermissionController,
@@ -60,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get_block_list',                       [FireWallController::class, 'getAllBlockLists']);
     Route::post('/add_to_ip_list',                    [FireWallController::class, 'addToIpList']);
 
-    Route::post('/change-password',                [AdminController::class, 'changePassword']);
+    Route::post('/change-password',                [BrandController::class, 'changePassword']);
     Route::post('/getDashboardData',            [DashboardController::class, 'getDashboardData']);
 
     Route::put('/massEdit',            [MassActionController::class, 'massEdit']);

@@ -14,6 +14,11 @@ return [
         ],
         [
             'middleware' => 'api',
+            'prefix' => 'api/brand',
+            'path' => 'routes/api/brand.php',
+        ],
+        [
+            'middleware' => 'api',
             'prefix' => 'api/terminal',
             'path' => 'routes/api/terminal.php',
         ],
