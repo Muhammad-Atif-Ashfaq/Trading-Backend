@@ -7,16 +7,13 @@ use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\BrandBelongsToUser;
 
-class Index extends FormRequest
+class GetAll extends FormRequest
 {
     use ResponseTrait; // TODO: Using the ResponseTrait for sending responses
 
     public function rules(): array
     {
         return [
-            'status' => 'nullable|in:' . implode(',', TradingAccountStatusEnum::getStatuses()),
-            'per_page' => 'nullable',
-            'page' => 'nullable',
             'brand_id' => [
                 'required',
                 'exists:brands,public_key',

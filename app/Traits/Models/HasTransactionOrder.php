@@ -6,6 +6,7 @@ use App\Enums\TransactionOrderMethodEnum;
 use App\Enums\TransactionOrderTypeEnum;
 use App\Models\TradingAccount;
 use App\Models\TransactionOrder;
+use App\Enums\TransactionOrderStatusEnum;
 
 
 trait HasTransactionOrder
@@ -27,7 +28,7 @@ trait HasTransactionOrder
             'email' => $data['email'] ?? null,
             'type' => $data['type'],
             'method' => $method,
-            'status' => $data['status'],
+            'status' => $data['status'] ?? TransactionOrderStatusEnum::COMPLETE,
             'comment' => $data['comment'] ?? null
         ]);
 

@@ -7,7 +7,7 @@ use App\Enums\TradingAccountStatusEnum;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class Create extends FormRequest
+class Update extends FormRequest
 {
     use ResponseTrait; // TODO: Using the ResponseTrait for sending responses
 
@@ -15,8 +15,8 @@ class Create extends FormRequest
     {
         return [
             'trading_group_id' => 'nullable|exists:trading_groups,id',
-            'brand_customer_id' => 'required|exists:users,id',
-            'brand_id' => 'required|exists:brands,public_key',
+            'brand_customer_id' => 'nullable|exists:users,id',
+            'brand_id' => 'nullable|exists:brands,public_key',
             'public_key' => 'nullable|string',
             'country' => 'nullable|string',
             'phone' => 'nullable|string',

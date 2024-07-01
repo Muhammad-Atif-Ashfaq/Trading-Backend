@@ -14,10 +14,11 @@ class Index extends FormRequest
     public function rules(): array
     {
         return [
-            'trading_account_id' => 'nullable|exists:trading_accounts,id',
+            'trading_account_id' => 'required|exists:trading_accounts,id',
             'per_page' => 'nullable',
             'page' => 'nullable',
-            'brand_id' => 'nullable|exists:brands,public_key',
+            'brand_id' => 'required|exists:brands,public_key',
+
         ];
     }
 }

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Http\Requests\Api\TradingAccount\ChangePassword;
 use App\Http\Requests\Api\TradingAccount\TradingAccounts\Create as TradingAccountCreate;
+use App\Http\Requests\Api\TradingAccount\TradingAccounts\Update as TradingAccountUpdate;
+use App\Http\Requests\Api\TradingAccount\TradingAccounts\GetAll as TradingAccountGetAll;
 use App\Services\ChangePasswordService;
 
 class TradingAccountController extends Controller
@@ -30,7 +32,7 @@ class TradingAccountController extends Controller
     }
 
     // TODO: Retrieves all trading accounts list.
-    public function getAllTradingAccountList(Request $request)
+    public function getAllTradingAccountList(TradingAccountGetAll $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountList($request);
@@ -58,10 +60,10 @@ class TradingAccountController extends Controller
     }
 
     // TODO: Updates a trading account.
-    public function update(Request $request, $id)
+    public function update(TradingAccountUpdate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $tradingAccount = $this->tradingAccountRepository->updateTradingAccount($request->all(), $id);
+            $tradingAccount = $this->tradingAccountRepository->updateTradingAccount($request->validated(), $id);
             return $this->sendResponse($tradingAccount, 'TradingAccount updated successfully');
         });
     }
