@@ -54,7 +54,7 @@ class Create extends FormRequest
                 // Get accounts with low margin level percentage
                 $lowMarginAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
                     ->whereHas('brand', function ($q) {
-                        $q->whereColumn('stop_out', '>', 'margin_level_percentage');
+                        $q->whereColumn('brands.stop_out', '>', 'trading_accounts.margin_level_percentage');
                     })
                     ->pluck('login_id')
                     ->toArray();

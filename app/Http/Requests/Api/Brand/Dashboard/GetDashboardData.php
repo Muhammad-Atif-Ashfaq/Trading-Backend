@@ -14,7 +14,9 @@ class GetDashboardData extends FormRequest
         return [
             'start_date' => 'nullable',
             'end_date' => 'nullable',
-            'types' => 'required|array'
+            'types' => 'required|array',
+            'types.*' => 'in:trading_order_by_numbers,trading_order_by_numbers,trading_volume_by_lots,deposits',
+            'brand_id'=>'required|exists:brands,public_key'
         ];
     }
 }
