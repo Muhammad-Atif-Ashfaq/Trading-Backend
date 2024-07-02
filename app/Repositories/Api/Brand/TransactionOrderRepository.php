@@ -5,6 +5,7 @@ namespace App\Repositories\Api\Brand;
 use App\Helpers\PaginationHelper;
 use App\Interfaces\Api\Brand\TransactionOrderInterface;
 use App\Models\TransactionOrder;
+use App\Helpers\CheckPermissionsHelper;
 
 class TransactionOrderRepository implements TransactionOrderInterface
 {
@@ -18,7 +19,7 @@ class TransactionOrderRepository implements TransactionOrderInterface
     // TODO: Get all transaction orders.
     public function getAllTransactionOrders($request)
     {
-
+        CheckPermissionsHelper::checkBrandPermission($request['brand_id'], 'transaction_orders_read');
         $transactionOrders =  $this->model->whereSearch($request);
 
         $transactionOrders = PaginationHelper::paginate(
