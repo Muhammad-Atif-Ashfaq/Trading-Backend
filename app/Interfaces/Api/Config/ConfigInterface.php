@@ -11,5 +11,6 @@ interface ConfigInterface
      * @return mixed
      */
     public function getConfigDataFeeds();
+    public function getBrandConfig($brand_id);
 
 }
