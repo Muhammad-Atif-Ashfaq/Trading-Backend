@@ -13,6 +13,7 @@ use  App\Http\Controllers\Api\Brand\{
     BrandCustomerController,
     BrandController,
     SymbelGroupController,
+    BrandLoginActivityController,
 
 };
 
@@ -33,4 +34,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/getDashboardData', [DashboardController::class, 'getDashboardData']);
     Route::get('/getAllSymbelGroupList', [SymbelGroupController::class, 'getAllSymbelGroupList']);
     Route::get('/getConfig', [ConfigController::class, 'getBrandConfig']);
+    Route::get('/getLoginActivity', [BrandLoginActivityController::class, 'index']);
 });
