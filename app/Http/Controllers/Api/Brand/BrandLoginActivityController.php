@@ -24,7 +24,7 @@ class BrandLoginActivityController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $UserLoginActivitys = $this->brandLoginActivityRepository->getAllUserLoginActivitys($request);
-            return $this->sendResponse($UserLoginActivitys, 'All Brand Login Activities');
+            return $this->sendResponse($UserLoginActivitys, 'Brand Login Activities');
         });
     }
 
