@@ -26,9 +26,9 @@ class ProcessLiveOrder implements ShouldQueue
     {
         $symbol_setting = SymbelSetting::where('feed_fetch_name',$this->order->symbol)->first();
         $currentPrice = $this->order->getCurrentPrice($symbol_setting);
-        $profit = $tradeOrder->calculateProfitLoss($currentPrice,$tradeOrder->open_price);
-        $tradeOrder->profit = $profit;
-        $tradeOrder->order_type = OrderTypeEnum::CLOSE;
+        $profit = $this->order->calculateProfitLoss($currentPrice,$this->order->open_price);
+        $this->order->profit = $profit;
+        $this->order->order_type = OrderTypeEnum::CLOSE;
         if ($this->order->type === 'buy') {
             // Check if the current market price is at or below the stop loss
             if ($currentPrice <= $this->order->stopLoss) {
