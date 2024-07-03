@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Interfaces\Api\Brand;
+use App\Models\TradeOrder;
 
 interface GroupTradeOrderInterface
 {
@@ -26,7 +27,7 @@ interface GroupTradeOrderInterface
      * @param  int  $id
      * @return mixed
      */
-    public function findGroupTradeOrderById($id);
+    public function findGroupTradeOrderById(TradeOrder $tradeOrder);
 
     /**
      * TODO: Update a group trade order with the given ID.
@@ -35,7 +36,7 @@ interface GroupTradeOrderInterface
      * @param  int  $id
      * @return mixed
      */
-    public function updateGroupTradeOrder(array $data, $id);
+    public function updateGroupTradeOrder(array $data, TradeOrder $tradeOrder);
 
     /**
      * TODO: Delete a group trade order by its ID.
@@ -43,5 +44,5 @@ interface GroupTradeOrderInterface
      * @param  int  $id
      * @return mixed
      */
-    public function deleteGroupTradeOrder($id);
+    public function deleteGroupTradeOrder(TradeOrder $tradeOrder);
 }

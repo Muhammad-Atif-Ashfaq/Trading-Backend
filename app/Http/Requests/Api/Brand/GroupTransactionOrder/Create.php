@@ -27,7 +27,8 @@ class Create extends FormRequest
             'method' => 'required|in:' . implode(',', TransactionOrderMethodEnum::getMethods()),
             'status' => 'required|in:' . implode(',', TransactionOrderStatusEnum::getStatuses()),
             'comment' => 'nullable|string',
-            'skip' => 'nullable|boolean'
+            'skip' => 'nullable|boolean',
+            'brand_id' => 'required|exists:brands,public_key',
         ];
     }
 

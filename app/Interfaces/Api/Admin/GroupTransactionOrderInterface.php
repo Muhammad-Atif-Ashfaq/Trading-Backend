@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Interfaces\Api\Admin;
+use App\Models\TransactionOrder;
 
 interface GroupTransactionOrderInterface
 {
@@ -26,7 +27,7 @@ interface GroupTransactionOrderInterface
      * @param  int  $id
      * @return mixed
      */
-    public function findGroupTransactionOrderById($id);
+    public function findGroupTransactionOrderById(TransactionOrder $transactionOrder);
 
     /**
      * TODO: Update a Transaction order with the given ID.
@@ -35,7 +36,7 @@ interface GroupTransactionOrderInterface
      * @param  int  $id
      * @return mixed
      */
-    public function updateGroupTransactionOrder(array $data, $id);
+    public function updateGroupTransactionOrder(array $data, TransactionOrder $transactionOrder);
 
     /**
      * TODO: Delete a Transaction order by its ID.
@@ -43,5 +44,5 @@ interface GroupTransactionOrderInterface
      * @param  int  $id
      * @return mixed
      */
-    public function deleteGroupTransactionOrder($id);
+    public function deleteGroupTransactionOrder(TransactionOrder $transactionOrder);
 }

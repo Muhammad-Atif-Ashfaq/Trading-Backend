@@ -8,7 +8,7 @@ use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Brand\GroupTradeOrderRepository;
 use App\Http\Requests\Api\Brand\GroupTradeOrders\Create as GroupTradeOrderCreate;
 use Illuminate\Http\Request;
-
+use App\Models\TradeOrder;
 
 class GroupTradeOrderController extends Controller
 {
@@ -38,30 +38,29 @@ class GroupTradeOrderController extends Controller
     }
 
     // TODO: Retrieves a single group trade order by ID.
-    public function show($id)
+    public function show(TradeOrder $tradeOrder)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $groupTradeOrder = $this->groupTradeOrderRepository->findGroupTradeOrderById($id);
+        return ExceptionHandlerHelper::tryCatch(function () use ($tradeOrder) {
+            $groupTradeOrder = $this->groupTradeOrderRepository->findGroupTradeOrderById($tradeOrder);
             return $this->sendResponse($groupTradeOrder, 'Single GroupTradeOrder');
         });
     }
 
     // TODO: Updates a group trade order.
-    public function update(Request $request, $id)
+    public function update(Request $request, TradeOrder $tradeOrder)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $groupTradeOrder = $this->groupTradeOrderRepository->updateGroupTradeOrder($request->all(), $id);
+        return ExceptionHandlerHelper::tryCatch(function () use ($tradeOrder, $request) {
+            $groupTradeOrder = $this->groupTradeOrderRepository->updateGroupTradeOrder($request->all(), $tradeOrder);
             return $this->sendResponse($groupTradeOrder, 'GroupTradeOrder updated successfully');
         });
     }
 
     // TODO: Deletes a group trade order by ID.
-    public function destroy($id)
+    public function destroy(TradeOrder $tradeOrder)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $this->groupTradeOrderRepository->deleteGroupTradeOrder($id);
+        return ExceptionHandlerHelper::tryCatch(function () use ($tradeOrder) {
+            $this->groupTradeOrderRepository->deleteGroupTradeOrder($tradeOrder);
             return $this->sendResponse([], 'GroupTradeOrder deleted successfully');
         });
     }
 }
-

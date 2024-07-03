@@ -33,24 +33,31 @@ class TransactionOrderRepository implements TransactionOrderInterface
     // TODO: Create a transaction order.
     public function createTransactionOrder(array $data)
     {
+        CheckPermissionsHelper::checkBrandPermission($data['brand_id'], 'transaction_orders_create');
         return $this->model->createTransactionOrder($data);
     }
 
     // TODO: Find a transaction order by ID.
     public function findTransactionOrderById($id)
     {
-        return $this->model->findOrFail($id);
+        $transactionOrder= $this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($transactionOrder->brand_id, 'transaction_orders_read');
+        return $transactionOrder;
     }
 
     // TODO: Update a transaction order.
     public function updateTransactionOrder(array $data, $id)
     {
+        $transactionOrder=$this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($transactionOrder->brand_id, 'transaction_orders_update');
         return $this->model->updateTransactionOrder($data, $id);
     }
 
     // TODO: Delete a transaction order.
     public function deleteTransactionOrder($id)
     {
-        $this->model->findOrFail($id)->delete();
+        $transactionOrder=$this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($transactionOrder->brand_id, 'transaction_orders_delete');
+        return $transactionOrder->delete();
     }
 }

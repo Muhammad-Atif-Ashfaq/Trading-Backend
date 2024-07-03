@@ -66,15 +66,15 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
     }
 
     // TODO: Find a group trade order by its ID.
-    public function findGroupTradeOrderById($id)
+    public function findGroupTradeOrderById($tradeOrder)
     {
-        return $this->model->findGroupUniqueId($id);
+        return $this->model->findGroupUniqueId($tradeOrder->group_unique_id);
     }
 
     // TODO: Update a group trade order.
-    public function updateGroupTradeOrder(array $data, $id)
+    public function updateGroupTradeOrder(array $data, $tradeOrder)
     {
-        $trading_account_ids = $this->model->whereGroupUniqueId($id)->pluck('id');
+        $trading_account_ids = $this->model->whereGroupUniqueId($tradeOrder->group_unique_id)->pluck('id');
         foreach ($trading_account_ids as $trading_account_id) {
             $this->model->updateTradeOrder($data, $trading_account_id);
         }
@@ -82,9 +82,8 @@ class GroupTradeOrderRepository implements GroupTradeOrderInterface
     }
 
     // TODO: Delete a group trade order.
-    public function deleteGroupTradeOrder($id)
+    public function deleteGroupTradeOrder($tradeOrder)
     {
-        $this->model->findGroupUniqueId($id)->delete();
+        $this->model->findGroupUniqueId($tradeOrder->group_unique_id)->delete();
     }
 }
-

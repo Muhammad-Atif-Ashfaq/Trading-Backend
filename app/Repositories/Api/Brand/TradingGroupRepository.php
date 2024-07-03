@@ -4,6 +4,7 @@ namespace App\Repositories\Api\Brand;
 use App\Helpers\PaginationHelper;
 use App\Interfaces\Api\Brand\TradingGroupInterface;
 use App\Models\{TradingAccount, TradingGroupSymbol, TradingGroup};
+use App\Helpers\CheckPermissionsHelper;
 
 
 
@@ -21,9 +22,8 @@ class TradingGroupRepository implements TradingGroupInterface
     // TODO: Get all trading groups.
     public function getAllTradingGroups($request)
     {
-
+        CheckPermissionsHelper::checkBrandPermission($request['brand_id'],'trading_account_group_read');
         $tradingGroups = $this->model->whereSearch($request);
-
         $tradingGroups = PaginationHelper::paginate(
             $tradingGroups,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -35,6 +35,7 @@ class TradingGroupRepository implements TradingGroupInterface
     // TODO: Get all trading groups list.
     public function getAllTradingGroupList($request)
     {
+        CheckPermissionsHelper::checkBrandPermission($request['brand_id'],'trading_account_group_read');
         $tradingGroups = $this->model->whereSearch($request)
             ->select('name', 'id')
             ->get()->makeHidden(['symbelGroups','tradingAccounts']);
@@ -44,6 +45,7 @@ class TradingGroupRepository implements TradingGroupInterface
     // TODO: Create a trading group.
     public function createTradingGroup(array $data)
     {
+        CheckPermissionsHelper::checkBrandPermission($data['brand_id'],'trading_account_group_create');
         $tradingGroup = $this->model->create([
             'name' => $data['name'],
             'mass_leverage' => $data['mass_leverage'],
@@ -73,13 +75,16 @@ class TradingGroupRepository implements TradingGroupInterface
     // TODO: Find a trading group by ID.
     public function findTradingGroupById($id)
     {
-        return $this->model->findOrFail($id);
+        $tradingGroup=$this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($tradingGroup->brand_id,'trading_account_group_read');
+        return  $tradingGroup;
     }
 
     //  TODO: Update a trading group.
     public function updateTradingGroup(array $data, $id)
     {
         $tradingGroup = $this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($tradingGroup->brand_id,'trading_account_group_update');
         $tradingGroup->update(prepareUpdateCols($data, 'trading_groups'));
         if(isset($data['symbel_group_ids']) && count($data['symbel_group_ids'])){
             foreach ($data['symbel_group_ids'] as  $value) {
@@ -103,10 +108,12 @@ class TradingGroupRepository implements TradingGroupInterface
     //  TODO: Delete a trading group.
     public function deleteTradingGroup($id)
     {
+        $tradingGroup = $this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($tradingGroup->brand_id,'trading_account_group_delete');
         $this->trading_group_symbol->where('trading_group_id', $id)->delete();
         $this->trading_account->where('trading_group_id',$id)->update([
             'trading_group_id' => null
         ]);
-        $this->model->findOrFail($id)->delete();
+        return $this->model->findOrFail($id)->delete();
     }
 }

@@ -7,6 +7,8 @@ use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Brand\GroupTransactionOrderRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\Brand\GroupTransactionOrder\Create as GroupTradeOrderCreate;
+use App\Http\Requests\Api\Brand\GroupTransactionOrder\Index as GroupTradeOrderIndex;
+use App\Models\TransactionOrder;
 
 class GroupTransactionOrderController extends Controller
 {
@@ -17,7 +19,7 @@ class GroupTransactionOrderController extends Controller
         $this->groupTransactionOrderRepository = $groupTransactionOrderRepository;
     }
 
-    public function index(Request $request)
+    public function index(GroupTradeOrderIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $groupTransactionOrder = $this->groupTransactionOrderRepository->getAllGroupTransactionOrder($request);
@@ -33,26 +35,26 @@ class GroupTransactionOrderController extends Controller
         });
     }
 
-    public function show($id)
+    public function show(TransactionOrder $transactionOrder)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $groupTransactionOrder = $this->groupTransactionOrderRepository->findGroupTransactionOrderById($id);
+        return ExceptionHandlerHelper::tryCatch(function () use ($transactionOrder) {
+            $groupTransactionOrder = $this->groupTransactionOrderRepository->findGroupTransactionOrderById($transactionOrder);
             return $this->sendResponse($groupTransactionOrder, 'Single GroupTransactionOrder');
         });
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, TransactionOrder $transactionOrder)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $groupTransactionOrder = $this->groupTransactionOrderRepository->updateGroupTransactionOrder($request->all(), $id);
+        return ExceptionHandlerHelper::tryCatch(function () use ($transactionOrder, $request) {
+            $groupTransactionOrder = $this->groupTransactionOrderRepository->updateGroupTransactionOrder($request->all(), $transactionOrder);
             return $this->sendResponse($groupTransactionOrder, 'GroupTransactionOrder updated successfully');
         });
     }
 
-    public function destroy($id)
+    public function destroy(TransactionOrder $transactionOrder)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use ($id) {
-            $this->groupTransactionOrderRepository->deleteGroupTransactionOrder($id);
+        return ExceptionHandlerHelper::tryCatch(function () use ($transactionOrder) {
+            $this->groupTransactionOrderRepository->deleteGroupTransactionOrder($transactionOrder);
             return $this->sendResponse([], 'GroupTransactionOrder deleted successfully');
         });
     }

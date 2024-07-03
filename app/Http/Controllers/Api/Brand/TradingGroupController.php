@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
 use App\Repositories\Api\Brand\TradingGroupRepository;
 use App\Http\Requests\Api\Brand\TradingGroups\Create as TradingGroupCreate;
+use App\Http\Requests\Api\Brand\TradingGroups\Index as TradingGroupIndex;
 use Illuminate\Http\Request;
 
 
@@ -20,7 +21,7 @@ class TradingGroupController extends Controller
     }
 
     // TODO: Retrieves all trading groups.
-    public function index(Request $request)
+    public function index(TradingGroupIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $tradingGroups = $this->tradingGroupRepository->getAllTradingGroups($request);
@@ -29,7 +30,7 @@ class TradingGroupController extends Controller
     }
 
     // TODO: Retrieves all trading TradingGroups list.
-    public function getAllTradingGroupList(Request $request)
+    public function getAllTradingGroupList(TradingGroupIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function ()  use ($request){
             $tradingGroups = $this->tradingGroupRepository->getAllTradingGroupList($request);
@@ -74,4 +75,3 @@ class TradingGroupController extends Controller
         });
     }
 }
-

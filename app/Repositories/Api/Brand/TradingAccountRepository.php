@@ -7,6 +7,7 @@ use App\Interfaces\Api\Brand\TradingAccountInterface;
 use App\Models\TradingAccount;
 use App\Services\GenerateRandomService;
 use Carbon\Carbon;
+use App\Helpers\CheckPermissionsHelper;
 
 class TradingAccountRepository implements TradingAccountInterface
 {
@@ -20,9 +21,8 @@ class TradingAccountRepository implements TradingAccountInterface
     // TODO: Get all trading accounts.
     public function getAllTradingAccounts($request)
     {
-
+        CheckPermissionsHelper::checkBrandPermission($request['brand_id'],'trading_account_list_read');
         $tradingAccounts = $this->model->whereSearch($request);
-
         $tradingAccounts = PaginationHelper::paginate(
             $tradingAccounts,
             $request->input('per_page', config('systemSetting.system_per_page_count')),
@@ -34,10 +34,9 @@ class TradingAccountRepository implements TradingAccountInterface
     // TODO: Get all trading accounts list.
     public function getAllTradingAccountList($request)
     {
+        CheckPermissionsHelper::checkBrandPermission($request['brand_id'],'trading_account_list_read');
         $tradingAccounts = $this->model
-            ->when($request->has('brand_id'), function ($query) use ($request) {
-                return $query->where('brand_id', $request->input('brand_id'));
-            })
+
             ->whereSearch($request)
             ->select('login_id', 'id')
             ->get()->makeHidden(['brand','brandCustomer']);
@@ -60,7 +59,7 @@ class TradingAccountRepository implements TradingAccountInterface
     // TODO: Create a trading account.
     public function createTradingAccount(array $data)
     {
-
+        CheckPermissionsHelper::checkBrandPermission($data['brand_id'],'trading_account_list_create');
         $loginId = GenerateRandomService::CustomerId();
         $password = GenerateRandomService::RandomStr(6);
         $tradingAccount = $this->model->create([
@@ -101,13 +100,16 @@ class TradingAccountRepository implements TradingAccountInterface
     // TODO: Find a trading account by ID.
     public function findTradingAccountById($id)
     {
-        return $this->model->findOrFail($id);
+       $tradingAccount= $this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($tradingAccount->brand_id,'trading_account_list_read');
+        return  $tradingAccount;
     }
 
     // TODO: Update a trading account.
     public function updateTradingAccount(array $data, $id)
     {
         $tradingAccount = $this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($tradingAccount->brand_id,'trading_account_list_update');
         $tradingAccount->update(prepareUpdateCols($data,'trading_accounts'));
 
 //        pushLiveDate('trading_accounts','update',$this->model->findOrFail($id));
@@ -118,6 +120,8 @@ class TradingAccountRepository implements TradingAccountInterface
     // TODO: Delete a trading account.
     public function deleteTradingAccount($id)
     {
+        $tradingAccount = $this->model->findOrFail($id);
+        CheckPermissionsHelper::checkBrandPermission($tradingAccount->brand_id,'trading_account_list_delete');
         $this->model->findOrFail($id)->delete();
     }
 }

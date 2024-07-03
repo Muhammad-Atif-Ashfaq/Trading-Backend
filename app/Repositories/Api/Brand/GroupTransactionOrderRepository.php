@@ -3,10 +3,10 @@
 namespace App\Repositories\Api\Brand;
 
 use App\Helpers\PaginationHelper;
-use App\Interfaces\Api\Admin\GroupTransactionOrderInterface;
+use App\Interfaces\Api\Brand\GroupTransactionOrderInterface;
 use App\Models\TransactionOrder;
 use App\Models\TradingAccount;
-
+use App\Helpers\CheckPermissionsHelper;
 
 class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
 {
@@ -21,7 +21,7 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
 
     public function getAllGroupTransactionOrder($request)
     {
-
+        CheckPermissionsHelper::checkBrandPermission($request['brand_id'],'transaction_orders_read');
         $groupTransactionOrder = $this->model->whereSearch($request)->allGroupUniqueId();
         $groupTransactionOrder = PaginationHelper::paginate(
             $groupTransactionOrder,
@@ -33,6 +33,7 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
 
     public function createGroupTransactionOrder(array $data)
     {
+        CheckPermissionsHelper::checkBrandPermission($data['brand_id'],'transaction_orders_create');
         $trading_group__id = uniqid($this->model::$PREFIX);
         $trading_accounts = $this->trading_account
             ->where('trading_group_id', $data['trading_group_id'])
@@ -57,22 +58,25 @@ class GroupTransactionOrderRepository implements GroupTransactionOrderInterface
         return $response;
     }
 
-    public function findGroupTransactionOrderById($id)
+    public function findGroupTransactionOrderById($transactionOrder)
     {
-        return $this->model->findGroupUniqueId($id);
+        CheckPermissionsHelper::checkBrandPermission($transactionOrder->brand_id,'transaction_orders_read');
+        return $transactionOrder;
     }
 
-    public function updateGroupTransactionOrder(array $data, $id)
+    public function updateGroupTransactionOrder(array $data, $transactionOrder)
     {
-        $trading_account_ids = $this->model->whereGroupUniqueId($id)->pluck('id');
+        CheckPermissionsHelper::checkBrandPermission($transactionOrder->brand_id,'transaction_orders_update');
+        $trading_account_ids = $this->model->whereGroupUniqueId($transactionOrder->group_unique_id)->pluck('id');
         foreach ($trading_account_ids as $trading_account_id) {
             $this->model->updateTransactionOrder($data, $trading_account_id);
         }
         return true;
     }
 
-    public function deleteGroupTransactionOrder($id)
+    public function deleteGroupTransactionOrder($transactionOrder)
     {
-        $this->model->whereGroupUniqueId($id)->delete();
+        CheckPermissionsHelper::checkBrandPermission($transactionOrder->brand_id,'transaction_orders_delete');
+        $this->model->whereGroupUniqueId($transactionOrder->group_unique_id)->delete();
     }
 }

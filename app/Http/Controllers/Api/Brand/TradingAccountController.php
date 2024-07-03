@@ -11,6 +11,7 @@ use App\Http\Requests\Api\Brand\TradingAccounts\Index as TradingAccountIndex;
 use Illuminate\Http\Request;
 
 
+
 class TradingAccountController extends Controller
 {
     protected $tradingAccountRepository;
@@ -30,7 +31,7 @@ class TradingAccountController extends Controller
     }
 
     // TODO: Retrieves all trading accounts list.
-    public function getAllTradingAccountList(Request $request)
+    public function getAllTradingAccountList(TradingAccountIndex $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountList($request);
@@ -83,4 +84,3 @@ class TradingAccountController extends Controller
         });
     }
 }
-

@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Requests\Api\Brand\TransactionOrders;
+namespace App\Http\Requests\Api\Brand\GroupTransactionOrder;
 
-use App\Enums\OrderTypeEnum;
-use App\Enums\TradeOrderTypeEnum;
+use App\Enums\TransactionOrderMethodEnum;
+use App\Enums\TransactionOrderStatusEnum;
+use App\Enums\TransactionOrderTypeEnum;
+use App\Models\TradingAccount;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class Index extends FormRequest
 {
     use ResponseTrait;
-
     public function rules(): array
     {
         return [
-            'trading_account_id' => 'nullable|exists:trading_accounts,id',
-            'per_page' => 'nullable',
-            'page' => 'nullable',
             'brand_id' => 'required|exists:brands,public_key',
         ];
     }
+
 }
