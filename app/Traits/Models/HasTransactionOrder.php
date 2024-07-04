@@ -2,12 +2,10 @@
 
 namespace App\Traits\Models;
 
-use App\Enums\TransactionOrderMethodEnum;
+use App\Enums\TransactionOrderStatusEnum;
 use App\Enums\TransactionOrderTypeEnum;
 use App\Models\TradingAccount;
 use App\Models\TransactionOrder;
-use App\Enums\TransactionOrderStatusEnum;
-
 
 trait HasTransactionOrder
 {
@@ -29,18 +27,19 @@ trait HasTransactionOrder
             'type' => $data['type'],
             'method' => $method,
             'status' => $data['status'] ?? TransactionOrderStatusEnum::COMPLETE,
-            'comment' => $data['comment'] ?? null
+            'comment' => $data['comment'] ?? null,
         ]);
 
         // Update trading account balance based on transaction type
         $trading_account = TradingAccount::find($data['trading_account_id']);
         if ($transactionOrder->type == TransactionOrderTypeEnum::DEPOSIT) {
-            $trading_account->$method = (string)((double)$trading_account->$method + (double)$transactionOrder->amount);
+            $trading_account->$method = (string) ((float) $trading_account->$method + (float) $transactionOrder->amount);
         } elseif ($transactionOrder->type == TransactionOrderTypeEnum::WITHDRAW) {
-            $trading_account->$method = (string)((double)$trading_account->$method - (double)$transactionOrder->amount);
+            $trading_account->$method = (string) ((float) $trading_account->$method - (float) $transactionOrder->amount);
         }
         $trading_account->save();
 
+        pushLiveDate('trading_accounts', 'update', $trading_account);
 
         return $transactionOrder;
     }
@@ -50,7 +49,7 @@ trait HasTransactionOrder
     {
         $transactionOrder = TransactionOrder::findOrFail($id);
         $transactionOrder->update(prepareUpdateCols($data, 'transaction_orders'));
+
         return $transactionOrder;
     }
-
 }

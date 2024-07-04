@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests\Api\Brand\TransactionOrders;
 
-use App\Enums\OrderTypeEnum;
-use App\Enums\TradeOrderTypeEnum;
+use App\Rules\BrandBelongsToTradingAccount;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,7 +16,7 @@ class Index extends FormRequest
             'trading_account_id' => 'nullable|exists:trading_accounts,id',
             'per_page' => 'nullable',
             'page' => 'nullable',
-            'brand_id' => 'required|exists:brands,public_key',
+            'brand_id' => ['required', 'exists:brands,public_key', new BrandBelongsToTradingAccount($this->input('trading_account_id'), 'id')],
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Enums\TransactionOrderMethodEnum;
 use App\Enums\TransactionOrderStatusEnum;
 use App\Enums\TransactionOrderTypeEnum;
 use App\Models\TradingAccount;
+use App\Rules\BrandBelongsToTradingAccount;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
@@ -20,7 +21,7 @@ class Create extends FormRequest
             'amount' => 'required|string',
             'currency' => 'nullable|string',
             'trading_account_id' => 'required|exists:trading_accounts,id',
-            'brand_id' => 'required|exists:brands,public_key',
+            'brand_id' => ['required', 'exists:brands,public_key', new BrandBelongsToTradingAccount($this->input('trading_account_id'), 'id')],
             'group_unique_id' => 'nullable|string',
             'name' => 'nullable|string',
             'group' => 'nullable|string',

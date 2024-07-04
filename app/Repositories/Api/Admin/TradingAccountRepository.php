@@ -3,7 +3,6 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
-use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\TradingAccountInterface;
 use App\Models\TradingAccount;
 use App\Services\GenerateRandomService;
@@ -29,6 +28,7 @@ class TradingAccountRepository implements TradingAccountInterface
             $request->input('per_page', config('systemSetting.system_per_page_count')),
             $request->input('page', config('systemSetting.system_current_page'))
         );
+
         return $tradingAccounts;
     }
 
@@ -41,7 +41,8 @@ class TradingAccountRepository implements TradingAccountInterface
             })
             ->whereSearch($request)
             ->select('login_id', 'id')
-            ->get()->makeHidden(['brand','brandCustomer']);
+            ->get()->makeHidden(['brand', 'brandCustomer']);
+
         return $tradingAccounts;
     }
 
@@ -54,7 +55,8 @@ class TradingAccountRepository implements TradingAccountInterface
             })
             ->whereNull('trading_group_id')
             ->select('login_id', 'id')
-            ->get()->makeHidden(['brand','brandCustomer']);
+            ->get()->makeHidden(['brand', 'brandCustomer']);
+
         return $tradingAccounts;
     }
 
@@ -73,7 +75,7 @@ class TradingAccountRepository implements TradingAccountInterface
             'country' => $data['country'] ?? null,
             'phone' => $data['phone'] ?? null,
             'name' => $data['name'] ?? null,
-            'email' => $data['email']  ?? null,
+            'email' => $data['email'] ?? null,
             'leverage' => $data['leverage'] ?? 1,
             'balance' => $data['balance'] ?? 0,
             'credit' => $data['credit'] ?? 0,
@@ -85,16 +87,15 @@ class TradingAccountRepository implements TradingAccountInterface
             'free_margin' => $data['free_margin'] ?? 0,
 
             'groups_leverage' => $data['groups_leverage'] ?? null,
-            'registration_time' => $data['registration_time'] ??  Carbon::now(),
+            'registration_time' => $data['registration_time'] ?? Carbon::now(),
             'trading_account_group_id' => $data['trading_account_group_id'] ?? null,
             'brand_id' => $data['brand_id'],
             'status' => $data['status'] ?? 'active',
             'enable_password_change' => $data['enable_password_change'] ?? 0,
             'enable_investor_trading' => $data['enable_investor_trading'] ?? 0,
             'change_password_at_next_login' => $data['change_password_at_next_login'] ?? 0,
-            'enable' => $data['enable'] ?? 0
+            'enable' => $data['enable'] ?? 0,
         ]);
-
 
         return $tradingAccount;
     }
@@ -109,9 +110,9 @@ class TradingAccountRepository implements TradingAccountInterface
     public function updateTradingAccount(array $data, $id)
     {
         $tradingAccount = $this->model->findOrFail($id);
-        $tradingAccount->update(prepareUpdateCols($data,'trading_accounts'));
+        $tradingAccount->update(prepareUpdateCols($data, 'trading_accounts'));
 
-//        pushLiveDate('trading_accounts','update',$this->model->findOrFail($id));
+        pushLiveDate('trading_accounts', 'update', $this->model->findOrFail($id));
 
         return $tradingAccount;
     }

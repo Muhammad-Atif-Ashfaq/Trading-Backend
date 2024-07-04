@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api\Terminal;
 
 use App\Helpers\ExceptionHandlerHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Terminal\Auth\LoginRequest;
 use App\Models\Brand;
 use App\Models\TradingAccount;
 use App\Services\TerminalLoginService;
-use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
     // TODO: Attempt to authenticate the user and generate a token for the terminal.
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $credentials = $request->only('login_id', 'password');
