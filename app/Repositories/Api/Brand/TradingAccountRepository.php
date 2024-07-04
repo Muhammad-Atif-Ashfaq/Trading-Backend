@@ -115,7 +115,7 @@ class TradingAccountRepository implements TradingAccountInterface
         CheckPermissionsHelper::checkBrandPermission($tradingAccount->brand_id, 'trading_account_list_update');
         $tradingAccount->update(prepareUpdateCols($data, 'trading_accounts'));
 
-        pushLiveDate('trading_accounts', 'update', $this->model->findOrFail($id));
+        pushLiveDate('trading_accounts', 'update', prepareExportData($this->model, [$this->model->findOrFail($id)]));
 
         return $tradingAccount;
     }

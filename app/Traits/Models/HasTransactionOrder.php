@@ -39,7 +39,7 @@ trait HasTransactionOrder
         }
         $trading_account->save();
 
-        pushLiveDate('trading_accounts', 'update', $trading_account);
+        pushLiveDate('trading_accounts', 'update', prepareExportData(new TradingAccount(), [$trading_account]));
 
         return $transactionOrder;
     }
