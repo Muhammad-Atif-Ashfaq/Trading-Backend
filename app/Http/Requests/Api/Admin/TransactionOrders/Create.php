@@ -22,7 +22,7 @@ class Create extends FormRequest
             'amount' => 'required|numeric', // Ensure amount is numeric
             'currency' => 'nullable|string',
             'trading_account_id' => 'required|exists:trading_accounts,id',
-            'brand_id' => ['required', 'exists:brands,public_key', new BrandBelongsToTradingAccount($this->input('trading_account_id'), 'id')],
+            'brand_id' => ['nullable', 'exists:brands,public_key', new BrandBelongsToTradingAccount($this->input('trading_account_id'), 'id')],
             'group_unique_id' => 'nullable|string',
             'name' => 'nullable|string',
             'group' => 'nullable|string',

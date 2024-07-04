@@ -16,7 +16,7 @@ class Index extends FormRequest
             'trading_account_id' => 'nullable|exists:trading_accounts,id',
             'per_page' => 'nullable',
             'page' => 'nullable',
-            'brand_id' => ['required', 'exists:brands,public_key', new BrandBelongsToTradingAccount($this->input('trading_account_id'), 'id')],
+            'brand_id' => ['nullable', 'exists:brands,public_key', new BrandBelongsToTradingAccount($this->input('trading_account_id'), 'id')],
         ];
     }
 }

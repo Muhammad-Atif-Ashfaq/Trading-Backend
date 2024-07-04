@@ -22,12 +22,13 @@ class MassActionRepository implements MassActionInterface
 
         if (empty($tableIds)) {
             $model->whereNotNull($columnName)->update($values);
-            $updatedRows = $model->get();
+            $results = $model->get();
         } else {
             $model->whereNotNull($columnName)->whereIn($columnName, $tableIds)->update($values);
-            $updatedRows = $model->whereIn($columnName, $tableIds)->get();
+            $results = $model->whereIn($columnName, $tableIds)->get();
         }
-        $this->massSendLiveData($data['table_name'], $updatedRows);
+
+        $this->massSendLiveData($data['table_name'], prepareExportData($model, $results));
 
         return $updatedRows;
     }
