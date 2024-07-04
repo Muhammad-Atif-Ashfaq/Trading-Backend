@@ -14,8 +14,6 @@ class Create extends FormRequest
 {
     use ResponseTrait;
 
-    // TODO: Using the ResponseTrait for sending responses
-
     public function rules(): array
     {
         return [
@@ -29,39 +27,36 @@ class Create extends FormRequest
             'country' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
-            'type' => 'required|in:' . implode(',', TransactionOrderTypeEnum::getTypes()),
-            'method' => 'required|in:' . implode(',', TransactionOrderMethodEnum::getMethods()),
-            'status' => 'nullable|in:' . implode(',', TransactionOrderStatusEnum::getStatuses()),
+            'type' => 'required|in:'.implode(',', TransactionOrderTypeEnum::getTypes()),
+            'method' => 'required|in:'.implode(',', TransactionOrderMethodEnum::getMethods()),
+            'status' => 'nullable|in:'.implode(',', TransactionOrderStatusEnum::getStatuses()),
             'comment' => 'nullable|string',
         ];
     }
 
-    public function after(): array
+    public function withValidator($validator)
     {
-        return [
-            function (Validator $validator) {
-                $data = $validator->validated();
+        $validator->after(function ($validator) {
+            $data = $validator->getData();
+
+            // type is "withdraw", and trading_account_id is provided
+            if (isset($data['type']) && isset($data['method']) && $data['type'] === TransactionOrderTypeEnum::WITHDRAW && isset($data['trading_account_id'])) {
                 $method = $data['method'];
+                // Get the trading account
+                $tradingAccount = TradingAccount::find($data['trading_account_id']);
 
-                //  type is "withdraw", and trading_account_id is provided
-                if ($data['type'] === TransactionOrderTypeEnum::WITHDRAW && isset($data['trading_account_id'])) {
-                    // Get the trading account
-                    $tradingAccount = TradingAccount::find($data['trading_account_id']);
+                // Check if trading account exists
+                if ($tradingAccount) {
+                    // Get the account balance
+                    $account = $tradingAccount->$method;
 
-                    // Check if trading account exists
-                    if ($tradingAccount) {
-                        // Get the account balance
-                        $account = $tradingAccount->$method;
-
-                        // Check if account balance is greater than or equal to the withdrawal amount
-                        if ($account < $data['amount']) {
-                            // Add an error to the validator
-                            $validator->errors()->add('amount', 'Insufficient '.ucfirst($method).' for withdrawal');
-                        }
+                    // Check if account balance is greater than or equal to the withdrawal amount
+                    if ($account < $data['amount']) {
+                        // Add an error to the validator
+                        $validator->errors()->add('amount', 'Insufficient '.ucfirst($method).' for withdrawal');
                     }
                 }
             }
-        ];
+        });
     }
-
 }

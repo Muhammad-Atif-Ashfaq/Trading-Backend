@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Api\TradingAccount\TransactionOrders;
 
 use App\Enums\TransactionOrderMethodEnum;
@@ -8,13 +7,12 @@ use App\Enums\TransactionOrderTypeEnum;
 use App\Models\TradingAccount;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Validator;
+use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class Create extends FormRequest
 {
     use ResponseTrait;
-
-    // TODO: Using the ResponseTrait for sending responses
 
     public function rules(): array
     {
@@ -34,32 +32,38 @@ class Create extends FormRequest
         ];
     }
 
-    public function after(): array
+    public function withValidator($validator)
     {
-        return [
-            function (Validator $validator) {
-                $data = $validator->validated();
-                $method = $data['method'];
+        $validator->after(function ($validator) {
+            $data = $validator->getData();
 
-                //  type is "withdraw", and trading_account_id is provided
+            if (isset($data['type'], $data['method'])) {
                 if ($data['type'] === TransactionOrderTypeEnum::WITHDRAW && isset($data['trading_account_id'])) {
-                    // Get the trading account
+
                     $tradingAccount = TradingAccount::find($data['trading_account_id']);
 
-                    // Check if trading account exists
-                    if ($tradingAccount) {
-                        // Get the account balance
-                        $account = $tradingAccount->$method;
 
-                        // Check if account balance is greater than or equal to the withdrawal amount
+                    if ($tradingAccount) {
+
+                        $account = $tradingAccount->{$data['method']};
+
+
                         if ($account < $data['amount']) {
-                            // Add an error to the validator
-                            $validator->errors()->add('amount', 'Insufficient '.ucfirst($method).' for withdrawal');
+
+                            $validator->errors()->add('amount', 'Insufficient ' . ucfirst($data['method']) . ' for withdrawal');
                         }
                     }
                 }
+            } else {
+
+                if (!isset($data['type'])) {
+                    $validator->errors()->add('type', 'The type field is required.');
+                }
+                if (!isset($data['method'])) {
+                    $validator->errors()->add('method', 'The method field is required.');
+                }
             }
-        ];
+        });
     }
 
 }

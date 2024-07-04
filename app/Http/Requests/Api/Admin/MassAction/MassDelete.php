@@ -21,30 +21,30 @@ class MassDelete extends FormRequest
         ];
     }
 
-    public function after(): array
+
+
+
+    public function withValidator($validator)
     {
-        return [
-            function (Validator $validator) {
-                $data = $validator->validated();
-                $table_name = $data['table_name'];
-                $skip = $data['skip'] ?? false;
-                $table_ids = $data['table_ids'] ?? [];
+        $validator->after(function ($validator) {
+            $data = $validator->getData();
 
-                [$hasChildDataIds, $childModels] = $this->getChildDataIds($table_name, $table_ids);
+            $table_name = $data['table_name'];
+            $skip = $data['skip'] ?? false;
+            $table_ids = $data['table_ids'] ?? [];
 
-                if (!empty($hasChildDataIds)) {
-                    if ($skip) {
-                        $data['table_ids'] = array_diff($table_ids, $hasChildDataIds);
-                    } else {
-                        $childModelList = implode(', ', $childModels);
-                        $validator->errors()->add('table_ids', "Associated data found in: $childModelList. Do you want to skip these entries?: " . implode(', ', $hasChildDataIds));
-                    }
+            [$hasChildDataIds, $childModels] = $this->getChildDataIds($table_name, $table_ids);
+
+            if (!empty($hasChildDataIds)) {
+                if ($skip) {
+                    $data['table_ids'] = array_diff($table_ids, $hasChildDataIds);
+                } else {
+                    $childModelList = implode(', ', $childModels);
+                    $validator->errors()->add('table_ids', "Associated data found in: $childModelList. Do you want to skip these entries?: " . implode(', ', $hasChildDataIds));
                 }
             }
-        ];
+        });
     }
-
-
 
     private function getChildDataIds(string $table_name, array $ids): array
     {

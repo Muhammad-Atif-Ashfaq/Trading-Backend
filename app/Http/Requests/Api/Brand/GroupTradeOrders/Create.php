@@ -38,44 +38,43 @@ class Create extends FormRequest
         ];
     }
 
-    public function after(): array
+
+    public function withValidator($validator)
     {
-        return [
-            function (Validator $validator) {
-                $data = $validator->validated();
-                $skipAccounts = $data['skip'] ?? false;
+        $validator->after(function ($validator) {
+            $data = $validator->getData();
+            $skipAccounts = $data['skip'] ?? false;
 
-                // Get accounts with low balance
-                $lowBalanceAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
-                    ->where('balance', '<=', 0)
-                    ->pluck('login_id')
-                    ->toArray();
+            // Get accounts with low balance
+            $lowBalanceAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
+                ->where('balance', '<=', 0)
+                ->pluck('login_id')
+                ->toArray();
 
-                // Get accounts with low margin level percentage
-                $lowMarginAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
-                    ->whereHas('brand', function ($q) {
-                        $q->whereColumn('brands.stop_out', '>', 'trading_accounts.margin_level_percentage');
-                    })
-                    ->pluck('login_id')
-                    ->toArray();
+            // Get accounts with low margin level percentage
+            $lowMarginAccounts = TradingAccount::where('trading_group_id', $data['trading_group_id'])
+                ->whereHas('brand', function ($q) {
+                    $q->whereColumn('brands.stop_out', '>', 'trading_accounts.margin_level_percentage');
+                })
+                ->pluck('login_id')
+                ->toArray();
 
-                // Check if there are any accounts with low balance or low margin level percentage
-                if (count($lowBalanceAccounts) || count($lowMarginAccounts)) {
-                    if (!$skipAccounts) {
-                        $errorMessage = '';
+            // Check if there are any accounts with low balance or low margin level percentage
+            if (count($lowBalanceAccounts) || count($lowMarginAccounts)) {
+                if (!$skipAccounts) {
+                    $errorMessage = '';
 
-                        if (count($lowBalanceAccounts)) {
-                            $errorMessage .= '<strong>Low Balance Accounts:</strong> <br/>' . implode(', ', $lowBalanceAccounts) . '<br>';
-                        }
-
-                        if (count($lowMarginAccounts)) {
-                            $errorMessage .= '<strong>Low Margin Level Percentage Accounts:</strong> <br/>' . implode(', ', $lowMarginAccounts) . '<br>';
-                        }
-
-                        $validator->errors()->add('balance', $errorMessage);
+                    if (count($lowBalanceAccounts)) {
+                        $errorMessage .= '<strong>Low Balance Accounts:</strong> <br/>' . implode(', ', $lowBalanceAccounts) . '<br>';
                     }
+
+                    if (count($lowMarginAccounts)) {
+                        $errorMessage .= '<strong>Low Margin Level Percentage Accounts:</strong> <br/>' . implode(', ', $lowMarginAccounts) . '<br>';
+                    }
+
+                    $validator->errors()->add('balance', $errorMessage);
                 }
             }
-        ];
+        });
     }
 }

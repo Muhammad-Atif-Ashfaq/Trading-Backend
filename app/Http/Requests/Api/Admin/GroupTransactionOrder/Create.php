@@ -31,32 +31,31 @@ class Create extends FormRequest
         ];
     }
 
+    public function withValidator($validator)
+{
+    $validator->after(function ($validator) {
+        $data = $validator->getData();
+        // type is "withdraw", and trading_account_id is provided
+        if ( isset($data['type']) && isset($data['method'])  && $data['type'] === TransactionOrderTypeEnum::WITHDRAW) {
+            $method = $data['method'];
+            $skipAccounts = $data['skip'] ?? false;
+            // Get the trading account
+            $lowAccounts = TradingAccount::where('trading_group_id',$data['trading_group_id'])
+                ->where($method ,'<',(int)$data['amount'])
+                ->pluck('login_id')
+                ->toArray();
 
-    public function after(): array
-    {
-        return [
-            function (Validator $validator) {
-                $data = $validator->validated();
-                $method = $data['method'];
-                $skipAccounts = $data['skip'] ?? false;
-
-                // type is "withdraw", and trading_account_id is provided
-                if ( $data['type'] === TransactionOrderTypeEnum::WITHDRAW) {
-                    // Get the trading account
-                    $lowAccounts = TradingAccount::where('trading_group_id',$data['trading_group_id'])
-                        ->where($method ,'<',(int)$data['amount'])
-                        ->pluck('login_id')
-                        ->toArray();
-
-                    // Check if trading account exists
-                    if (count($lowAccounts)) {
-                        if (!$skipAccounts) {
-                            $validator->errors()->add('balance', 'Insufficient '.ucfirst($method).' for withdrawal for accounts: ' . implode(', ', $lowAccounts));
-                        }
-                    }
+            // Check if trading account exists
+            if (count($lowAccounts)) {
+                if (!$skipAccounts) {
+                    $validator->errors()->add('balance', 'Insufficient '.ucfirst($method).' for withdrawal for accounts: ' . implode(', ', $lowAccounts));
                 }
-
             }
-        ];
-    }
+        }
+
+
+    });
+}
+
+
 }
