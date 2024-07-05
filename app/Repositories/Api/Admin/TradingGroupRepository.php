@@ -1,12 +1,12 @@
 <?php
+
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
-use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\TradingGroupInterface;
-use App\Models\{TradingAccount, TradingGroupSymbol, TradingGroup};
-
-
+use App\Models\TradingAccount;
+use App\Models\TradingGroup;
+use App\Models\TradingGroupSymbol;
 
 class TradingGroupRepository implements TradingGroupInterface
 {
@@ -30,6 +30,7 @@ class TradingGroupRepository implements TradingGroupInterface
             $request->input('per_page', config('systemSetting.system_per_page_count')),
             $request->input('page', config('systemSetting.system_current_page'))
         );
+
         return $tradingGroups;
     }
 
@@ -38,7 +39,8 @@ class TradingGroupRepository implements TradingGroupInterface
     {
         $tradingGroups = $this->model->whereSearch($request)
             ->select('name', 'id')
-            ->get()->makeHidden(['symbelGroups','tradingAccounts']);
+            ->get()->makeHidden(['symbelGroups', 'tradingAccounts']);
+
         return $tradingGroups;
     }
 
@@ -51,16 +53,15 @@ class TradingGroupRepository implements TradingGroupInterface
             'mass_swap' => $data['mass_swap'],
             'brand_id' => $data['brand_id'],
         ]);
-        if($tradingGroup)
-        {
+        if ($tradingGroup) {
             $group = $this->model::find($tradingGroup->id);
-            if(count($data['symbel_group_ids'])){
-                foreach ($data['symbel_group_ids'] as  $value) {
+            if (count($data['symbel_group_ids'])) {
+                foreach ($data['symbel_group_ids'] as $value) {
                     $group->symbelGroups()->attach($value);
                 }
             }
-            if(count($data['trading_account_ids'])){
-                foreach ($data['trading_account_ids'] as  $value) {
+            if (count($data['trading_account_ids'])) {
+                foreach ($data['trading_account_ids'] as $value) {
                     $trading_account = $this->trading_account->find($value);
                     $trading_account->trading_group_id = $tradingGroup->id;
                     $trading_account->save();
@@ -68,6 +69,8 @@ class TradingGroupRepository implements TradingGroupInterface
             }
 
         }
+        pushLiveDate('trading_groups', 'create', prepareExportData($this->model, [$tradingGroup])[0]);
+
         return $tradingGroup;
     }
 
@@ -82,8 +85,8 @@ class TradingGroupRepository implements TradingGroupInterface
     {
         $tradingGroup = $this->model->findOrFail($id);
         $tradingGroup->update(prepareUpdateCols($data, 'trading_groups'));
-        if(count($data['symbel_group_ids'])){
-            foreach ($data['symbel_group_ids'] as  $value) {
+        if (count($data['symbel_group_ids'])) {
+            foreach ($data['symbel_group_ids'] as $value) {
                 $trading_group_symbel = $this->trading_group_symbol->where('trading_group_id', $tradingGroup->id);
                 if ($trading_group_symbel->exists()) {
                     $trading_group_symbel->delete();
@@ -91,13 +94,15 @@ class TradingGroupRepository implements TradingGroupInterface
                 $tradingGroup->symbelGroups()->attach($value);
             }
         }
-        if(count($data['trading_account_ids'])){
-            foreach ($data['trading_account_ids'] as  $value) {
+        if (count($data['trading_account_ids'])) {
+            foreach ($data['trading_account_ids'] as $value) {
                 $trading_account = $this->trading_account->find($value);
                 $trading_account->trading_group_id = $tradingGroup->id;
                 $trading_account->save();
             }
         }
+        pushLiveDate('trading_groups', 'update', prepareExportData($this->model, [$this->model->findOrFail($id)])[0]);
+
         return $tradingGroup;
     }
 
@@ -105,8 +110,8 @@ class TradingGroupRepository implements TradingGroupInterface
     public function deleteTradingGroup($id)
     {
         $this->trading_group_symbol->where('trading_group_id', $id)->delete();
-        $this->trading_account->where('trading_group_id',$id)->update([
-            'trading_group_id' => null
+        $this->trading_account->where('trading_group_id', $id)->update([
+            'trading_group_id' => null,
         ]);
         $this->model->findOrFail($id)->delete();
     }

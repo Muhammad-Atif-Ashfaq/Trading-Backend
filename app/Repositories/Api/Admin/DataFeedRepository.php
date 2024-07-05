@@ -6,7 +6,6 @@ use App\Helpers\PaginationHelper;
 use App\Interfaces\Api\Admin\DataFeedInterface;
 use App\Models\DataFeed;
 
-
 class DataFeedRepository implements DataFeedInterface
 {
     private $model;
@@ -26,6 +25,7 @@ class DataFeedRepository implements DataFeedInterface
             $request->input('per_page', config('systemSetting.system_per_page_count')),
             $request->input('page', config('systemSetting.system_current_page'))
         );
+
         return $dataFeeds;
     }
 
@@ -34,8 +34,9 @@ class DataFeedRepository implements DataFeedInterface
     {
         $dataFeeds = $this->model
             ->select('name', 'module')
-            ->where( 'enabled',1)
+            ->where('enabled', 1)
             ->get();
+
         return $dataFeeds;
     }
 
@@ -49,9 +50,10 @@ class DataFeedRepository implements DataFeedInterface
             'enabled' => $data['enabled'],
             'feed_server' => $data['feed_server'],
             'feed_login' => $data['feed_login'] ?? null,
-            'feed_password' => $data['feed_password'] ?? null
+            'feed_password' => $data['feed_password'] ?? null,
         ]);
 
+        pushLiveDate('data_feeds', 'create', prepareExportData($this->model, [$dataFeed]));
 
         return $dataFeed;
     }
@@ -67,6 +69,8 @@ class DataFeedRepository implements DataFeedInterface
     {
         $dataFeed = $this->model->findOrFail($id);
         $dataFeed->update(prepareUpdateCols($data, 'data_feeds'));
+        pushLiveDate('data_feeds', 'update', prepareExportData($this->model, [$this->model->findOrFail($id)]));
+
         return $dataFeed;
     }
 

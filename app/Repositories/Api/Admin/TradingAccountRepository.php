@@ -96,6 +96,7 @@ class TradingAccountRepository implements TradingAccountInterface
             'change_password_at_next_login' => $data['change_password_at_next_login'] ?? 0,
             'enable' => $data['enable'] ?? 0,
         ]);
+        pushLiveDate('trading_accounts', 'create', prepareExportData($this->model, [$tradingAccount])[0]);
 
         return $tradingAccount;
     }
@@ -112,7 +113,7 @@ class TradingAccountRepository implements TradingAccountInterface
         $tradingAccount = $this->model->findOrFail($id);
         $tradingAccount->update(prepareUpdateCols($data, 'trading_accounts'));
 
-        pushLiveDate('trading_accounts', 'update', prepareExportData($this->model, [$this->model->findOrFail($id)]));
+        pushLiveDate('trading_accounts', 'update', prepareExportData($this->model, [$this->model->findOrFail($id)])[0]);
 
         return $tradingAccount;
     }

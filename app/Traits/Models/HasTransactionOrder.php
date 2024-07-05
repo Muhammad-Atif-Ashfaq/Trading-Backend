@@ -5,7 +5,6 @@ namespace App\Traits\Models;
 use App\Enums\TransactionOrderStatusEnum;
 use App\Enums\TransactionOrderTypeEnum;
 use App\Models\TradingAccount;
-use App\Models\TransactionOrder;
 
 trait HasTransactionOrder
 {
@@ -13,7 +12,7 @@ trait HasTransactionOrder
     public function createTransactionOrder(array $data)
     {
         $method = $data['method'];
-        $transactionOrder = TransactionOrder::create([
+        $transactionOrder = static::create([
             'amount' => $data['amount'],
             'currency' => $data['currency'],
             'trading_account_id' => $data['trading_account_id'],
@@ -39,7 +38,8 @@ trait HasTransactionOrder
         }
         $trading_account->save();
 
-        pushLiveDate('trading_accounts', 'update', prepareExportData(new TradingAccount(), [$trading_account]));
+        pushLiveDate('transactions', 'create', prepareExportData(new static(), [$transactionOrder])[0]);
+        pushLiveDate('trading_accounts', 'update', prepareExportData(new TradingAccount(), [$trading_account])[0]);
 
         return $transactionOrder;
     }
@@ -47,8 +47,10 @@ trait HasTransactionOrder
     // TODO: Update an existing transaction order.
     public function updateTransactionOrder(array $data, $id)
     {
-        $transactionOrder = TransactionOrder::findOrFail($id);
+        $transactionOrder = static::findOrFail($id);
         $transactionOrder->update(prepareUpdateCols($data, 'transaction_orders'));
+
+        pushLiveDate('transactions', 'update', prepareExportData(new static(), [static::findOrFail($id)])[0]);
 
         return $transactionOrder;
     }

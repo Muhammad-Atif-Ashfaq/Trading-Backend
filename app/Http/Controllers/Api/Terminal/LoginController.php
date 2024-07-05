@@ -30,10 +30,14 @@ class LoginController extends Controller
         });
     }
 
-    public function isValidBrand(Brand $brand)
+    public function isValidBrand(Brand $brandPublicKey, Brand $brandDomain)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use ($brand) {
-            return $this->sendResponse($brand, 'This brand is valid');
+        return ExceptionHandlerHelper::tryCatch(function () use ($brandPublicKey, $brandDomain) {
+            if ($brandPublicKey->id == $brandDomain->id) {
+                return $this->sendResponse($brandPublicKey, 'This brand is valid');
+            }
+
+            return $this->sendError('This brand is not valid.', ['error' => 'This brand is not valid'], 302);
         });
     }
 }

@@ -3,17 +3,17 @@
 namespace App\Repositories\Api\Admin;
 
 use App\Helpers\PaginationHelper;
-use App\Helpers\SystemHelper;
 use App\Interfaces\Api\Admin\BrandInterface;
+use App\Models\Brand;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Brand;
 use App\Services\GenerateRandomService;
 use Str;
 
 class BrandRepository implements BrandInterface
 {
     private $model;
+
     private $user;
 
     public function __construct()
@@ -32,6 +32,7 @@ class BrandRepository implements BrandInterface
             $request->input('per_page', config('systemSetting.system_per_page_count')),
             $request->input('page', config('systemSetting.system_current_page'))
         );
+
         return $brands;
     }
 
@@ -39,8 +40,9 @@ class BrandRepository implements BrandInterface
     public function getAllBrandList()
     {
         $brands = $this->model
-            ->select('name', 'id','public_key','leverage','margin_call')
+            ->select('name', 'id', 'public_key', 'leverage', 'margin_call')
             ->get();
+
         return $brands;
     }
 
@@ -50,9 +52,9 @@ class BrandRepository implements BrandInterface
         $password = Str::random(6);
         $user = $this->user->create([
             'name' => $data['name'],
-            'email' => $data['name'] . '@broker.com',
+            'email' => $data['name'].'@broker.com',
             'password' => bcrypt($password),
-            'original_password' => $password
+            'original_password' => $password,
         ]);
 
         $brand = $this->model->create([
@@ -66,6 +68,9 @@ class BrandRepository implements BrandInterface
         ]);
 
         $user->assignRole(Role::BRAND);
+
+        pushLiveDate('users', 'create', prepareExportData($this->user, [$user])[0]);
+        pushLiveDate('brands', 'create', prepareExportData($this->model, [$brand])[0]);
 
         return $brand;
     }
@@ -81,6 +86,9 @@ class BrandRepository implements BrandInterface
     {
         $brand = $this->model->findOrFail($id);
         $brand->update(prepareUpdateCols($data, 'brands'));
+
+        pushLiveDate('brands', 'update', prepareExportData($this->model, [$this->model->findOrFail($id)])[0]);
+
         return $brand;
     }
 

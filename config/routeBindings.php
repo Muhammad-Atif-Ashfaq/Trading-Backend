@@ -17,5 +17,9 @@ return [
         'model' => Brand::class,
         'column' => 'public_key',
     ],
+    'brand_domain' => [
+        'model' => Brand::class,
+        'column' => 'domain',
+    ],
     // Add more mappings as needed
 ];

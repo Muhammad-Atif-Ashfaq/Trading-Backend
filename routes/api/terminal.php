@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\Terminal\TradingAccountLoginActivityController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/is_valid_brand/{brand_public_key}', [LoginController::class, 'isValidBrand']);
+Route::post('/is_valid_brand/{brand_domain}/{brand_public_key}', [LoginController::class, 'isValidBrand']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/orders', OrderController::class);
     Route::post('/update_multi_trade_order', [OrderController::class, 'multiUpdate']);

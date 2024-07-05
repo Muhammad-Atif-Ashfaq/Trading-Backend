@@ -6,11 +6,9 @@ use App\Helpers\PaginationHelper;
 use App\Interfaces\Api\Terminal\TradingAccountLoginActivityInterface;
 use App\Models\TradingAccountLoginActivity;
 
-
 class TradingAccountLoginActivityRepository implements TradingAccountLoginActivityInterface
 {
     private $model;
-
 
     public function __construct()
     {
@@ -28,6 +26,7 @@ class TradingAccountLoginActivityRepository implements TradingAccountLoginActivi
             $request->input('per_page', config('systemSetting.system_per_page_count')),
             $request->input('page', config('systemSetting.system_current_page'))
         );
+
         return $trading_account_login_activities;
     }
 
@@ -37,6 +36,7 @@ class TradingAccountLoginActivityRepository implements TradingAccountLoginActivi
         $trading_account_login_activities = $this->model
             ->select('*')
             ->get();
+
         return $trading_account_login_activities;
     }
 
@@ -52,6 +52,7 @@ class TradingAccountLoginActivityRepository implements TradingAccountLoginActivi
             'logout_time' => $data['logout_time'],
         ]);
 
+        pushLiveDate('trading_account_login_activities', 'create', prepareExportData($this->model, [$trading_account_login_activity])[0]);
 
         return $trading_account_login_activity;
     }
@@ -67,6 +68,8 @@ class TradingAccountLoginActivityRepository implements TradingAccountLoginActivi
     {
         $trading_account_login_activity = $this->model->findOrFail($id);
         $trading_account_login_activity->update(prepareUpdateCols($data, 'TradingAccount_login_activities'));
+        pushLiveDate('trading_account_login_activities', 'update', prepareExportData($this->model, [$this->model->findOrFail($id)])[0]);
+
         return $trading_account_login_activity;
     }
 
