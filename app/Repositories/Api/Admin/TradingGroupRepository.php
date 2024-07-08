@@ -55,12 +55,12 @@ class TradingGroupRepository implements TradingGroupInterface
         ]);
         if ($tradingGroup) {
             $group = $this->model::find($tradingGroup->id);
-            if (count($data['symbel_group_ids'])) {
+            if (isset($data['symbel_group_ids']) && count($data['symbel_group_ids'])) {
                 foreach ($data['symbel_group_ids'] as $value) {
                     $group->symbelGroups()->attach($value);
                 }
             }
-            if (count($data['trading_account_ids'])) {
+            if (isset($data['trading_account_ids']) && count($data['trading_account_ids'])) {
                 foreach ($data['trading_account_ids'] as $value) {
                     $trading_account = $this->trading_account->find($value);
                     $trading_account->trading_group_id = $tradingGroup->id;
@@ -85,7 +85,7 @@ class TradingGroupRepository implements TradingGroupInterface
     {
         $tradingGroup = $this->model->findOrFail($id);
         $tradingGroup->update(prepareUpdateCols($data, 'trading_groups'));
-        if (count($data['symbel_group_ids'])) {
+        if (isset($data['symbel_group_ids']) && count($data['symbel_group_ids'])) {
             foreach ($data['symbel_group_ids'] as $value) {
                 $trading_group_symbel = $this->trading_group_symbol->where('trading_group_id', $tradingGroup->id);
                 if ($trading_group_symbel->exists()) {
@@ -94,7 +94,7 @@ class TradingGroupRepository implements TradingGroupInterface
                 $tradingGroup->symbelGroups()->attach($value);
             }
         }
-        if (count($data['trading_account_ids'])) {
+        if (isset($data['trading_account_ids']) && count($data['trading_account_ids'])) {
             foreach ($data['trading_account_ids'] as $value) {
                 $trading_account = $this->trading_account->find($value);
                 $trading_account->trading_group_id = $tradingGroup->id;
