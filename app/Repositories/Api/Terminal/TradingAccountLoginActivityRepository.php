@@ -47,9 +47,9 @@ class TradingAccountLoginActivityRepository implements TradingAccountLoginActivi
         $trading_account_login_activity = $this->model->create([
             'trading_account_id' => $data['trading_account_id'],
             'ip_address' => $data['ip_address'],
-            'mac_address' => $data['mac_address'],
+            'mac_address' => $data['mac_address'] ?? '',
             'login_time' => $data['login_time'],
-            'logout_time' => $data['logout_time'],
+            'logout_time' => $data['logout_time'] ?? '',
         ]);
 
         pushLiveDate('trading_account_login_activities', 'create', prepareExportData($this->model, [$trading_account_login_activity])[0]);
