@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-
-use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\GroupTradeOrderRepository;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Admin\GroupTradeOrders\Create as GroupTradeOrderCreate;
+use App\Http\Requests\Api\Admin\GroupTradeOrders\Update as GroupTradeOrderUpdate;
+use App\Repositories\Api\Admin\GroupTradeOrderRepository;
 use Illuminate\Http\Request;
-
 
 class GroupTradeOrderController extends Controller
 {
@@ -24,6 +23,7 @@ class GroupTradeOrderController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $groupTradeOrders = $this->groupTradeOrderRepository->getAllGroupTradeOrders($request);
+
             return $this->sendResponse($groupTradeOrders, 'All GroupTradeOrders');
         });
     }
@@ -33,6 +33,7 @@ class GroupTradeOrderController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $user = $this->groupTradeOrderRepository->createGroupTradeOrder($request->validated());
+
             return $this->sendResponse($user, 'GroupTradeOrder created successfully');
         });
     }
@@ -42,15 +43,17 @@ class GroupTradeOrderController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $groupTradeOrder = $this->groupTradeOrderRepository->findGroupTradeOrderById($id);
+
             return $this->sendResponse($groupTradeOrder, 'Single GroupTradeOrder');
         });
     }
 
     // TODO: Updates a group trade order.
-    public function update(Request $request, $id)
+    public function update(GroupTradeOrderUpdate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $groupTradeOrder = $this->groupTradeOrderRepository->updateGroupTradeOrder($request->all(), $id);
+            $groupTradeOrder = $this->groupTradeOrderRepository->updateGroupTradeOrder($request->validated(), $id);
+
             return $this->sendResponse($groupTradeOrder, 'GroupTradeOrder updated successfully');
         });
     }
@@ -60,8 +63,8 @@ class GroupTradeOrderController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $this->groupTradeOrderRepository->deleteGroupTradeOrder($id);
+
             return $this->sendResponse([], 'GroupTradeOrder deleted successfully');
         });
     }
 }
-

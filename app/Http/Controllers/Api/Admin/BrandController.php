@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-
-use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Admin\Brands\Create as BrandCreate;
+use App\Http\Requests\Api\Admin\Brands\Update as BrandUpdate;
 use App\Repositories\Api\Admin\BrandRepository;
 use Illuminate\Http\Request;
-
 
 class BrandController extends Controller
 {
@@ -24,6 +23,7 @@ class BrandController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $brands = $this->brandRepository->getAllBrands($request);
+
             return $this->sendResponse($brands, 'All Brands');
         });
     }
@@ -33,6 +33,7 @@ class BrandController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () {
             $brands = $this->brandRepository->getAllBrandList();
+
             return $this->sendResponse($brands, 'All brands list');
         });
     }
@@ -42,6 +43,7 @@ class BrandController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $user = $this->brandRepository->createBrand($request->validated());
+
             return $this->sendResponse($user, 'Brand created successfully');
         });
     }
@@ -51,15 +53,17 @@ class BrandController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $brand = $this->brandRepository->findBrandById($id);
+
             return $this->sendResponse($brand, 'Single Brand');
         });
     }
 
     // TODO: Updates a brand.
-    public function update(Request $request, $id)
+    public function update(BrandUpdate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $brand = $this->brandRepository->updateBrand($request->all(), $id);
+            $brand = $this->brandRepository->updateBrand($request->validated(), $id);
+
             return $this->sendResponse($brand, 'Brand updated successfully');
         });
     }
@@ -69,8 +73,8 @@ class BrandController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $this->brandRepository->deleteBrand($id);
+
             return $this->sendResponse([], 'Brand deleted successfully');
         });
     }
 }
-

@@ -8,9 +8,7 @@ use App\Enums\TransactionOrderTypeEnum;
 use App\Models\TradingAccount;
 use App\Rules\BrandBelongsToTradingAccount;
 use App\Traits\ResponseTrait;
-use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class Create extends FormRequest
 {
@@ -60,12 +58,5 @@ class Create extends FormRequest
                 }
             }
         });
-    }
-
-    protected function failedValidation(ValidatorContract $validator)
-    {
-        throw new HttpResponseException(
-            $this->sendError('validation_error', $validator->errors(), 422)
-        );
     }
 }

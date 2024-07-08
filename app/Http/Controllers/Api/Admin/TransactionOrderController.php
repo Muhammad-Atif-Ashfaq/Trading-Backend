@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-
-use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\TransactionOrderRepository;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Admin\TransactionOrders\Create as TransactionOrderCreate;
 use App\Http\Requests\Api\Admin\TransactionOrders\Index as TransactionOrderIndex;
-use Illuminate\Http\Request;
-
+use App\Http\Requests\Api\Admin\TransactionOrders\Update as TransactionOrderUpdate;
+use App\Repositories\Api\Admin\TransactionOrderRepository;
 
 class TransactionOrderController extends Controller
 {
@@ -25,6 +23,7 @@ class TransactionOrderController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $transactionOrders = $this->transactionOrderRepository->getAllTransactionOrders($request);
+
             return $this->sendResponse($transactionOrders, 'All TransactionOrders');
         });
     }
@@ -34,6 +33,7 @@ class TransactionOrderController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $user = $this->transactionOrderRepository->createTransactionOrder($request->validated());
+
             return $this->sendResponse($user, 'TransactionOrder created successfully');
         });
     }
@@ -43,15 +43,17 @@ class TransactionOrderController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $transactionOrder = $this->transactionOrderRepository->findTransactionOrderById($id);
+
             return $this->sendResponse($transactionOrder, 'Single TransactionOrder');
         });
     }
 
     // TODO: Updates a transaction order.
-    public function update(Request $request, $id)
+    public function update(TransactionOrderUpdate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $transactionOrder = $this->transactionOrderRepository->updateTransactionOrder($request->all(), $id);
+            $transactionOrder = $this->transactionOrderRepository->updateTransactionOrder($request->validated(), $id);
+
             return $this->sendResponse($transactionOrder, 'TransactionOrder updated successfully');
         });
     }
@@ -61,8 +63,8 @@ class TransactionOrderController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $this->transactionOrderRepository->deleteTransactionOrder($id);
+
             return $this->sendResponse([], 'TransactionOrder deleted successfully');
         });
     }
 }
-

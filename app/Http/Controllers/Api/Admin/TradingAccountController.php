@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-
-use App\Http\Controllers\Controller;
 use App\Helpers\ExceptionHandlerHelper;
-use App\Repositories\Api\Admin\TradingAccountRepository;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Admin\TradingAccounts\Create as TradingAccountCreate;
 use App\Http\Requests\Api\Admin\TradingAccounts\Index as TradingAccountIndex;
+use App\Http\Requests\Api\Admin\TradingAccounts\Update as TradingAccountUpdate;
+use App\Repositories\Api\Admin\TradingAccountRepository;
 use Illuminate\Http\Request;
-
 
 class TradingAccountController extends Controller
 {
@@ -25,6 +24,7 @@ class TradingAccountController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccounts($request);
+
             return $this->sendResponse($tradingAccounts, 'All TradingAccounts');
         });
     }
@@ -34,6 +34,7 @@ class TradingAccountController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountList($request);
+
             return $this->sendResponse($tradingAccounts, 'All TradingAccounts list');
         });
     }
@@ -41,8 +42,9 @@ class TradingAccountController extends Controller
     // TODO: Retrieves all trading accounts not in any group.
     public function getAllTradingAccountsNotInGroup(Request $request)
     {
-        return ExceptionHandlerHelper::tryCatch(function () use ($request){
+        return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $tradingAccounts = $this->tradingAccountRepository->getAllTradingAccountsNotInGroup($request);
+
             return $this->sendResponse($tradingAccounts, 'All TradingAccounts not in any group');
         });
     }
@@ -52,6 +54,7 @@ class TradingAccountController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($request) {
             $user = $this->tradingAccountRepository->createTradingAccount($request->validated());
+
             return $this->sendResponse($user, 'TradingAccount created successfully');
         });
     }
@@ -61,15 +64,17 @@ class TradingAccountController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $tradingAccount = $this->tradingAccountRepository->findTradingAccountById($id);
+
             return $this->sendResponse($tradingAccount, 'Single TradingAccount');
         });
     }
 
     // TODO: Updates a trading account.
-    public function update(Request $request, $id)
+    public function update(TradingAccountUpdate $request, $id)
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id, $request) {
-            $tradingAccount = $this->tradingAccountRepository->updateTradingAccount($request->all(), $id);
+            $tradingAccount = $this->tradingAccountRepository->updateTradingAccount($request->validated(), $id);
+
             return $this->sendResponse($tradingAccount, 'TradingAccount updated successfully');
         });
     }
@@ -79,8 +84,8 @@ class TradingAccountController extends Controller
     {
         return ExceptionHandlerHelper::tryCatch(function () use ($id) {
             $this->tradingAccountRepository->deleteTradingAccount($id);
+
             return $this->sendResponse([], 'TradingAccount deleted successfully');
         });
     }
 }
-
