@@ -66,6 +66,7 @@ trait HasTradeOrder
     {
         foreach ($orders as $order) {
             $tradeOrder = static::findOrFail($order['id']);
+            $id = $order['id'];
             unset($order['id']);
             unset($order['created_at']);
             unset($order['updated_at']);
@@ -85,7 +86,7 @@ trait HasTradeOrder
             }
 
             $tradeOrder->update(prepareUpdateCols($order, 'trade_orders'));
-            pushLiveDate('trade_orders', 'update', prepareExportData(new static(), [static::findOrFail($order['id'])])[0]);
+            pushLiveDate('trade_orders', 'update', prepareExportData(new static(), [static::findOrFail($id)])[0]);
 
         }
 

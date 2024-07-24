@@ -12,7 +12,7 @@ class Update extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|unique:data_feeds,name|string|max:255',
+            'name' => 'nullable|string|max:255',
             'module' => 'nullable|string|max:255',
             'enabled' => 'nullable',
             'feed_server' => 'nullable|string|max:255',
