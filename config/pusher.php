@@ -24,7 +24,7 @@ return [
         ],
         'trade_orders' => [
             'create' => false,
-            'update' => false,
+            'update' => true,
         ],
         'data_feeds' => [
             'create' => false,

@@ -18,7 +18,7 @@ class MassActionRepository implements MassActionInterface
         $model = new (tableToModel($data['table_name']))();
         $tableIds = $data['table_ids'] ?? [];
         $columnName = $data['column_name'] ?? 'id';
-        $updatedRows = [];
+
 
         if (empty($tableIds)) {
             $model->whereNotNull($columnName)->update($values);
@@ -30,7 +30,7 @@ class MassActionRepository implements MassActionInterface
 
         $this->massSendLiveData($data['table_name'], prepareExportData($model, $results));
 
-        return $updatedRows;
+        return $results;
     }
 
     public function massDelete(array $data)
