@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,12 @@ Route::get('/', function () {
 //    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
 //    \App\Jobs\ProcessPaddingOrder::dispatch(\App\Models\TradeOrder::first());
     return view('welcome');
+
+});
+Route::get('/csv/{path}', function () {
+    $path = public_path('path');
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    return Response::download($path);
 });

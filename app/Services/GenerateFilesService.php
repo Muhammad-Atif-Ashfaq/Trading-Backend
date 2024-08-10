@@ -28,7 +28,7 @@ class GenerateFilesService extends Service
 
         fclose($file);
 
-        return url('/' . $filename);
+        return url('/csv/' . $filename);
     }
 
     private static function flattenArray(array $array)
